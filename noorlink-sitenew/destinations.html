@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Destinations | NoorLink</title>
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- PREMIUM THEME --- */
+        :root {
+            --primary: #0F3D3E; --primary-dark: #05191a; --accent: #FF9500; --bg-body: #F3F5F7; --surface: #FFFFFF; --text-main: #111827; --text-muted: #6B7280; --whatsapp: #25D366; --glass: rgba(255, 255, 255, 0.95);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-main); 
+            line-height: 1.6;
+            background-color: var(--bg-body);
+            background-image: url('images/map-texture.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: soft-light;
+        }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* HEADER */
+        header { background: var(--glass); backdrop-filter: blur(12px); padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* TEXT LOGO + TM */
+        .logo-text { 
+            font-size: 1.8rem; font-weight: 800; color: var(--primary); 
+            letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: flex-start;
+        }
+        .logo-tm { font-size: 0.8rem; margin-left: 2px; margin-top: 5px; font-weight: 700; color: var(--accent); }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
+        .nav-links a:hover { color: var(--primary); }
+        .btn-nav { background: var(--primary); color: white !important; padding: 10px 24px; border-radius: 50px; opacity: 1 !important; box-shadow: 0 4px 10px rgba(15, 61, 62, 0.2); }
+        .mobile-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
+
+        /* HERO AREA */
+        .page-header { 
+            background: linear-gradient(rgba(15, 61, 62, 0.9), rgba(5, 25, 26, 0.95)), 
+                        url('images/hero.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white; 
+            padding: 100px 0 120px; 
+            text-align: center; 
+        }
+        .page-header h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 800; text-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        
+        .back-link-hero { 
+            display: inline-block;
+            color: var(--accent); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 30px; padding: 12px 30px; 
+            background: rgba(15, 61, 62, 0.8); border: 1px solid var(--accent); border-radius: 4px; 
+            backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 0 15px rgba(255, 149, 0, 0.1);
+        }
+        .back-link-hero:hover { background: var(--accent); color: var(--primary-dark); box-shadow: 0 0 25px rgba(255, 149, 0, 0.5); transform: translateY(-2px); }
+        
+        /* SEARCH & FILTER */
+        .search-container { max-width: 600px; margin: -50px auto 40px; padding: 0 20px; position: relative; z-index: 10; }
+        .search-box { 
+            background: linear-gradient(white, white) padding-box, linear-gradient(135deg, var(--primary), var(--accent)) border-box;
+            border: 3px solid transparent;
+            padding: 8px; border-radius: 50px; display: flex; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+        }
+        .search-box input { border: none; flex: 1; padding: 12px 24px; font-size: 1rem; outline: none; border-radius: 50px; background: transparent; }
+        .search-btn { background: var(--accent); border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.3s; color: white; }
+        .search-btn:hover { transform: scale(1.05); background: var(--primary); }
+
+        .filter-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 50px; flex-wrap: wrap; }
+        .filter-btn { 
+            background: linear-gradient(white, white) padding-box, linear-gradient(90deg, #e5e7eb, #e5e7eb) border-box;
+            border: 2px solid transparent;
+            padding: 10px 25px; border-radius: 30px; 
+            cursor: pointer; font-weight: 700; color: var(--text-muted); transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .filter-btn:hover, .filter-btn.active { 
+            background: linear-gradient(white, white) padding-box, linear-gradient(135deg, var(--primary), var(--accent)) border-box;
+            color: var(--primary); transform: translateY(-2px); 
+        }
+
+        /* DESTINATIONS GRID */
+        .dest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; padding-bottom: 100px; }
+        
+        .card { 
+            height: 320px; border-radius: 24px; position: relative; overflow: hidden; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.25); border-color: var(--accent); }
+        .card:hover .card-overlay { background: linear-gradient(to top, rgba(15, 61, 62, 0.95) 0%, rgba(0,0,0,0.2) 100%); }
+        
+        /* New Consistent Button Style on Hover */
+        .card:hover .card-price { 
+            background: var(--accent); 
+            color: var(--primary-dark); 
+            border-color: var(--accent);
+        }
+
+        /* BACKGROUND IMAGES */
+        .bg-usa { background: url('images/usa.jpg') center/cover; }
+        .bg-eu { background: url('images/europe.jpg') center/cover; }
+        .bg-sa { background: url('images/middle-east.jpg') center/cover; }
+        .bg-tr { background: url('images/middle-east.jpg') center/cover; }
+        .bg-uk { background: url('images/europe.jpg') center/cover; }
+        .bg-japan { background: url('images/asia.jpg') center/cover; }
+        
+        .bg-americas { background: url('images/usa.jpg') center/cover; }
+        .bg-europe { background: url('images/europe.jpg') center/cover; }
+        .bg-asia { background: url('images/asia.jpg') center/cover; }
+        .bg-mea { background: url('images/middle-east.jpg') center/cover; }
+        .bg-dynamic { background: linear-gradient(135deg, #2c3e50, #4ca1af); }
+
+        .card-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; color: white; text-align: left;
+            transition: 0.4s;
+        }
+        
+        .card h3 { margin: 0; font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        
+        /* CONSISTENT PRICE BUTTON */
+        .card-price { 
+            background: rgba(0,0,0,0.6); /* Semi-transparent dark */
+            color: white; 
+            font-weight: 800; 
+            padding: 8px 18px; 
+            border-radius: 50px; 
+            font-size: 0.9rem; 
+            border: 2px solid var(--accent); /* Orange Border */
+            display: inline-block; 
+            transition: 0.3s; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: fit-content;
+        }
+
+        /* SEARCH CARD */
+        .search-card-style {
+            width: 100%; grid-column: 1 / -1; 
+            background: linear-gradient(to right, rgba(15, 61, 62, 0.9), rgba(5, 25, 26, 0.7)), url('images/world-hands.jpg');
+            background-size: cover; background-position: center;
+            border-radius: 24px; padding: 60px; text-align: center; color: white;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 1px solid rgba(255, 149, 0, 0.2);
+            margin-top: 40px; cursor: pointer; transition: 0.3s;
+        }
+        .search-card-style:hover { transform: scale(1.01); border-color: var(--accent); }
+        .search-text { font-weight: 800; font-size: 2.5rem; margin-bottom: 15px; }
+        .search-sub { font-size: 1.2rem; color: #cbd5e1; margin-bottom: 30px; }
+        .glow-btn { background: var(--accent); color: var(--text-main); padding: 15px 40px; border-radius: 50px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 0 20px rgba(255, 149, 0, 0.4); display: inline-block; }
+
+        /* FOOTER */
+        footer { background: #05191a; color: #94a3b8; padding: 60px 0; text-align: center; font-size: 0.9rem; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 60px; }
+        .footer h4 { color: white; margin-bottom: 24px; font-size: 1.1rem; }
+        .footer-list { display: flex; flex-direction: column; gap: 12px; }
+        .footer-list a { transition: 0.2s; color: #94a3b8; width: fit-content; text-decoration: none; }
+        .footer-list a:hover { color: var(--accent); transform: translateX(5px); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; text-align: center; font-size: 0.85rem; }
+        
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: var(--whatsapp); color: white; width: 64px; height: 64px; border-radius: 50%; text-align: center; font-size: 32px; line-height: 64px; box-shadow: 0 10px 25px rgba(37,211,102,0.4); z-index: 1000; text-decoration: none; }
+        .whatsapp-float::before { content: "💬"; }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 75px; left: 0; right: 0; background: white; padding: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-bottom: 1px solid #eee; gap: 20px; text-align: center; }
+            .nav-links.active { display: flex; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+    </style>
+    <!-- Cookie Banner -->
+    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/961f820e92b5546e026c4c37009d673e/script.js"></script> 
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <!-- TEXT LOGO + TM -->
+            <a href="index.html" class="logo-text">
+                Noor<span style="color: var(--accent);">Link</span><sup class="logo-tm">TM</sup>
+            </a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="about.html">About</a>
+                 <a href="newsletter.html">Newsletter Archive</a> <!-- ADD THIS -->
+                <a href="destinations.html">Destinations</a>
+                <a href="support.html">Support</a>
+                <a href="dashboard.html" class="btn-nav">My eSIMs</a>
+            </nav>
+
+            <div class="mobile-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <!-- TECH BACK BUTTON -->
+            <a href="index.html" class="back-link-hero">BACK TO HOME</a>
+            <h1>Find Your Destination</h1>
+            <p style="opacity: 0.8;">Connectivity in 190+ countries and regions.</p>
+        </div>
+    </div>
+
+    <!-- Search & Filter -->
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search for a country..." onkeyup="filterDestinations()">
+            <button class="search-btn">🔍</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="filter-bar">
+            <!-- Filter Buttons -->
+            <button class="filter-btn active" onclick="runFilter('all')">🔥 Trending</button>
+            <button class="filter-btn" onclick="runFilter('Europe')">Europe</button>
+            <button class="filter-btn" onclick="runFilter('Asia')">Asia</button>
+            <button class="filter-btn" onclick="runFilter('Americas')">Americas</button>
+            <button class="filter-btn" onclick="runFilter('Middle East')">Middle East</button>
+        </div>
+
+        <div class="dest-grid" id="destGrid">
+            
+            <!-- == CARDS (NO FLAGS, CONSISTENT BUTTONS) == -->
+            <div class="card bg-usa" data-region="Americas" onclick="goToCheckout('United States', '4.50', '🇺🇸')"><div class="card-overlay"><h3>United States</h3><span class="card-price">From $4.50</span></div></div>
+            <div class="card bg-eu" data-region="Europe" onclick="goToCheckout('Europe', '5.00', '🇪🇺')"><div class="card-overlay"><h3>Europe</h3><span class="card-price">From $5.00</span></div></div>
+            <div class="card bg-japan" data-region="Asia" onclick="goToCheckout('Japan', '6.00', '🇯🇵')"><div class="card-overlay"><h3>Japan</h3><span class="card-price">From $6.00</span></div></div>
+            <div class="card bg-tr" data-region="Middle East" onclick="goToCheckout('Turkey', '4.50', '🇹🇷')"><div class="card-overlay"><h3>Turkey</h3><span class="card-price">From $4.50</span></div></div>
+            <div class="card bg-uk" data-region="Europe" onclick="goToCheckout('United Kingdom', '5.00', '🇬🇧')"><div class="card-overlay"><h3>United Kingdom</h3><span class="card-price">From $5.00</span></div></div>
+            <div class="card bg-sa" data-region="Middle East" onclick="goToCheckout('Saudi Arabia', '7.00', '🇸🇦')"><div class="card-overlay"><h3>Saudi Arabia</h3><span class="card-price">From $7.00</span></div></div>
+            
+            <!-- EXTRA CARDS -->
+            <div class="card bg-americas" data-region="Americas" onclick="goToCheckout('Brazil', '8.00', '🇧🇷')"><div class="card-overlay"><h3>Brazil</h3><span class="card-price">From $8.00</span></div></div>
+             <div class="card bg-asia" data-region="Asia" onclick="goToCheckout('Thailand', '6.00', '🇹🇭')"><div class="card-overlay"><h3>Thailand</h3><span class="card-price">From $6.00</span></div></div>
+
+            <!-- WORLD IN HANDS BANNER -->
+            <div class="search-card-style" id="worldBanner" onclick="scrollToTop()">
+                <div class="search-text">Can't find your destination?</div>
+                <div class="search-sub">We cover 190+ countries. The whole world is one search away.</div>
+                <div class="glow-btn">Search Now</div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <!-- TEXT LOGO IN FOOTER -->
+                <a href="index.html" class="logo-text" style="color:white !important;">
+                    Noor<span style="color:var(--accent);">Link</span><sup class="logo-tm">TM</sup>
+                </a>
+                <p style="margin-top: 20px; line-height: 1.8;">
+                    Making global travel simple.<br>
+                    📍 MOUNTAIN ROAD PL NE, Suite R<br>
+                    ALBUQUERQUE, NM 87110
+                </p>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <div class="footer-list">
+                    <a href="about.html">About Us</a>
+                    <a href="support.html">Contact Support</a>
+                    <a href="#">Partner Program</a>
+                </div>
+            </div>
+            <div>
+                <h4>Legal</h4>
+                <div class="footer-list">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="refund.html">Refund Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 NoorLink.co. All rights reserved.
+        </div>
+    </footer>
+
+    <a href="https://wa.me/17184729390" class="whatsapp-float" target="_blank" title="Chat on WhatsApp"></a>
+
+    <script>
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+        function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); document.getElementById('searchInput').focus(); }
+
+        function goToCheckout(name, price, flag) {
+            const url = `checkout.html?country=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}&flag=${encodeURIComponent(flag)}`;
+            window.location.href = url;
+        }
+
+        // MASTER LIST (Includes all your countries)
+        const globalData = [
+            { name: "Argentina", flag: "🇦🇷", price: "7.50", region: "Americas" },
+            { name: "Brazil", flag: "🇧🇷", price: "8.00", region: "Americas" },
+            { name: "Canada", flag: "🇨🇦", price: "6.00", region: "Americas" },
+            { name: "China", flag: "🇨🇳", price: "7.00", region: "Asia" },
+            { name: "Colombia", flag: "🇨🇴", price: "7.00", region: "Americas" },
+            { name: "Egypt", flag: "🇪🇬", price: "6.50", region: "Middle East" },
+            { name: "France", flag: "🇫🇷", price: "4.50", region: "Europe" },
+            { name: "Germany", flag: "🇩🇪", price: "4.50", region: "Europe" },
+            { name: "India", flag: "🇮🇳", price: "6.00", region: "Asia" },
+            { name: "Indonesia", flag: "🇮🇩", price: "5.50", region: "Asia" },
+            { name: "Italy", flag: "🇮🇹", price: "4.50", region: "Europe" },
+            { name: "Kuwait", flag: "🇰🇼", price: "7.50", region: "Middle East" },
+            { name: "Mexico", flag: "🇲🇽", price: "6.00", region: "Americas" },
+            { name: "Morocco", flag: "🇲🇦", price: "8.00", region: "Africa" },
+            { name: "Oman", flag: "🇴🇲", price: "7.00", region: "Middle East" },
+            { name: "Peru", flag: "🇵🇪", price: "7.00", region: "Americas" },
+            { name: "Qatar", flag: "🇶🇦", price: "7.00", region: "Middle East" },
+            { name: "South Korea", flag: "🇰🇷", price: "6.50", region: "Asia" },
+            { name: "Spain", flag: "🇪🇸", price: "4.50", region: "Europe" },
+            { name: "Thailand", flag: "🇹🇭", price: "6.00", region: "Asia" },
+            { name: "UAE", flag: "🇦🇪", price: "7.50", region: "Middle East" },
+            { name: "Vietnam", flag: "🇻🇳", price: "5.00", region: "Asia" }
+        ];
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const region = urlParams.get('region');
+            const search = urlParams.get('q');
+
+            if (region) { runFilter(region); } 
+            else { runFilter('all'); }
+
+            if (search) { document.getElementById('searchInput').value = search; filterDestinations(); }
+        }
+
+        function runFilter(region) {
+            let cards = document.getElementsByClassName('card');
+            
+            // Visual Update for Buttons
+            if(event && event.type === 'click') {
+                let btns = document.getElementsByClassName('filter-btn');
+                for (let b of btns) { b.classList.remove('active'); }
+                event.target.classList.add('active');
+            } else {
+                let btns = document.getElementsByClassName('filter-btn');
+                for (let b of btns) {
+                    if((region === 'all' && b.innerText.includes('Trending')) || b.innerText.includes(region)) {
+                        b.classList.add('active');
+                    } else {
+                        b.classList.remove('active');
+                    }
+                }
+            }
+
+            for (let i = 0; i < cards.length; i++) {
+                if (cards[i].classList.contains('search-card-style')) {
+                    cards[i].style.display = "";
+                    continue;
+                }
+
+                let cardRegion = cards[i].getAttribute('data-region');
+                
+                if (region === 'all') {
+                    cards[i].style.display = "";
+                } 
+                else if (cardRegion === region) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
+        function filterDestinations() {
+            const input = document.getElementById('searchInput').value.trim().toLowerCase();
+            const cards = document.getElementsByClassName('card');
+            const grid = document.getElementById('destGrid');
+            let foundInCards = false;
+
+            const existingDynamic = document.getElementById('dynamic-result');
+            if (existingDynamic) existingDynamic.remove();
+
+            for (let i = 0; i < cards.length; i++) {
+                if (cards[i].classList.contains('search-card-style')) continue;
+                
+                let title = cards[i].getElementsByTagName('h3')[0];
+                if (title.innerText.toLowerCase().indexOf(input) > -1) {
+                    cards[i].style.display = "";
+                    foundInCards = true;
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+            if (!foundInCards && input.length > 2) {
+                const match = globalData.find(item => item.name.toLowerCase().includes(input));
+                if (match) {
+                    const newCard = document.createElement('div');
+                    newCard.id = 'dynamic-result';
+                    newCard.className = 'card bg-dynamic';
+                    const checkoutUrl = `checkout.html?country=${encodeURIComponent(match.name)}&price=${encodeURIComponent(match.price)}&flag=${encodeURIComponent(match.flag)}`;
+                    newCard.onclick = function() { window.location.href = checkoutUrl; };
+                    newCard.innerHTML = `<div class="card-overlay"><span class="flag">${match.flag}</span><h3>${match.name}</h3><span class="price">From $${match.price}</span><div style="margin-top:10px; color:#FF9500; font-size:0.8rem; font-weight:600;">Click to Buy →</div></div>`;
+                    grid.prepend(newCard);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

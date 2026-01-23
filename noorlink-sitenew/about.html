@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | NoorLink</title>
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <!-- Premium Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- PREMIUM THEME VARIABLES --- */
+        :root {
+            --primary: #0F3D3E;       /* Deep Midnight Teal */
+            --primary-dark: #05191a;
+            --accent: #FF9500;        /* Vibrant Orange */
+            --bg-body: #F3F5F7;       
+            --surface: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --whatsapp: #25D366;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        /* --- GLOBAL RESET & TEXTURE --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-main); 
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* PARALLAX BACKGROUND TEXTURE */
+            background-color: var(--bg-body);
+            background-image: url('images/map-texture.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: soft-light;
+        }
+        a { text-decoration: none; color: inherit; transition: 0.3s ease; }
+        ul { list-style: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HEADER --- */
+        header { 
+            background: var(--glass); backdrop-filter: blur(12px); 
+            padding: 15px 0; position: sticky; top: 0; z-index: 1000; 
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* LOGO TEXT + TM */
+        .logo-text { 
+            font-size: 1.8rem; font-weight: 800; color: var(--primary); 
+            letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: flex-start;
+        }
+        .logo-tm { font-size: 0.8rem; margin-left: 2px; margin-top: 5px; font-weight: 700; color: var(--accent); }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
+        .nav-links a:hover { color: var(--primary); }
+        .btn-nav { background: var(--primary); color: white !important; padding: 10px 24px; border-radius: 50px; opacity: 1 !important; box-shadow: 0 4px 10px rgba(15, 61, 62, 0.2); }
+        .mobile-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
+
+        /* --- HERO --- */
+        .about-hero { 
+            /* Network/Globe Background */
+            background: linear-gradient(rgba(15, 61, 62, 0.9), rgba(5, 25, 26, 0.85)), 
+                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200');
+            background-size: cover; background-position: center;
+            color: white; padding: 120px 0; text-align: center;
+            position: relative;
+        }
+        .about-hero-content { animation: fadeUp 0.8s ease-out; }
+        .about-hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .about-hero p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: auto; }
+        
+        /* TECH STYLE BACK BUTTON */
+        .back-link-hero { 
+            display: inline-block;
+            color: var(--accent); 
+            font-weight: 800; 
+            font-size: 0.8rem; 
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px; 
+            padding: 12px 30px; 
+            background: rgba(15, 61, 62, 0.8); 
+            border: 1px solid var(--accent); 
+            border-radius: 4px; 
+            backdrop-filter: blur(10px); 
+            transition: all 0.3s ease; 
+            box-shadow: 0 0 15px rgba(255, 149, 0, 0.1);
+            text-decoration: none;
+        }
+        .back-link-hero:hover { 
+            background: var(--accent); 
+            color: var(--primary-dark); 
+            box-shadow: 0 0 25px rgba(255, 149, 0, 0.5); 
+            transform: translateY(-2px); 
+        }
+
+        /* --- STORY SECTION --- */
+        .story-section { padding: 100px 0; }
+        .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .story-text h2 { color: var(--primary); font-size: 2.5rem; margin-bottom: 20px; line-height: 1.2; }
+        .story-text p { color: var(--text-muted); margin-bottom: 20px; font-size: 1.05rem; }
+        
+        /* NEW TEAM PHOTO */
+        .story-image {
+            height: 450px; border-radius: 24px; 
+            /* NEW: Modern Team Image */
+            background: url('images/team.jpg') center/cover;
+            box-shadow: 20px 20px 0px var(--accent); 
+            transition: 0.4s;
+        }
+        .story-image:hover { transform: scale(1.02); box-shadow: 25px 25px 0px var(--primary); }
+
+        /* --- STATS BAR --- */
+        .stats-bar {
+            background: var(--glass); backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 60px 0; margin-top: 60px;
+        }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; gap: 20px; }
+        .stat-number { font-size: 3rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 5px; }
+        .stat-label { font-size: 0.9rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+
+        /* --- VALUES --- */
+        .values-section { padding: 100px 0; text-align: center; }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
+        
+        .value-card { 
+            background: var(--surface); padding: 40px 30px; border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s; text-align: left;
+        }
+        .value-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: var(--accent); }
+        
+        .value-icon { 
+            width: 60px; height: 60px; background: #FFF3E0; color: var(--accent); 
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; 
+        }
+        .value-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.4rem; }
+        .value-card p { color: var(--text-muted); }
+
+        /* --- FOOTER --- */
+        footer { background: var(--primary-dark); color: #94a3b8; padding: 80px 0 30px; font-size: 0.95rem; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 60px; }
+        .footer h4 { color: white; margin-bottom: 24px; font-size: 1.1rem; }
+        .footer-list { display: flex; flex-direction: column; gap: 12px; }
+        .footer-list a { transition: 0.2s; color: #94a3b8; width: fit-content; text-decoration: none; }
+        .footer-list a:hover { color: var(--accent); transform: translateX(5px); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; text-align: center; font-size: 0.85rem; }
+        
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: var(--whatsapp); color: white; width: 64px; height: 64px; border-radius: 50%; text-align: center; font-size: 32px; line-height: 64px; box-shadow: 0 10px 25px rgba(37,211,102,0.4); z-index: 10000; text-decoration: none; }
+        .whatsapp-float::before { content: "💬"; }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 75px; left: 0; right: 0; background: white; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-bottom: 1px solid #eee; gap: 20px; text-align: center; }
+            .nav-links.active { display: flex; }
+            .story-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+    </style>
+    <!-- Cookie Banner -->
+    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/961f820e92b5546e026c4c37009d673e/script.js"></script> 
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <!-- LOGO: TEXT + TM -->
+            <a href="index.html" class="logo-text">
+                Noor<span style="color: var(--accent);">Link</span><sup class="logo-tm">TM</sup>
+            </a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="about.html" style="color: var(--primary);">About</a>
+                 <a href="newsletter.html">Newsletter Archive</a> <!-- ADD THIS -->
+                <a href="destinations.html">Destinations</a>
+                <a href="support.html">Support</a>
+                <a href="dashboard.html" class="btn-nav">My eSIMs</a>
+            </nav>
+            <div class="mobile-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+
+    <section class="about-hero">
+        <div class="container about-hero-content">
+            <!-- TECH STYLE BACK BUTTON -->
+            <a href="index.html" class="back-link-hero">BACK TO HOME</a>
+            
+            <h1>Bridging Borders, Instantly.</h1>
+            <p>We make global connectivity simple, affordable, and accessible to everyone.</p>
+        </div>
+    </section>
+
+    <!-- STORY SECTION -->
+    <section class="story-section">
+        <div class="container story-grid">
+            <div class="story-text">
+                <h2>Our Story</h2>
+                <p><strong>Travel should be about exploration, not finding a SIM card shop.</strong></p>
+                <p>NoorLink began with a simple frustration: landing in a new country and being disconnected. The expensive roaming fees, the hunt for local Wi-Fi, and the hassle of swapping physical plastic SIM cards felt outdated.</p>
+                <p>We built NoorLink to solve this. By leveraging eSIM technology, we connect travelers to local networks digitally. No shipping, no plastic waste, and no waiting. Just instant connection the moment you land.</p>
+            </div>
+            <!-- NEW TEAM IMAGE -->
+            <div class="story-image"></div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="container stats-grid">
+            <div>
+                <span class="stat-number">190+</span>
+                <span class="stat-label">Countries Covered</span>
+            </div>
+            <div>
+                <span class="stat-number">50k+</span>
+                <span class="stat-label">Happy Travelers</span>
+            </div>
+            <div>
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Global Support</span>
+            </div>
+            <div>
+                <span class="stat-number">0%</span>
+                <span class="stat-label">Roaming Fees</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- VALUES -->
+    <section class="values-section">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; color: var(--primary); font-weight: 800;">What Drives Us</h2>
+            <p style="color: var(--text-muted);">Our core values shape every product we build.</p>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-magic"></i></div>
+                    <h3>Simplicity First</h3>
+                    <p>Technology should be invisible. We work hard to make the complex technology of telecom networks feel as simple as scanning a QR code.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-globe-americas"></i></div>
+                    <h3>Border-less</h3>
+                    <p>We believe connectivity is a human right. Whether you are in New York, Cairo, or Tokyo, you deserve a fast and secure connection.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-heart"></i></div>
+                    <h3>Customer Obsession</h3>
+                    <p>Travel is unpredictable; your connection shouldn't be. Our support team is available around the clock to ensure you stay online.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <!-- FOOTER LOGO -->
+                <a href="index.html" class="logo-text" style="color:white !important;">
+                    Noor<span style="color:var(--accent);">Link</span><sup class="logo-tm">TM</sup>
+                </a>
+                <p style="margin-top: 20px; line-height: 1.8;">
+                    Making global travel simple.<br>
+                    📍 MOUNTAIN ROAD PL NE, Suite R<br>
+                    ALBUQUERQUE, NM 87110
+                </p>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <div class="footer-list">
+                    <a href="about.html">About Us</a>
+                    <a href="support.html">Contact Support</a>
+                    <a href="#">Partner Program</a>
+                </div>
+            </div>
+            <div>
+                <h4>Legal</h4>
+                <div class="footer-list">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="refund.html">Refund Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 NoorLink.co. All rights reserved.
+        </div>
+    </footer>
+
+    <a href="https://wa.me/17184729390" class="whatsapp-float" target="_blank" title="Chat on WhatsApp"></a>
+
+    <script>
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+    </script>
+
+</body>
+</html>
