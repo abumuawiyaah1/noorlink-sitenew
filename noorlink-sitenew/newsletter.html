@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoorLink Insider | Newsletter Archive</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { --primary: #0F3D3E; --accent: #FF9500; --bg-body: #F3F5F7; --surface: #FFFFFF; --text-main: #111827; --text-muted: #6B7280; --glass: rgba(255, 255, 255, 0.95); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-main); background: var(--bg-body); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* HEADER */
+        header { background: var(--glass); backdrop-filter: blur(12px); padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo-text { font-size: 1.8rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; display: flex; }
+        .logo-tm { font-size: 0.8rem; margin-left: 2px; color: var(--accent); }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* HERO */
+        .news-hero { 
+            background: radial-gradient(circle at top right, #1a4f50, var(--primary)); 
+            color: white; padding: 100px 0 80px; text-align: center; 
+        }
+        .news-hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 15px; }
+        .news-hero p { font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: auto; }
+
+        /* SUBSCRIBE BOX (Moved to top for conversion) */
+        .sub-box {
+            max-width: 600px; margin: -40px auto 60px; background: white; padding: 10px;
+            border-radius: 50px; display: flex; gap: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 4px solid rgba(255,255,255,0.2);
+        }
+        .sub-input { flex: 1; border: none; padding: 15px 25px; outline: none; font-size: 1rem; border-radius: 50px; }
+        .sub-btn { background: var(--accent); color: white; border: none; padding: 15px 35px; border-radius: 50px; font-weight: 700; cursor: pointer; }
+        .sub-btn:hover { background: var(--primary); }
+
+        /* ARCHIVE GRID */
+        .archive-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; padding-bottom: 100px; }
+        .issue-card { 
+            background: white; border-radius: 20px; overflow: hidden; border: 1px solid #eee;
+            transition: 0.4s; display: flex; flex-direction: column;
+        }
+        .issue-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: var(--accent); }
+        
+        .issue-img { height: 200px; background: #ddd; background-size: cover; background-position: center; }
+        .issue-content { padding: 30px; flex: 1; display: flex; flex-direction: column; }
+        .issue-tag { color: var(--accent); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; }
+        .issue-date { color: #999; font-size: 0.85rem; float: right; font-weight: 400; }
+        .issue-title { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; line-height: 1.3; }
+        .issue-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; flex: 1; }
+        .read-link { color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 5px; }
+        .read-link:hover { gap: 10px; color: var(--accent); }
+
+        /* FOOTER */
+        footer { background: var(--primary); color: #94a3b8; padding: 60px 0; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo-text">Noor<span style="color:var(--accent);">Link</span><sup class="logo-tm">TM</sup></a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="destinations.html">Destinations</a>
+                <a href="#" style="color:var(--primary);">Newsletter</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="news-hero">
+        <div class="container">
+            <h1>NoorLink Insider</h1>
+            <p>Travel hacks, destination guides, and exclusive eSIM discounts delivered to your inbox.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Subscribe Bar -->
+        <div class="sub-box">
+            <input type="email" class="sub-input" placeholder="Enter your email...">
+            <button class="sub-btn">Join Free</button>
+        </div>
+
+        <!-- Archive Grid -->
+        <div class="archive-grid">
+            
+            <!-- Issue 1 -->
+            <a href="newsletter-issue-1.html" class="issue-card">
+                <div class="issue-img" style="background-image: url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600');"></div>
+                <div class="issue-content">
+                    <div class="issue-tag">Issue #1 <span class="issue-date">March 2024</span></div>
+                    <h3 class="issue-title">The Japan Guide & 20% Off Data</h3>
+                    <p class="issue-desc">Why 2024 is the year of eSIM travel, plus a comprehensive guide to connectivity in Tokyo and Osaka.</p>
+                    <span class="read-link">Read Issue <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <!-- Issue 2 (Placeholder) -->
+            <a href="#" class="issue-card">
+                <div class="issue-img" style="background-image: url('https://images.unsplash.com/photo-1549144511-30858b343425?w=600');"></div>
+                <div class="issue-content">
+                    <div class="issue-tag">Issue #2 <span class="issue-date">Feb 2024</span></div>
+                    <h3 class="issue-title">Umrah Preparation Checklist</h3>
+                    <p class="issue-desc">Everything you need to know before traveling to Mecca, including offline map tips and connectivity hacks.</p>
+                    <span class="read-link">Read Issue <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <!-- Issue 3 (Placeholder) -->
+            <a href="#" class="issue-card">
+                <div class="issue-img" style="background-image: url('https://images.unsplash.com/photo-1467269204594-9661b133dd2b?w=600');"></div>
+                <div class="issue-content">
+                    <div class="issue-tag">Issue #3 <span class="issue-date">Jan 2024</span></div>
+                    <h3 class="issue-title">Europe Summer Data Deals</h3>
+                    <p class="issue-desc">How to travel across 33 European countries without changing your SIM card once.</p>
+                    <span class="read-link">Read Issue <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <footer>&copy; 2026 NoorLink.co. All rights reserved.</footer>
+
+</body>
+</html>

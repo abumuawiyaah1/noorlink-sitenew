@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | NoorLink</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- PREMIUM THEME --- */
+        :root {
+            --primary: #0F3D3E;       
+            --primary-dark: #05191a;
+            --accent: #FF9500;        
+            --bg-body: #F3F5F7;       
+            --surface: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #4B5563;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-main); background: var(--bg-body); line-height: 1.7; }
+        
+        /* CENTERED CONTAINER */
+        .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+        /* HEADER */
+        header { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 20px 0; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100; }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo-img { height: 50px; width: auto; display: block; }
+        .back-link { font-weight: 700; color: var(--primary); text-decoration: none; font-size: 0.9rem; }
+        .back-link:hover { color: var(--accent); }
+
+        /* DOCUMENT CARD */
+        .legal-document { 
+            background: var(--surface); 
+            padding: 60px; 
+            margin: 60px 0; 
+            border-radius: 4px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #d1d5db; 
+            border-top: 6px solid var(--primary); 
+        }
+
+        h1 { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; border-bottom: 2px solid #f3f4f6; padding-bottom: 20px; text-align: center; }
+        h2 { color: var(--primary); font-size: 1.4rem; font-weight: 700; margin-top: 40px; margin-bottom: 15px; }
+        p, li { margin-bottom: 15px; color: var(--text-muted); font-size: 0.95rem; }
+        ul { padding-left: 20px; margin-bottom: 20px; }
+
+        footer { background: var(--primary-dark); color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html"><img src="images/logo.png" alt="NoorLink" class="logo-img"></a>
+            <a href="index.html" class="back-link">← Return to Home</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="legal-document">
+            <h1>Terms of Service</h1>
+            <p style="text-align: center; font-weight: 600; color: var(--accent);">Last Updated: January 19, 2026</p>
+            
+            <h2>1. Introduction</h2>
+            <p>Welcome to NoorLink. By accessing our website and purchasing our digital services (eSIMs, Mobile Top-ups), you agree to be bound by these Terms of Service.</p>
+
+            <h2>2. Nature of Services</h2>
+            <p>NoorLink acts as a facilitator for global telecommunication services. We do not own the network infrastructure. We ensure the delivery of valid credentials (QR codes/PINs) from authorized providers to you.</p>
+
+            <h2>3. User Responsibilities</h2>
+            <p>You agree to:</p>
+            <ul>
+                <li>Provide accurate email information for delivery.</li>
+                <li>Ensure your device is eSIM-compatible and unlocked before purchase.</li>
+                <li>Use the services in compliance with local laws.</li>
+            </ul>
+
+            <h2>4. Payments & Delivery</h2>
+            <p>All prices are in USD. Payment is processed securely via third-party gateways (Stripe/Airwallex). Delivery of digital goods is immediate via email upon successful payment.</p>
+
+            <h2>5. Limitation of Liability</h2>
+            <!-- FIXED: Changed AT&T to AT&amp;T -->
+            <p>NoorLink is not liable for network outages, speed fluctuations, or coverage gaps caused by local carriers (e.g., Vodafone, Orange, AT&amp;T).</p>
+
+            <h2>6. Contact Us</h2>
+            <p><strong>Email:</strong> support@noorlink.com<br>
+            <strong>Address:</strong> MOUNTAIN ROAD PL NE, Suite R, ALBUQUERQUE, NM 87110, USA</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 NoorLink.co. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Exclusive | NoorLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- THEME VARIABLES (With Special Gold for Ramadan) --- */
+        :root {
+            --primary: #0F3D3E;       /* Midnight Teal */
+            --primary-dark: #05191a;
+            --accent: #FFAD5A;        /* Electric Amber */
+            --gold: #D4AF37;          /* Ramadan Gold */
+            --bg-body: #F3F5F7;       
+            --surface: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --glass: rgba(255, 255, 255, 0.85);
+            --whatsapp: #25D366;
+        }
+
+        /* --- GLOBAL RESET --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-main); 
+            background: var(--bg-body); 
+            line-height: 1.6;
+        }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* HEADER */
+        header { background: var(--glass); backdrop-filter: blur(12px); padding: 16px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .logo span { color: var(--accent); }
+        .back-link { font-weight: 600; color: var(--primary); }
+        .back-link:hover { color: var(--accent); }
+
+        /* HERO (SPECIAL RAMADAN STYLE) */
+        .ramadan-hero { 
+            background: linear-gradient(135deg, #05191a 0%, #0F3D3E 100%);
+            color: white; padding: 100px 0 140px; text-align: center; position: relative; overflow: hidden;
+        }
+        /* Geometric Pattern Overlay */
+        .ramadan-hero::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(212, 175, 55, 0.2) 1px, transparent 1px);
+            background-size: 30px 30px; opacity: 0.4;
+        }
+        .hero-badge {
+            background: rgba(212, 175, 55, 0.2); border: 1px solid var(--gold); color: #ffeebb;
+            padding: 8px 16px; border-radius: 50px; font-size: 0.9rem; font-weight: 600; 
+            text-transform: uppercase; letter-spacing: 2px; display: inline-block; margin-bottom: 20px;
+        }
+        .ramadan-hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; color: white; }
+        .ramadan-hero p { font-size: 1.25rem; color: #cbd5e1; margin-bottom: 0; max-width: 600px; margin: auto; }
+
+        /* PRICING CARDS */
+        .offers-section { margin-top: -80px; padding-bottom: 80px; position: relative; z-index: 10; }
+        .offers-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        
+        .offer-card { 
+            background: var(--surface); padding: 40px; border-radius: 24px; width: 350px;
+            box-shadow: 0 20px 40px -5px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);
+            text-align: center; position: relative; overflow: hidden; transition: 0.3s;
+        }
+        .offer-card:hover { transform: translateY(-10px); }
+        
+        /* Highlighted Card */
+        .offer-card.premium { border: 2px solid var(--gold); }
+        .ribbon { 
+            position: absolute; top: 0; right: 0; background: var(--gold); color: #000; 
+            padding: 5px 15px; font-weight: 700; font-size: 0.8rem; border-bottom-left-radius: 12px;
+        }
+
+        .price { font-size: 3rem; font-weight: 800; color: var(--primary); margin: 20px 0; }
+        .price span { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
+        
+        .features-list { list-style: none; text-align: left; margin: 30px 0; padding: 0 10px; }
+        .features-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: var(--text-main); }
+        .check { color: var(--whatsapp); font-weight: bold; }
+
+        .btn-buy { 
+            background: var(--primary); color: white; width: 100%; padding: 16px; 
+            border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: 0.3s;
+        }
+        .btn-buy:hover { background: var(--accent); color: var(--primary); }
+        .btn-buy.gold { background: var(--gold); color: #000; }
+        .btn-buy.gold:hover { background: #b8962e; }
+
+        /* CHARITY SECTION */
+        .charity-section { background: var(--surface); padding: 80px 0; text-align: center; }
+        .charity-box { 
+            background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 20px; 
+            padding: 40px; max-width: 800px; margin: auto; 
+        }
+        .charity-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+
+        /* FOOTER */
+        footer { background: var(--primary-dark); color: #94a3b8; padding: 60px 0; text-align: center; font-size: 0.9rem; }
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: var(--whatsapp); color: white; width: 64px; height: 64px; border-radius: 50%; text-align: center; font-size: 32px; line-height: 64px; box-shadow: 0 10px 25px rgba(37,211,102,0.4); z-index: 1000; text-decoration: none; }
+        .whatsapp-float::before { content: "💬"; }
+    </style>
+
+    <!-- ... all your styles are above here ... -->
+
+    <!-- Start cookieyes banner --> 
+    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/961f820e92b5546e026c4c37009d673e/script.js"></script> 
+    <!-- End cookieyes banner -->
+
+</head> <!-- This is the closing tag -->
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">Noor<span>Link</span></a>
+            <a href="index.html" class="back-link">← Back Home</a>
+        </div>
+    </header>
+
+    <section class="ramadan-hero">
+        <div class="container">
+            <div class="hero-badge">Ramadan 2026 Exclusive</div>
+            <h1>Worship Without Limits</h1>
+            <p>Stay connected in Mecca & Medina with premium 5G speed. No interruptions during your Umrah.</p>
+        </div>
+    </section>
+
+    <section class="offers-section">
+        <div class="container offers-grid">
+            
+            <!-- Standard Plan -->
+            <div class="offer-card">
+                <h3>Umrah Essentials</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">For short pilgrimages</p>
+                <div class="price">$19 <span>/ 15 days</span></div>
+                <button class="btn-buy">Buy Essentials</button>
+                <ul class="features-list">
+                    <li><span class="check">✓</span> 10 GB High-Speed Data</li>
+                    <li><span class="check">✓</span> Valid for 15 Days</li>
+                    <li><span class="check">✓</span> 5G Coverage in Mecca</li>
+                    <li><span class="check">✓</span> Hotspot Enabled</li>
+                </ul>
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="offer-card premium">
+                <div class="ribbon">BEST VALUE</div>
+                <h3>Ramadan Unlimited</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Complete peace of mind</p>
+                <div class="price">$45 <span>/ 30 days</span></div>
+                <button class="btn-buy gold">Buy Unlimited</button>
+                <ul class="features-list">
+                    <li><span class="check">✓</span> <strong>Unlimited Data</strong></li>
+                    <li><span class="check">✓</span> Valid for 30 Days</li>
+                    <li><span class="check">✓</span> Priority 5G Speed</li>
+                    <li><span class="check">✓</span> <strong>5% Donated to Charity</strong></li>
+                    <li><span class="check">✓</span> Free WhatsApp Support</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="charity-section">
+        <div class="container">
+            <div class="charity-box">
+                <span class="charity-icon">🤝</span>
+                <h2 style="color: #166534; margin-bottom: 15px;">Give Back While You Travel</h2>
+                <p>For every "Ramadan Unlimited" plan purchased, NoorLink donates <strong>5% of profits</strong> to providing clean water and meals to those in need.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>&copy; 2026 NoorLink.co. All rights reserved.</footer>
+    <a href="https://wa.me/15551234567" class="whatsapp-float" target="_blank"></a>
+
+</body>
+</html>
