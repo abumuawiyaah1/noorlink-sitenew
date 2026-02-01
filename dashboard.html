@@ -258,87 +258,319 @@
     </div>
 
     <script>
-        // 1. DATABASE SIMULATION (This mimics what a server would do)
-        const mockDatabase = {
-            "NL-100": {
-                status: "Active",
-                planName: "Europe Regional Plan",
-                dataTotal: 10,
-                dataLeft: 7.5,
-                expiry: "Feb 28, 2026",
-                color: "#10B981" // Green
-            },
-            "NL-200": {
-                status: "Low Data",
-                planName: "USA Travel Pack",
-                dataTotal: 5,
-                dataLeft: 0.5, // Low data
-                expiry: "Jan 20, 2026",
-                color: "#F59E0B" // Orange/Yellow
-            },
-            "NL-300": {
-                status: "Expired",
-                planName: "Turkey Holiday",
-                dataTotal: 3,
-                dataLeft: 0,
-                expiry: "Dec 10, 2025",
-                color: "#EF4444" // Red
-            }
-        };
+        
+    // CONFIGURATION - Your real backend API
+    const API_BASE_URL = 'https://api.noorlink.co/api';
+    
+    // Keep mock data as fallback
+    const mockDatabase = {
+        "NL-100": {
+            status: "Active",
+            planName: "Europe Regional Plan",
+            dataTotal: 10,
+            dataLeft: 7.5,
+            expiry: "Feb 28, 2026",
+            color: "#10B981"
+        },
+        "NL-200": {
+            status: "Low Data",
+            planName: "USA Travel Pack",
+            dataTotal: 5,
+            dataLeft: 0.5,
+            expiry: "Jan 20, 2026",
+            color: "#F59E0B"
+        },
+        "NL-300": {
+            status: "Expired",
+            planName: "Turkey Holiday",
+            dataTotal: 3,
+            dataLeft: 0,
+            expiry: "Dec 10, 2025",
+            color: "#EF4444"
+        }
+    };
 
-        function showDashboard() {
-            // 1. Get values from inputs
-            const emailInput = document.querySelector('input[type="email"]').value;
-            const orderInput = document.querySelector('input[type="text"]').value;
-            const errorMsg = document.createElement('p'); // Prepare error message
+    async function showDashboard() {
+        // 1. Get values from inputs
+        const emailInput = document.querySelector('input[type="email"]').value;
+        const orderInput = document.querySelector('input[type="text"]').value;
+        const errorMsg = document.createElement('p'); // Prepare error message
 
-            // 2. Clear previous errors
-            const existingError = document.querySelector('.error-msg');
-            if(existingError) existingError.remove();
+        // 2. Clear previous errors
+        const existingError = document.querySelector('.error-msg');
+        if(existingError) existingError.remove();
 
-            // 3. CHECK LOGIC
-            const data = mockDatabase[orderInput]; // Does this Order ID exist in our list?
+        // 3. Show loading
+        const loginBtn = document.querySelector('.login-btn');
+        const originalText = loginBtn.textContent;
+        loginBtn.textContent = 'Connecting...';
+        loginBtn.disabled = true;
 
-            if (data) {
-                // --- SUCCESS: UPDATE DASHBOARD UI ---
+        let data = null;
+
+        // 4. FIRST: Try to get data from your REAL backend
+        try {
+            console.log(`Calling real API: ${API_BASE_URL}/orders/lookup`);
+            
+            const response = await fetch(`${API_BASE_URL}/orders/lookup`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: emailInput,
+                    order_id: orderInput
+                })
+            });
+
+            if (response.ok) {
+                const backendData = await response.json();
+                console.log('✅ Got data from backend:', backendData);
                 
-                // Update Text
-                document.querySelector('.plan-name strong').textContent = data.planName;
-                document.querySelector('.plan-name').innerHTML = `<strong>${data.planName}</strong><br>Order #${orderInput}`;
-                document.querySelector('.big-data').textContent = data.dataLeft;
-                document.querySelector('.total-data').textContent = `GB left of ${data.dataTotal} GB`;
-                
-                // Update Status Badge
-                const badge = document.querySelector('.status-badge');
-                badge.innerHTML = `<div class="pulse-dot" style="background:${data.color}"></div> ${data.status}`;
-                badge.style.color = data.color;
-                badge.style.borderColor = data.color;
-                badge.style.background = `rgba(0,0,0,0.1)`;
-
-                // Update Progress Bar
-                const percentage = (data.dataLeft / data.dataTotal) * 100;
-                document.querySelector('.progress-bar').style.width = percentage + "%";
-                document.querySelector('.progress-bar').style.backgroundColor = data.color;
-
-                // Show Dashboard
-                document.getElementById('login-view').style.display = 'none';
-                document.getElementById('dashboard-view').style.display = 'block';
-
+                // Transform backend data to match your frontend format
+                data = {
+                    status: backendData.status || "Active",
+                    planName: backendData.plan_name || "Europe Regional Plan",
+                    dataTotal: backendData.data_total || 10,
+                    dataLeft: backendData.data_left || 7.5,
+                    expiry: backendData.expiry_date || "Feb 28, 2026",
+                    color: getStatusColor(backendData.status || "Active")
+                };
             } else {
-                // --- ERROR: SHOW MESSAGE ---
-                errorMsg.className = 'error-msg';
-                errorMsg.style.color = 'red';
-                errorMsg.style.marginTop = '10px';
-                errorMsg.textContent = "❌ Order ID not found. Try NL-100, NL-200, or NL-300.";
-                document.querySelector('.login-card').appendChild(errorMsg);
+                console.log('⚠️ Backend error, using mock data');
+                data = mockDatabase[orderInput];
             }
+        } catch (error) {
+            console.log('❌ Backend call failed, using mock data:', error.message);
+            data = mockDatabase[orderInput];
         }
 
-        function toggleQR() {
-            const qrBox = document.getElementById('qr-display');
-            qrBox.style.display = (qrBox.style.display === 'block') ? 'none' : 'block';
+        // 5. Process the data (either from backend or mock)
+        if (data) {
+            // --- SUCCESS: UPDATE DASHBOARD UI ---
+            
+            // Update Text
+            document.querySelector('.plan-name strong').textContent = data.planName;
+            document.querySelector('.plan-name').innerHTML = `<strong>${data.planName}</strong><br>Order #${orderInput}`;
+            document.querySelector('.big-data').textContent = data.dataLeft;
+            document.querySelector('.total-data').textContent = `GB left of ${data.dataTotal} GB`;
+            
+            // Update Status Badge
+            const badge = document.querySelector('.status-badge');
+            badge.innerHTML = `<div class="pulse-dot" style="background:${data.color}"></div> ${data.status}`;
+            badge.style.color = data.color;
+            badge.style.borderColor = data.color;
+            badge.style.background = `rgba(0,0,0,0.1)`;
+
+            // Update Progress Bar
+            const percentage = (data.dataLeft / data.dataTotal) * 100;
+            document.querySelector('.progress-bar').style.width = percentage + "%";
+            document.querySelector('.progress-bar').style.backgroundColor = data.color;
+
+            // Update Expiry Date
+            document.querySelector('.esim-visual-card div:nth-child(1) div:nth-child(2)').textContent = 
+                `Exp: ${data.expiry}`;
+
+            // Store order ID for later API calls
+            window.currentOrderId = orderInput;
+            window.currentUserEmail = emailInput;
+
+            // Show Dashboard
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
+
+        } else {
+            // --- ERROR: SHOW MESSAGE ---
+            errorMsg.className = 'error-msg';
+            errorMsg.style.color = 'red';
+            errorMsg.style.marginTop = '10px';
+            errorMsg.textContent = "❌ Order ID not found. Try NL-100, NL-200, or NL-300.";
+            document.querySelector('.login-card').appendChild(errorMsg);
         }
-    </script>
+
+        // 6. Reset button
+        loginBtn.textContent = originalText;
+        loginBtn.disabled = false;
+    }
+
+    // ENHANCED: Get real QR code from backend
+    async function toggleQR() {
+        const qrBox = document.getElementById('qr-display');
+        
+        if (qrBox.style.display === 'block') {
+            qrBox.style.display = 'none';
+            return;
+        }
+
+        // Show loading
+        qrBox.innerHTML = '<div style="padding: 20px; text-align: center;">Loading QR code...</div>';
+        qrBox.style.display = 'block';
+
+        // Try to get real QR code from backend
+        try {
+            const response = await fetch(`${API_BASE_URL}/esim/qr/${window.currentOrderId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.ok) {
+                const qrData = await response.json();
+                
+                // Display real QR code
+                qrBox.innerHTML = `
+                    <div class="qr-img">
+                        <img src="${qrData.qr_code_url || `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=esim:${qrData.activation_code || 'DEMO'}`}" 
+                             alt="eSIM QR Code" style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;">
+                    </div>
+                    <p style="font-size: 0.9rem; margin-bottom: 10px;">Scan this in Settings &gt; Cellular &gt; Add eSIM</p>
+                    <div class="manual-details">
+                        <strong>SM-DP+ Address:</strong><br>${qrData.smdp_address || 'rsp.truphone.com'}<br><br>
+                        <strong>Activation Code:</strong><br>${qrData.activation_code || 'JQ-10291-AMZ-1102'}
+                    </div>
+                `;
+            } else {
+                // Fallback to mock QR
+                showMockQR();
+            }
+        } catch (error) {
+            console.error('Failed to fetch QR:', error);
+            showMockQR();
+        }
+
+        function showMockQR() {
+            qrBox.innerHTML = `
+                <div class="qr-img">
+                    <i class="fas fa-qrcode" style="font-size: 3rem;"></i>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 10px;">Scan this in Settings &gt; Cellular &gt; Add eSIM</p>
+                <div class="manual-details">
+                    <strong>SM-DP+ Address:</strong><br>rsp.truphone.com<br><br>
+                    <strong>Activation Code:</strong><br>JQ-10291-AMZ-1102
+                </div>
+            `;
+        }
+    }
+
+    // ENHANCED: Download real receipt
+    async function downloadReceipt() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/orders/${window.currentOrderId}/receipt`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.ok) {
+                const receiptData = await response.json();
+                
+                // Create download link
+                const link = document.createElement('a');
+                link.href = receiptData.receipt_url || '#';
+                link.download = `receipt-${window.currentOrderId}.pdf`;
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                alert('Receipt download started!');
+            } else {
+                alert('Receipt will be available soon. For now, please contact support.');
+            }
+        } catch (error) {
+            console.error('Receipt download error:', error);
+            alert('Receipt service temporarily unavailable.');
+        }
+    }
+
+    // ENHANCED: Real top-up functionality
+    async function topUpData() {
+        const amount = prompt('How many GB would you like to add?', '1');
+        if (!amount || isNaN(amount)) return;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/orders/${window.currentOrderId}/topup`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    additional_gb: parseFloat(amount),
+                    email: window.currentUserEmail
+                })
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert(`✅ ${result.message || `Successfully added ${amount}GB!`}`);
+                
+                // Refresh the dashboard to show new data
+                showDashboard();
+            } else {
+                const error = await response.json();
+                alert(`Failed: ${error.detail || 'Top-up service unavailable'}`);
+            }
+        } catch (error) {
+            console.error('Top-up error:', error);
+            alert('Top-up service temporarily unavailable. Please try again later.');
+        }
+    }
+
+    // Helper function
+    function getStatusColor(status) {
+        const colors = {
+            'Active': '#10B981',
+            'Low Data': '#F59E0B',
+            'Expired': '#EF4444',
+            'Pending': '#6B7280',
+            'Activated': '#3B82F6',
+            'active': '#10B981',
+            'expired': '#EF4444',
+            'low_data': '#F59E0B'
+        };
+        return colors[status] || '#6B7280';
+    }
+
+    // Test backend connection on page load
+    document.addEventListener('DOMContentLoaded', async function() {
+        console.log('Testing connection to backend:', API_BASE_URL);
+        
+        try {
+            const response = await fetch(`${API_BASE_URL.replace('/api', '')}/health`);
+            const data = await response.json();
+            
+            if (data.status === 'operational') {
+                console.log('✅ Backend is operational');
+                // Add a subtle indicator
+                const subtitle = document.querySelector('.login-card p');
+                subtitle.innerHTML += '<br><small style="color: var(--success);">✓ Connected to NoorLink API</small>';
+            }
+        } catch (error) {
+            console.warn('⚠️ Backend not reachable, using mock mode');
+            const subtitle = document.querySelector('.login-card p');
+            subtitle.innerHTML += '<br><small style="color: var(--accent);">⚠️ Using demo mode</small>';
+        }
+    });
+
+    // Update button event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update receipt button
+        const receiptBtn = document.querySelectorAll('.action-btn')[1];
+        receiptBtn.onclick = downloadReceipt;
+        
+        // Update help button (optional)
+        const helpBtn = document.querySelectorAll('.action-btn')[2];
+        helpBtn.onclick = function() {
+            window.location.href = 'https://noorlink.co/support';
+        };
+        
+        // Update top-up button
+        const topUpBtn = document.querySelector('.top-up-btn');
+        topUpBtn.onclick = topUpData;
+    });
+</script>
+        
 
 </body>
 </html>

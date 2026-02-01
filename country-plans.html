@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your head content -->
+</head>
+<body>
+    <!-- Header (same as other pages) -->
+
+    <div class="country-plans-page">
+        <!-- Country Header -->
+        <div class="country-header" id="countryHeader">
+            <h1><span id="countryFlag">🇺🇸</span> <span id="countryName">United States</span> Plans</h1>
+            <p id="countryDescription">T-Mobile, AT&T, Verizon 5G networks</p>
+        </div>
+
+        <!-- Plans Grid -->
+        <div class="plans-grid" id="plansGrid">
+            <!-- Dynamic plans will be inserted here -->
+        </div>
+
+        <!-- Network Info -->
+        <div class="network-info">
+            <h3><i class="fas fa-wifi"></i> Available Networks</h3>
+            <div class="networks-list" id="networksList">
+                <!-- Networks will be inserted here -->
+            </div>
+        </div>
+
+        <!-- How to Use -->
+        <div class="usage-steps">
+            <h3><i class="fas fa-play-circle"></i> How to Use Your eSIM</h3>
+            <!-- Steps... -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+
+    <script>
+        // Load country from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const country = urlParams.get('country') || 'United States';
+        
+        // Get country data from database
+        const countryData = planDatabase[country];
+        
+        // Update page
+        document.getElementById('countryFlag').textContent = countryData.flag || '🌍';
+        document.getElementById('countryName').textContent = country;
+        document.getElementById('countryDescription').textContent = countryData.description;
+        
+        // Generate plans
+        const plansGrid = document.getElementById('plansGrid');
+        countryData.plans.forEach(plan => {
+            const planCard = `
+                <div class="plan-card" onclick="buyPlan('${plan.name}', ${plan.price}, '${country}')">
+                    <div class="plan-header">
+                        <h3>${plan.name}</h3>
+                        <div class="plan-price">$${plan.price}</div>
+                    </div>
+                    <div class="plan-features">
+                        <div class="feature">
+                            <i class="fas fa-database"></i>
+                            <span>${plan.data}</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-calendar"></i>
+                            <span>${plan.days} Days</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bolt"></i>
+                            <span>5G/4G LTE</span>
+                        </div>
+                    </div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+            `;
+            plansGrid.innerHTML += planCard;
+        });
+        
+        // Show networks if available
+        if (countryData.networks) {
+            const networksList = document.getElementById('networksList');
+            countryData.networks.forEach(network => {
+                networksList.innerHTML += `<div class="network-item"><i class="fas fa-signal"></i> ${network}</div>`;
+            });
+        }
+    </script>
+</body>
+</html>

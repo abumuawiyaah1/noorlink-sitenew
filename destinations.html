@@ -33,7 +33,7 @@
         header { background: var(--glass); backdrop-filter: blur(12px); padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
         
-        /* TEXT LOGO + TM */
+        /* LOGO TEXT + TM */
         .logo-text { 
             font-size: 1.8rem; font-weight: 800; color: var(--primary); 
             letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: flex-start;
@@ -74,7 +74,15 @@
             border: 3px solid transparent;
             padding: 8px; border-radius: 50px; display: flex; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            transition: 0.3s;
         }
+        /* Animation class for the search box */
+        .search-box.highlight-pulse {
+            box-shadow: 0 0 30px rgba(255, 149, 0, 0.8);
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
         .search-box input { border: none; flex: 1; padding: 12px 24px; font-size: 1rem; outline: none; border-radius: 50px; background: transparent; }
         .search-btn { background: var(--accent); border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.3s; color: white; }
         .search-btn:hover { transform: scale(1.05); background: var(--primary); }
@@ -101,13 +109,8 @@
         }
         .card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.25); border-color: var(--accent); }
         .card:hover .card-overlay { background: linear-gradient(to top, rgba(15, 61, 62, 0.95) 0%, rgba(0,0,0,0.2) 100%); }
-        
-        /* New Consistent Button Style on Hover */
-        .card:hover .card-price { 
-            background: var(--accent); 
-            color: var(--primary-dark); 
-            border-color: var(--accent);
-        }
+        .card:hover .flag { transform: scale(1.1); }
+        .card:hover .card-price { background: white; color: var(--primary); }
 
         /* BACKGROUND IMAGES */
         .bg-usa { background: url('images/usa.jpg') center/cover; }
@@ -129,24 +132,9 @@
             display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; color: white; text-align: left;
             transition: 0.4s;
         }
-        
-        .card h3 { margin: 0; font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        
-        /* CONSISTENT PRICE BUTTON */
-        .card-price { 
-            background: rgba(0,0,0,0.6); /* Semi-transparent dark */
-            color: white; 
-            font-weight: 800; 
-            padding: 8px 18px; 
-            border-radius: 50px; 
-            font-size: 0.9rem; 
-            border: 2px solid var(--accent); /* Orange Border */
-            display: inline-block; 
-            transition: 0.3s; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            width: fit-content;
-        }
+        .flag { font-size: 4rem; display: block; margin: 0 auto 15px auto; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); transition: 0.4s; }
+        .card h3 { margin: 0; font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .card-price { background: var(--accent); color: var(--text-main); font-weight: 800; padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; margin: 0 auto 5px auto; display: inline-block; transition: 0.3s; }
 
         /* SEARCH CARD */
         .search-card-style {
@@ -216,7 +204,7 @@
 
     <!-- Search & Filter -->
     <div class="search-container">
-        <div class="search-box">
+        <div class="search-box" id="mainSearchBox">
             <input type="text" id="searchInput" placeholder="Search for a country..." onkeyup="filterDestinations()">
             <button class="search-btn">🔍</button>
         </div>
@@ -233,63 +221,68 @@
         </div>
 
         <div class="dest-grid" id="destGrid">
-
-            <!-- == EUROPEAN COLLECTION == -->
             
-            <!-- 1. All Europe (Regional Pass) -->
-            <div class="card bg-eu" data-region="Europe" onclick="goToCheckout('Europe', '5.00', '🇪🇺')">
-                <div class="card-overlay">
-                    <h3>Europe (33 Countries)</h3>
-                    <span class="card-price">From $5.00</span>
-                </div>
+           
+<!-- === AMERICAS (4 Cards) === -->
+            <div class="card bg-usa" data-region="Americas" onclick="goToCheckout('United States', '4.50', '🇺🇸')">
+                <div class="card-overlay"><h3>United States</h3><span class="card-price">From $4.50</span></div>
+            </div>
+            <div class="card bg-canada" data-region="Americas" onclick="goToCheckout('Canada', '6.00', '🇨🇦')">
+                <div class="card-overlay"><h3>Canada</h3><span class="card-price">From $6.00</span></div>
+            </div>
+            <div class="card bg-mexico" data-region="Americas" onclick="goToCheckout('Mexico', '6.00', '🇲🇽')">
+                <div class="card-overlay"><h3>Mexico</h3><span class="card-price">From $6.00</span></div>
+            </div>
+            <div class="card bg-brazil" data-region="Americas" onclick="goToCheckout('Brazil', '8.00', '🇧🇷')">
+                <div class="card-overlay"><h3>Brazil</h3><span class="card-price">From $8.00</span></div>
             </div>
 
-            <!-- 2. France -->
-            <div class="card bg-fr" data-region="Europe" onclick="goToCheckout('France', '4.50', '🇫🇷')">
-                <div class="card-overlay">
-                    <h3>France</h3>
-                    <span class="card-price">From $4.50</span>
-                </div>
+            <!-- === EUROPE (4 Cards) === -->
+            <div class="card bg-europe-regional" data-region="Europe" onclick="goToCheckout('Europe', '5.00', '🇪🇺')">
+                <div class="card-overlay"><h3>Europe (Regional)</h3><span class="card-price">From $5.00</span></div>
+            </div>
+            <div class="card bg-uk" data-region="Europe" onclick="goToCheckout('United Kingdom', '5.00', '🇬🇧')">
+                <div class="card-overlay"><h3>United Kingdom</h3><span class="card-price">From $5.00</span></div>
+            </div>
+            <div class="card bg-france" data-region="Europe" onclick="goToCheckout('France', '4.50', '🇫🇷')">
+                <div class="card-overlay"><h3>France</h3><span class="card-price">From $4.50</span></div>
+            </div>
+            <div class="card bg-germany" data-region="Europe" onclick="goToCheckout('Germany', '4.50', '🇩🇪')">
+                <div class="card-overlay"><h3>Germany</h3><span class="card-price">From $4.50</span></div>
             </div>
 
-            <!-- 3. Germany -->
-            <div class="card bg-de" data-region="Europe" onclick="goToCheckout('Germany', '4.50', '🇩🇪')">
-                <div class="card-overlay">
-                    <h3>Germany</h3>
-                    <span class="card-price">From $4.50</span>
-                </div>
+            <!-- === ASIA (4 Cards) === -->
+            <div class="card bg-asia-regional" data-region="Asia" onclick="goToCheckout('Asia Regional', '12.00', '🌏')">
+                <div class="card-overlay"><h3>Asia (Regional)</h3><span class="card-price">From $12.00</span></div>
+            </div>
+            <div class="card bg-japan" data-region="Asia" onclick="goToCheckout('Japan', '6.00', '🇯🇵')">
+                <div class="card-overlay"><h3>Japan</h3><span class="card-price">From $6.00</span></div>
+            </div>
+            <div class="card bg-thailand" data-region="Asia" onclick="goToCheckout('Thailand', '6.00', '🇹🇭')">
+                <div class="card-overlay"><h3>Thailand</h3><span class="card-price">From $6.00</span></div>
+            </div>
+            <div class="card bg-china" data-region="Asia" onclick="goToCheckout('China', '7.00', '🇨🇳')">
+                <div class="card-overlay"><h3>China</h3><span class="card-price">From $7.00</span></div>
             </div>
 
-            <!-- 4. Italy -->
-            <div class="card bg-it" data-region="Europe" onclick="goToCheckout('Italy', '4.50', '🇮🇹')">
-                <div class="card-overlay">
-                    <h3>Italy</h3>
-                    <span class="card-price">From $4.50</span>
-                </div>
+            <!-- === MIDDLE EAST (4 Cards) === -->
+            <div class="card bg-middle-east-regional" data-region="Middle East" onclick="goToCheckout('Middle East Regional', '15.00', '🌍')">
+                <div class="card-overlay"><h3>Middle East (Regional)</h3><span class="card-price">From $15.00</span></div>
             </div>
-
-            <!-- 5. Spain -->
-            <div class="card bg-es" data-region="Europe" onclick="goToCheckout('Spain', '4.50', '🇪🇸')">
-                <div class="card-overlay">
-                    <h3>Spain</h3>
-                    <span class="card-price">From $4.50</span>
-                </div>
+            <div class="card bg-turkey" data-region="Middle East" onclick="goToCheckout('Turkey', '4.50', '🇹🇷')">
+                <div class="card-overlay"><h3>Turkey</h3><span class="card-price">From $4.50</span></div>
+            </div>
+            <div class="card bg-saudi-arabia" data-region="Middle East" onclick="goToCheckout('Saudi Arabia', '7.00', '🇸🇦')">
+                <div class="card-overlay"><h3>Saudi Arabia</h3><span class="card-price">From $7.00</span></div>
+            </div>
+            <div class="card bg-uae" data-region="Middle East" onclick="goToCheckout('UAE', '7.50', '🇦🇪')">
+                <div class="card-overlay"><h3>UAE</h3><span class="card-price">From $7.50</span></div>
             </div>
             
-            <!-- == CARDS (NO FLAGS, CONSISTENT BUTTONS) == -->
-            <div class="card bg-usa" data-region="Americas" onclick="goToCheckout('United States', '4.50', '🇺🇸')"><div class="card-overlay"><h3>United States</h3><span class="card-price">From $4.50</span></div></div>
-            <div class="card bg-eu" data-region="Europe" onclick="goToCheckout('Europe', '5.00', '🇪🇺')"><div class="card-overlay"><h3>Europe</h3><span class="card-price">From $5.00</span></div></div>
-            <div class="card bg-japan" data-region="Asia" onclick="goToCheckout('Japan', '6.00', '🇯🇵')"><div class="card-overlay"><h3>Japan</h3><span class="card-price">From $6.00</span></div></div>
-            <div class="card bg-tr" data-region="Middle East" onclick="goToCheckout('Turkey', '4.50', '🇹🇷')"><div class="card-overlay"><h3>Turkey</h3><span class="card-price">From $4.50</span></div></div>
-            <div class="card bg-uk" data-region="Europe" onclick="goToCheckout('United Kingdom', '5.00', '🇬🇧')"><div class="card-overlay"><h3>United Kingdom</h3><span class="card-price">From $5.00</span></div></div>
-            <div class="card bg-sa" data-region="Middle East" onclick="goToCheckout('Saudi Arabia', '7.00', '🇸🇦')"><div class="card-overlay"><h3>Saudi Arabia</h3><span class="card-price">From $7.00</span></div></div>
+        
             
-            <!-- EXTRA CARDS -->
-            <div class="card bg-americas" data-region="Americas" onclick="goToCheckout('Brazil', '8.00', '🇧🇷')"><div class="card-overlay"><h3>Brazil</h3><span class="card-price">From $8.00</span></div></div>
-             <div class="card bg-asia" data-region="Asia" onclick="goToCheckout('Thailand', '6.00', '🇹🇭')"><div class="card-overlay"><h3>Thailand</h3><span class="card-price">From $6.00</span></div></div>
-
             <!-- WORLD IN HANDS BANNER -->
-            <div class="search-card-style" id="worldBanner" onclick="scrollToTop()">
+            <div class="search-card-style" id="worldBanner" onclick="scrollToSearch()">
                 <div class="search-text">Can't find your destination?</div>
                 <div class="search-sub">We cover 190+ countries. The whole world is one search away.</div>
                 <div class="glow-btn">Search Now</div>
@@ -325,6 +318,7 @@
                     <a href="privacy.html">Privacy Policy</a>
                     <a href="terms.html">Terms of Service</a>
                     <a href="refund.html">Refund Policy</a>
+                    <a href="kyc.html">KYC / AML Policy</a>
                 </div>
             </div>
         </div>
@@ -337,7 +331,26 @@
 
     <script>
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
-        function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); document.getElementById('searchInput').focus(); }
+        
+        // --- NEW: SMOOTH SCROLL + HIGHLIGHT ---
+        function scrollToSearch() { 
+            const searchBox = document.getElementById('mainSearchBox');
+            const searchInput = document.getElementById('searchInput');
+            
+            // Scroll to the search box
+            searchBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Focus Input
+            searchInput.focus();
+            
+            // Add Flash Effect class
+            searchBox.classList.add('highlight-pulse');
+            
+            // Remove effect after 1 second
+            setTimeout(() => {
+                searchBox.classList.remove('highlight-pulse');
+            }, 1000);
+        }
 
         function goToCheckout(name, price, flag) {
             const url = `checkout.html?country=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}&flag=${encodeURIComponent(flag)}`;
@@ -345,29 +358,126 @@
         }
 
         // MASTER LIST (Includes all your countries)
+// MASTER LIST (160+ Countries)
         const globalData = [
+            // --- AMERICAS ---
+            { name: "Anguilla", flag: "🇦🇮", price: "9.50", region: "Americas" },
+            { name: "Antigua and Barbuda", flag: "🇦🇬", price: "9.50", region: "Americas" },
             { name: "Argentina", flag: "🇦🇷", price: "7.50", region: "Americas" },
+            { name: "Aruba", flag: "🇦🇼", price: "9.50", region: "Americas" },
+            { name: "Barbados", flag: "🇧🇧", price: "9.50", region: "Americas" },
+            { name: "Belize", flag: "🇧🇿", price: "8.50", region: "Americas" },
+            { name: "Bermuda", flag: "🇧🇲", price: "9.50", region: "Americas" },
+            { name: "Bolivia", flag: "🇧🇴", price: "8.50", region: "Americas" },
             { name: "Brazil", flag: "🇧🇷", price: "8.00", region: "Americas" },
+            { name: "British Virgin Islands", flag: "🇻🇬", price: "9.50", region: "Americas" },
             { name: "Canada", flag: "🇨🇦", price: "6.00", region: "Americas" },
-            { name: "China", flag: "🇨🇳", price: "7.00", region: "Asia" },
+            { name: "Cayman Islands", flag: "🇰🇾", price: "9.50", region: "Americas" },
+            { name: "Chile", flag: "🇨🇱", price: "7.00", region: "Americas" },
             { name: "Colombia", flag: "🇨🇴", price: "7.00", region: "Americas" },
-            { name: "Egypt", flag: "🇪🇬", price: "6.50", region: "Middle East" },
+            { name: "Costa Rica", flag: "🇨🇷", price: "7.50", region: "Americas" },
+            { name: "Dominica", flag: "🇩🇲", price: "9.50", region: "Americas" },
+            { name: "Dominican Republic", flag: "🇩🇴", price: "7.50", region: "Americas" },
+            { name: "Ecuador", flag: "🇪🇨", price: "8.00", region: "Americas" },
+            { name: "El Salvador", flag: "🇸🇻", price: "8.00", region: "Americas" },
+            { name: "Grenada", flag: "🇬🇩", price: "9.50", region: "Americas" },
+            { name: "Guatemala", flag: "🇬🇹", price: "8.00", region: "Americas" },
+            { name: "Honduras", flag: "🇭🇳", price: "8.00", region: "Americas" },
+            { name: "Jamaica", flag: "🇯🇲", price: "9.50", region: "Americas" },
+            { name: "Mexico", flag: "🇲🇽", price: "6.00", region: "Americas" },
+            { name: "Montserrat", flag: "🇲🇸", price: "9.50", region: "Americas" },
+            { name: "Nicaragua", flag: "🇳🇮", price: "8.50", region: "Americas" },
+            { name: "Panama", flag: "🇵🇦", price: "8.00", region: "Americas" },
+            { name: "Paraguay", flag: "🇵🇾", price: "8.50", region: "Americas" },
+            { name: "Peru", flag: "🇵🇪", price: "7.00", region: "Americas" },
+            { name: "Puerto Rico", flag: "🇵🇷", price: "6.50", region: "Americas" },
+            { name: "Saint Kitts and Nevis", flag: "🇰🇳", price: "9.50", region: "Americas" },
+            { name: "Saint Lucia", flag: "🇱🇨", price: "9.50", region: "Americas" },
+            { name: "Turks and Caicos", flag: "🇹🇨", price: "9.50", region: "Americas" },
+            { name: "United States", flag: "🇺🇸", price: "4.50", region: "Americas" },
+            { name: "Uruguay", flag: "🇺🇾", price: "8.50", region: "Americas" },
+
+            // --- EUROPE ---
+            { name: "Albania", flag: "🇦🇱", price: "5.50", region: "Europe" },
+            { name: "Austria", flag: "🇦🇹", price: "5.00", region: "Europe" },
+            { name: "Belgium", flag: "🇧🇪", price: "5.00", region: "Europe" },
+            { name: "Bosnia and Herzegovina", flag: "🇧🇦", price: "6.00", region: "Europe" },
+            { name: "Bulgaria", flag: "🇧🇬", price: "5.00", region: "Europe" },
+            { name: "Croatia", flag: "🇭🇷", price: "5.00", region: "Europe" },
+            { name: "Cyprus", flag: "🇨🇾", price: "6.00", region: "Europe" },
+            { name: "Czech Republic", flag: "🇨🇿", price: "5.00", region: "Europe" },
+            { name: "Denmark", flag: "🇩🇰", price: "5.00", region: "Europe" },
+            { name: "Estonia", flag: "🇪🇪", price: "5.00", region: "Europe" },
+            { name: "Finland", flag: "🇫🇮", price: "5.00", region: "Europe" },
             { name: "France", flag: "🇫🇷", price: "4.50", region: "Europe" },
             { name: "Germany", flag: "🇩🇪", price: "4.50", region: "Europe" },
+            { name: "Greece", flag: "🇬🇷", price: "5.00", region: "Europe" },
+            { name: "Hungary", flag: "🇭🇺", price: "5.00", region: "Europe" },
+            { name: "Iceland", flag: "🇮🇸", price: "6.00", region: "Europe" },
+            { name: "Ireland", flag: "🇮🇪", price: "5.00", region: "Europe" },
+            { name: "Italy", flag: "🇮🇹", price: "4.50", region: "Europe" },
+            { name: "Latvia", flag: "🇱🇻", price: "5.00", region: "Europe" },
+            { name: "Lithuania", flag: "🇱🇹", price: "5.00", region: "Europe" },
+            { name: "Luxembourg", flag: "🇱🇺", price: "5.50", region: "Europe" },
+            { name: "Malta", flag: "🇲🇹", price: "5.50", region: "Europe" },
+            { name: "Montenegro", flag: "🇲🇪", price: "6.00", region: "Europe" },
+            { name: "Netherlands", flag: "🇳🇱", price: "5.00", region: "Europe" },
+            { name: "Norway", flag: "🇳🇴", price: "5.00", region: "Europe" },
+            { name: "Poland", flag: "🇵🇱", price: "5.00", region: "Europe" },
+            { name: "Portugal", flag: "🇵🇹", price: "5.00", region: "Europe" },
+            { name: "Romania", flag: "🇷🇴", price: "5.00", region: "Europe" },
+            { name: "Serbia", flag: "🇷🇸", price: "6.50", region: "Europe" },
+            { name: "Slovakia", flag: "🇷🇸", price: "5.50", region: "Europe" },
+            { name: "Slovenia", flag: "🇸🇰", price: "5.50", region: "Europe" },
+            { name: "Spain", flag: "🇪🇸", price: "4.50", region: "Europe" },
+            { name: "Sweden", flag: "🇸🇪", price: "5.00", region: "Europe" },
+            { name: "Switzerland", flag: "🇨🇭", price: "6.00", region: "Europe" },
+            { name: "Ukraine", flag: "🇺🇦", price: "8.00", region: "Europe" },
+            { name: "United Kingdom", flag: "🇬🇧", price: "5.00", region: "Europe" },
+
+            // --- ASIA & OCEANIA ---
+            { name: "Australia", flag: "🇦🇺", price: "6.00", region: "Asia" },
+            { name: "Bangladesh", flag: "🇧🇩", price: "8.00", region: "Asia" },
+            { name: "Cambodia", flag: "🇰🇭", price: "6.00", region: "Asia" },
+            { name: "China", flag: "🇨🇳", price: "7.00", region: "Asia" },
+            { name: "Hong Kong", flag: "🇭🇰", price: "5.50", region: "Asia" },
             { name: "India", flag: "🇮🇳", price: "6.00", region: "Asia" },
             { name: "Indonesia", flag: "🇮🇩", price: "5.50", region: "Asia" },
-            { name: "Italy", flag: "🇮🇹", price: "4.50", region: "Europe" },
+            { name: "Japan", flag: "🇯🇵", price: "6.00", region: "Asia" },
+            { name: "Laos", flag: "🇱🇦", price: "8.50", region: "Asia" },
+            { name: "Macau", flag: "🇲🇴", price: "6.00", region: "Asia" },
+            { name: "Malaysia", flag: "🇲🇾", price: "5.50", region: "Asia" },
+            { name: "New Zealand", flag: "🇳🇿", price: "7.00", region: "Asia" },
+            { name: "Pakistan", flag: "🇵🇰", price: "8.50", region: "Asia" },
+            { name: "Philippines", flag: "🇵🇭", price: "6.50", region: "Asia" },
+            { name: "Singapore", flag: "🇸🇬", price: "5.50", region: "Asia" },
+            { name: "South Korea", flag: "🇰🇷", price: "6.50", region: "Asia" },
+            { name: "Sri Lanka", flag: "🇱🇰", price: "7.50", region: "Asia" },
+            { name: "Taiwan", flag: "🇹🇼", price: "6.00", region: "Asia" },
+            { name: "Thailand", flag: "🇹🇭", price: "6.00", region: "Asia" },
+            { name: "Vietnam", flag: "🇻🇳", price: "5.00", region: "Asia" },
+
+            // --- MIDDLE EAST & AFRICA ---
+            { name: "Algeria", flag: "🇩🇿", price: "9.00", region: "Middle East" },
+            { name: "Bahrain", flag: "🇧🇭", price: "7.00", region: "Middle East" },
+            { name: "Egypt", flag: "🇪🇬", price: "6.50", region: "Middle East" },
+            { name: "Ghana", flag: "🇬🇭", price: "9.50", region: "Africa" },
+            { name: "Israel", flag: "🇮🇱", price: "6.00", region: "Middle East" },
+            { name: "Jordan", flag: "🇯🇴", price: "6.50", region: "Middle East" },
+            { name: "Kenya", flag: "🇰🇪", price: "9.50", region: "Africa" },
             { name: "Kuwait", flag: "🇰🇼", price: "7.50", region: "Middle East" },
             { name: "Mexico", flag: "🇲🇽", price: "6.00", region: "Americas" },
             { name: "Morocco", flag: "🇲🇦", price: "8.00", region: "Africa" },
+            { name: "Nigeria", flag: "🇳🇬", price: "10.00", region: "Africa" },
             { name: "Oman", flag: "🇴🇲", price: "7.00", region: "Middle East" },
             { name: "Peru", flag: "🇵🇪", price: "7.00", region: "Americas" },
             { name: "Qatar", flag: "🇶🇦", price: "7.00", region: "Middle East" },
-            { name: "South Korea", flag: "🇰🇷", price: "6.50", region: "Asia" },
-            { name: "Spain", flag: "🇪🇸", price: "4.50", region: "Europe" },
-            { name: "Thailand", flag: "🇹🇭", price: "6.00", region: "Asia" },
-            { name: "UAE", flag: "🇦🇪", price: "7.50", region: "Middle East" },
-            { name: "Vietnam", flag: "🇻🇳", price: "5.00", region: "Asia" }
+            { name: "Saudi Arabia", flag: "🇸🇦", price: "7.00", region: "Middle East" },
+            { name: "South Africa", flag: "🇿🇦", price: "8.00", region: "Africa" },
+            { name: "Tanzania", flag: "🇹🇿", price: "10.00", region: "Africa" },
+            { name: "Tunisia", flag: "🇹🇳", price: "9.00", region: "Africa" },
+            { name: "Turkey", flag: "🇹🇷", price: "4.50", region: "Middle East" },
+            { name: "UAE", flag: "🇦🇪", price: "7.50", region: "Middle East" }
         ];
 
         window.onload = function() {
@@ -375,49 +485,64 @@
             const region = urlParams.get('region');
             const search = urlParams.get('q');
 
-            if (region) { runFilter(region); } 
+            if (region) { ter(region); } 
             else { runFilter('all'); }
 
             if (search) { document.getElementById('searchInput').value = search; filterDestinations(); }
         }
-
-        function runFilter(region) {
-            let cards = document.getElementsByClassName('card');
-            
-            // Visual Update for Buttons
-            if(event && event.type === 'click') {
-                let btns = document.getElementsByClassName('filter-btn');
-                for (let b of btns) { b.classList.remove('active'); }
-                event.target.classList.add('active');
+  function runFilter(region) {
+    let cards = document.getElementsByClassName('card');
+    
+    // Visual Update for Filter Buttons
+    if(event && event.type === 'click') {
+        let btns = document.getElementsByClassName('filter-btn');
+        for (let b of btns) { b.classList.remove('active'); }
+        event.target.classList.add('active');
+    } else {
+        let btns = document.getElementsByClassName('filter-btn');
+        for (let b of btns) {
+            if((region === 'all' && b.innerText.includes('Trending')) || b.innerText.includes(region)) {
+                b.classList.add('active');
             } else {
-                let btns = document.getElementsByClassName('filter-btn');
-                for (let b of btns) {
-                    if((region === 'all' && b.innerText.includes('Trending')) || b.innerText.includes(region)) {
-                        b.classList.add('active');
-                    } else {
-                        b.classList.remove('active');
-                    }
-                }
-            }
-
-            for (let i = 0; i < cards.length; i++) {
-                if (cards[i].classList.contains('search-card-style')) {
-                    cards[i].style.display = "";
-                    continue;
-                }
-
-                let cardRegion = cards[i].getAttribute('data-region');
-                
-                if (region === 'all') {
-                    cards[i].style.display = "";
-                } 
-                else if (cardRegion === region) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
+                b.classList.remove('active');
             }
         }
+    }
+
+    // Define which 4 cards are trending (match EXACT h3 text)
+    const trendingCards = [
+        "United States",      // From your first card
+        "Europe (Regional)",  // From your Europe card
+        "Japan",              // From your Japan card  
+        "UAE"                 // From your UAE card
+    ];
+
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].classList.contains('search-card-style')) {
+            cards[i].style.display = "";
+            continue;
+        }
+
+        let cardRegion = cards[i].getAttribute('data-region');
+        let cardTitle = cards[i].querySelector('h3').innerText.trim();
+        
+        if (region === 'all') {
+            // "Trending" mode: Show ONLY the 4 trending cards
+            if (trendingCards.includes(cardTitle)) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        } 
+        else if (cardRegion === region) {
+            // Region filter mode: Show all cards in that region
+            cards[i].style.display = "";
+        } 
+        else {
+            cards[i].style.display = "none";
+        }
+    }
+}
 
         function filterDestinations() {
             const input = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -447,11 +572,426 @@
                     newCard.className = 'card bg-dynamic';
                     const checkoutUrl = `checkout.html?country=${encodeURIComponent(match.name)}&price=${encodeURIComponent(match.price)}&flag=${encodeURIComponent(match.flag)}`;
                     newCard.onclick = function() { window.location.href = checkoutUrl; };
-                    newCard.innerHTML = `<div class="card-overlay"><span class="flag">${match.flag}</span><h3>${match.name}</h3><span class="price">From $${match.price}</span><div style="margin-top:10px; color:#FF9500; font-size:0.8rem; font-weight:600;">Click to Buy →</div></div>`;
+                    newCard.innerHTML = `<div class="card-overlay"><h3>${match.name}</h3><span class="card-price">From $${match.price}</span><div style="margin-top:10px; color:#FF9500; font-size:0.8rem; font-weight:600;">Click to Buy →</div></div>`;
                     grid.prepend(newCard);
                 }
             }
         }
     </script>
+    <script>
+// FIXED DATABASE INTEGRATION - REPLACES OLD CLICK HANDLERS
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("🔄 Starting database integration...");
+    
+    // Wait for everything to load
+    setTimeout(initDatabaseIntegration, 500);
+});
+
+function initDatabaseIntegration() {
+    // Check if database loaded
+    if (typeof window.noorlinkDatabase === 'undefined') {
+        console.warn("⚠️ Database not available - page works normally");
+        return;
+    }
+    
+    console.log("✅ Database ready!");
+    
+    // STEP 1: Update card prices
+    updateCardPrices();
+    
+    // STEP 2: Replace all click handlers
+    replaceClickHandlers();
+    
+    console.log("✅ Database integration complete!");
+}
+
+// Update card prices from database
+function updateCardPrices() {
+    const cards = document.querySelectorAll('.card:not(.search-card-style)');
+    
+    cards.forEach(card => {
+        const titleEl = card.querySelector('h3');
+        const priceEl = card.querySelector('.card-price');
+        
+        if (!titleEl || !priceEl) return;
+        
+        const countryName = titleEl.textContent.trim();
+        const countryCode = getCountryCode(countryName);
+        
+        if (countryCode) {
+            const countryData = window.noorlinkDatabase.getCountryPlans(countryCode);
+            if (countryData && countryData.plans) {
+                const newPrice = countryData.plans.basic.price.toFixed(2);
+                priceEl.textContent = `From $${newPrice}`;
+                
+                // Store database info on card for click handler
+                card.dataset.countryCode = countryCode;
+                card.dataset.countryName = countryData.country.name;
+                card.dataset.countryFlag = countryData.country.flag;
+                card.dataset.countryPrice = newPrice;
+                
+                console.log("💰 Updated:", countryName, "->", newPrice);
+            }
+        }
+    });
+}
+</script>
+<!-- DATABASE INTEGRATION SCRIPT - Add this BEFORE closing </body> -->
+<script>
+// ====== COMPLETE DATABASE INTEGRATION ======
+// This script will:
+// 1. Remove old click handlers
+// 2. Load your database
+// 3. Update all card prices with real database prices
+// 4. Redirect to plants page with 3+1 visual layout
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("🔄 Starting database integration...");
+    
+    // PHASE 1: Remove old onclick handlers and store their data
+    removeOldHandlers();
+    
+    // PHASE 2: Load database
+    loadDatabase();
+});
+
+// ====== PHASE 1: REMOVE OLD HANDLERS ======
+function removeOldHandlers() {
+    console.log("🔧 Removing old click handlers...");
+    
+    const cardsWithHandlers = document.querySelectorAll('.card[onclick]');
+    console.log(`Found ${cardsWithHandlers.length} cards with onclick handlers`);
+    
+    cardsWithHandlers.forEach(card => {
+        // Extract country info from onclick attribute
+        const onclickAttr = card.getAttribute('onclick');
+        
+        // Parse goToCheckout('Country', 'Price', 'Flag')
+        const match = onclickAttr.match(/goToCheckout\('([^']+)',\s*'([^']+)',\s*'([^']+)'\)/);
+        
+        if (match) {
+            const [, name, price, flag] = match;
+            
+            // Store original data on the card
+            card.dataset.originalName = name;
+            card.dataset.originalPrice = price;
+            card.dataset.originalFlag = flag;
+            
+            console.log(`📝 Stored: ${name} - $${price} - ${flag}`);
+        }
+        
+        // REMOVE the old onclick handler
+        card.removeAttribute('onclick');
+    });
+    
+    console.log("✅ All old handlers removed");
+}
+
+// ====== PHASE 2: LOAD DATABASE ======
+function loadDatabase() {
+    console.log("📦 Loading database file...");
+    
+    // Check if database is already loaded
+    if (typeof window.noorlinkDatabase !== 'undefined') {
+        console.log("✅ Database already loaded");
+        initializeDatabase();
+        return;
+    }
+    
+    // Create and load the database script
+    const dbScript = document.createElement('script');
+    dbScript.src = 'esim-database.js';
+    
+    dbScript.onload = function() {
+        console.log("✅ Database loaded successfully");
+        initializeDatabase();
+    };
+    
+    dbScript.onerror = function() {
+        console.error("❌ Failed to load database file");
+        console.log("Please check: 1. File exists 2. Correct filename 3. File permissions");
+        
+        // Even without database, restore basic click functionality
+        restoreBasicClicks();
+    };
+    
+    document.head.appendChild(dbScript);
+}
+
+// ====== PHASE 3: INITIALIZE DATABASE INTEGRATION ======
+function initializeDatabase() {
+    console.log("🚀 Initializing database integration...");
+    
+    // Check if database object exists
+    if (typeof window.noorlinkDatabase === 'undefined') {
+        console.warn("⚠️ Database object not found");
+        restoreBasicClicks();
+        return;
+    }
+    
+    console.log(`✅ Database ready! Countries: ${Object.keys(window.noorlinkDatabase.countryDatabase || {}).length}`);
+    
+    // STEP 1: Update all card prices with database prices
+    updateCardPricesFromDatabase();
+    
+    // STEP 2: Add new click handlers that go to plants page
+    addPlantsPageClickHandlers();
+    
+    console.log("✅ Database integration complete!");
+}
+
+// ====== UPDATE CARD PRICES FROM DATABASE ======
+function updateCardPricesFromDatabase() {
+    console.log("💰 Updating card prices from database...");
+    
+    const cards = document.querySelectorAll('.card:not(.search-card-style)');
+    let updatedCount = 0;
+    
+    cards.forEach(card => {
+        const titleEl = card.querySelector('h3');
+        const priceEl = card.querySelector('.card-price');
+        
+        if (!titleEl || !priceEl) return;
+        
+        const cardTitle = titleEl.textContent.trim();
+        const countryCode = getCountryCodeFromTitle(cardTitle);
+        
+        if (countryCode) {
+            const countryData = window.noorlinkDatabase.getCountryPlans(countryCode);
+            
+            if (countryData && countryData.plans) {
+                // Update the price on the card
+                const newPrice = countryData.plans.basic.price.toFixed(2);
+                priceEl.textContent = `From $${newPrice}`;
+                
+                // Store ALL database data on the card for click handler
+                card.dataset.dbCode = countryCode;
+                card.dataset.dbName = countryData.country.name;
+                card.dataset.dbFlag = countryData.country.flag;
+                card.dataset.dbPrice = newPrice;
+                
+                // Store all plan prices for plants page
+                card.dataset.dbBasic = countryData.plans.basic.price.toFixed(2);
+                card.dataset.dbStandard = countryData.plans.standard.price.toFixed(2);
+                card.dataset.dbPremium = countryData.plans.premium.price.toFixed(2);
+                card.dataset.dbFamily = countryData.plans.family.price.toFixed(2);
+                
+                updatedCount++;
+                console.log(`✅ Updated: ${cardTitle} → $${newPrice}`);
+            }
+        }
+    });
+    
+    console.log(`📊 Updated ${updatedCount} out of ${cards.length} cards`);
+}
+
+// ====== ADD NEW CLICK HANDLERS (GO TO PLANTS PAGE) ======
+function addPlantsPageClickHandlers() {
+    console.log("🖱️ Adding plants page click handlers...");
+    
+    const cards = document.querySelectorAll('.card:not(.search-card-style)');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Check if we have database data
+            if (card.dataset.dbCode) {
+                // USE DATABASE: Redirect to plants page with country code
+                goToPlantsPage(card.dataset.dbCode);
+                
+            } else if (card.dataset.originalName) {
+                // USE ORIGINAL DATA: Plants page with basic info
+                goToBasicPlantsPage(
+                    card.dataset.originalName,
+                    card.dataset.originalPrice,
+                    card.dataset.originalFlag
+                );
+                
+            } else {
+                // LAST RESORT: Try to get from card HTML
+                const titleEl = card.querySelector('h3');
+                if (titleEl) {
+                    const countryName = titleEl.textContent.trim();
+                    goToBasicPlantsPage(countryName, "0", "🏳️");
+                }
+            }
+        });
+    });
+    
+    console.log(`✅ Added click handlers to ${cards.length} cards`);
+    
+    // Also update the search banner click
+    const searchBanner = document.querySelector('.search-card-style');
+    if (searchBanner) {
+        searchBanner.addEventListener('click', function() {
+            scrollToSearch();
+        });
+    }
+}
+
+// ====== COUNTRY NAME TO CODE MAPPING ======
+function getCountryCodeFromTitle(cardTitle) {
+    // Map your card titles to database country codes
+    const mapping = {
+        // Americas
+        "United States": "usa",
+        "Canada": "canada",
+        "Mexico": "mexico",
+        "Brazil": "brazil",
+        
+        // Europe
+        "Europe (Regional)": "france", // Will show France template as "Europe Plans"
+        "United Kingdom": "uk",
+        "France": "france",
+        "Germany": "germany",
+        
+        // Asia
+        "Asia (Regional)": "japan", // Will show Japan template as "Asia Plans"
+        "Japan": "japan",
+        "Thailand": "thailand",
+        "China": "china",
+        
+        // Middle East
+        "Middle East (Regional)": "uae", // Will show UAE template as "Middle East Plans"
+        "Turkey": "turkey",
+        "Saudi Arabia": "saudi-arabia",
+        "UAE": "uae"
+    };
+    
+    return mapping[cardTitle] || null;
+}
+
+// ====== REDIRECT TO PLANTS PAGE ======
+function goToPlantsPage(countryCode) {
+    console.log(`🌍 Redirecting to plants page for: ${countryCode}`);
+    
+    // Redirect to YOUR plants page with country code
+    // This will show the 3+1 visual layout
+    window.location.href = `plants.html?country=${encodeURIComponent(countryCode)}`;
+}
+
+function goToBasicPlantsPage(countryName, price, flag) {
+    console.log(`📄 Redirecting to basic plants page for: ${countryName}`);
+    
+    // Fallback if database not available
+    window.location.href = `plants.html?name=${encodeURIComponent(countryName)}&price=${price}&flag=${encodeURIComponent(flag)}`;
+}
+
+// ====== FALLBACK: RESTORE BASIC CLICKS (NO DATABASE) ======
+function restoreBasicClicks() {
+    console.log("🔄 Restoring basic click functionality...");
+    
+    const cards = document.querySelectorAll('.card:not(.search-card-style)');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Use original data if available
+            if (card.dataset.originalName) {
+                window.location.href = `checkout.html?country=${encodeURIComponent(card.dataset.originalName)}&price=${card.dataset.originalPrice}&flag=${encodeURIComponent(card.dataset.originalFlag)}`;
+            }
+        });
+    });
+    
+    console.log(`✅ Restored basic clicks for ${cards.length} cards`);
+}
+
+// ====== KEEP YOUR ORIGINAL FUNCTIONS FOR COMPATIBILITY ======
+// Your original goToCheckout function (keep for reference)
+function goToCheckout(name, price, flag) {
+    // This is kept for compatibility with any other code
+    window.location.href = `checkout.html?country=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}&flag=${encodeURIComponent(flag)}`;
+}
+
+// Your original filter functions (they'll still work)
+function runFilter(region) {
+    // Your existing filter function
+    let cards = document.getElementsByClassName('card');
+    
+    if(event && event.type === 'click') {
+        let btns = document.getElementsByClassName('filter-btn');
+        for (let b of btns) { b.classList.remove('active'); }
+        event.target.classList.add('active');
+    }
+    
+    const trendingCards = [
+        "United States",
+        "Europe (Regional)", 
+        "Japan", 
+        "UAE"
+    ];
+    
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].classList.contains('search-card-style')) {
+            cards[i].style.display = "";
+            continue;
+        }
+        
+        let cardRegion = cards[i].getAttribute('data-region');
+        let cardTitle = cards[i].querySelector('h3').innerText.trim();
+        
+        if (region === 'all') {
+            if (trendingCards.includes(cardTitle)) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        } 
+        else if (cardRegion === region) {
+            cards[i].style.display = "";
+        } 
+        else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+function filterDestinations() {
+    // Your existing search function
+    const input = document.getElementById('searchInput').value.trim().toLowerCase();
+    const cards = document.getElementsByClassName('card');
+    const grid = document.getElementById('destGrid');
+    let foundInCards = false;
+
+    const existingDynamic = document.getElementById('dynamic-result');
+    if (existingDynamic) existingDynamic.remove();
+
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].classList.contains('search-card-style')) continue;
+        
+        let title = cards[i].getElementsByTagName('h3')[0];
+        if (title.innerText.toLowerCase().indexOf(input) > -1) {
+            cards[i].style.display = "";
+            foundInCards = true;
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+// Your other existing functions
+function scrollToSearch() { 
+    const searchBox = document.getElementById('mainSearchBox');
+    const searchInput = document.getElementById('searchInput');
+    
+    searchBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    searchInput.focus();
+    
+    searchBox.classList.add('highlight-pulse');
+    setTimeout(() => {
+        searchBox.classList.remove('highlight-pulse');
+    }, 1000);
+}
+
+function toggleMenu() { 
+    document.getElementById('navLinks').classList.toggle('active'); 
+}
+
+console.log("✅ Integration script loaded successfully");
+</script>
 </body>
-</html>
+</html> this is the current destinations.html and you add the new and remove the old

@@ -106,6 +106,7 @@
         .hero-search button { background: var(--accent); color: white; border: none; padding: 14px 36px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; }
         .hero-search button:hover { background: #e68600; box-shadow: 0 0 15px var(--accent-glow); }
 
+        
         /* TRUST BADGES */
         .trust-badges { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 40px; }
         .trust-pill {
@@ -163,7 +164,7 @@
         }
         .promo-feature-img:hover { transform: rotate(0deg) scale(1.02); }
 
-        /* --- DESTINATIONS --- */
+        /* --- DESTINATIONS CARDS (UPDATED WITH ORGANIZED IMAGE SYSTEM) --- */
         .destinations { margin-top: 60px; padding-bottom: 80px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
         .card { 
@@ -173,10 +174,17 @@
         }
         .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); border-color: var(--accent); }
         
-        .bg-americas { background: url('images/usa.jpg') center/cover; }
-        .bg-europe { background: url('images/europe.jpg') center/cover; }
-        .bg-asia { background: url('images/asia.jpg') center/cover; }
-        .bg-mea { background: url('images/middle-east.jpg') center/cover; }
+        /* ORGANIZED BACKGROUND IMAGES FOR REGION CARDS */
+        .bg-americas { background: url('images/destinations/usa.jpg') center/cover; }
+        .bg-europe { background: url('images/destinations/europe-regional.jpg') center/cover; }
+        .bg-asia { background: url('images/destinations/asia-regional.jpg') center/cover; }
+        .bg-mea { background: url('images/destinations/middle-east-regional.jpg') center/cover; }
+        
+        /* TEMPORARY PLACEHOLDERS - Replace with your real images */
+        .bg-americas { background: url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1200&h=800&fit=crop') center/cover; }
+        .bg-europe { background: url('https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200&h=800&fit=crop') center/cover; }
+        .bg-asia { background: url('https://images.unsplash.com/photo-1535139262971-c51845709a48?w=1200&h=800&fit=crop') center/cover; }
+        .bg-mea { background: url('https://images.unsplash.com/photo-1519834785169-98be25ec3f84?w=1200&h=800&fit=crop') center/cover; }
 
         .card-overlay {
             background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
@@ -504,7 +512,7 @@
                 <h4>Company</h4>
                 <div class="footer-list">
                     <a href="about.html">About Us</a>
-					 <a href="newsletter.html">Newsletter Archive</a> <!-- ADD THIS -->
+                    <a href="newsletter.html">Newsletter Archive</a>
                     <a href="support.html">Contact Support</a>
                     <a href="#">Partner Program</a>
                 </div>
