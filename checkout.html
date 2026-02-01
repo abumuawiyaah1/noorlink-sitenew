@@ -3,203 +3,614 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Checkout | NoorLink</title>
+    <title>Secure Checkout | NoorLink Travel eSIM</title>
+    <meta name="description" content="Secure checkout for NoorLink travel eSIM. Instant activation, global coverage, 24/7 support.">
+    <meta property="og:title" content="Secure Checkout | NoorLink Travel eSIM">
+    <meta property="og:description" content="Get connected instantly with our global eSIM plans.">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         /* --- PREMIUM THEME --- */
         :root {
-            --primary: #0F3D3E; --accent: #FFAD5A; --bg-body: #F3F5F7; --surface: #FFFFFF; --text-main: #111827; --text-muted: #6B7280;
+            --primary: #0F3D3E; --primary-dark: #05191a; --accent: #FF9500; --accent-light: #FFAD5A; 
+            --bg-body: #F3F5F7; --surface: #FFFFFF; --text-main: #111827; --text-muted: #6B7280;
             --success: #10B981; --success-bg: #ECFDF5; --success-text: #047857;
+            --error: #EF4444; --error-bg: #FEF2F2;
+            --glass: rgba(255, 255, 255, 0.95);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text-main); background: var(--bg-body); line-height: 1.6; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-main); 
+            background: var(--bg-body);
+            background-image: url('images/map-texture.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: soft-light;
+            line-height: 1.6; 
+        }
         .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
 
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            border-radius: 0 0 8px 0;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 1001;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
         /* HEADER */
-        header { background: var(--surface); padding: 15px 0; border-bottom: 1px solid #e5e7eb; }
+        header { 
+            background: var(--glass); backdrop-filter: blur(12px); 
+            padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); 
+            position: sticky; top: 0; z-index: 1000; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        .logo { 
+            font-size: 1.8rem; font-weight: 800; color: var(--primary); 
+            letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: flex-start;
+        }
+        .logo-tm { font-size: 0.8rem; margin-left: 2px; margin-top: 5px; font-weight: 700; color: var(--accent); }
         .logo span { color: var(--accent); }
         
         .secure-badge { 
             background: var(--success-bg); color: var(--success-text); padding: 8px 16px; 
             border-radius: 50px; font-size: 0.85rem; font-weight: 700; 
             display: flex; align-items: center; gap: 8px; border: 1px solid #A7F3D0;
+            backdrop-filter: blur(5px);
         }
 
         /* LAYOUT */
         .checkout-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; padding: 40px 0; }
 
         /* CARDS */
-        .card { background: var(--surface); padding: 30px; border-radius: 16px; border: 1px solid #e5e7eb; margin-bottom: 20px; }
+        .card { 
+            background: var(--surface); padding: 30px; border-radius: 20px; 
+            border: 1px solid #e5e7eb; margin-bottom: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            transition: 0.3s;
+        }
+        .card:hover { box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
         .card h2 { font-size: 1.25rem; margin-bottom: 20px; border-bottom: 1px solid #f3f4f6; padding-bottom: 15px; color: var(--primary); }
 
         /* FORMS */
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
-        .form-input { width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 1rem; outline: none; transition: 0.3s; }
-        .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15, 61, 62, 0.1); }
+        .form-input, .form-select { 
+            width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; 
+            font-size: 1rem; outline: none; transition: 0.3s; 
+            background: var(--glass);
+            font-family: inherit;
+        }
+        .form-input:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15, 61, 62, 0.1); }
+        .form-input.error, .form-select.error { 
+            border-color: var(--error) !important; 
+            background-color: rgba(239, 68, 68, 0.05); 
+        }
         .form-row { display: flex; gap: 15px; }
         
         input[type="date"] { font-family: inherit; color: var(--text-main); }
-        .date-hint { font-size: 0.8rem; color: var(--text-muted); margin-top: 5px; display: flex; gap: 5px; align-items: center; }
+        .date-hint { 
+            font-size: 0.8rem; color: var(--text-muted); margin-top: 5px; 
+            display: flex; gap: 5px; align-items: center; 
+            padding: 8px 12px; background: rgba(255, 149, 0, 0.05); border-radius: 8px;
+        }
+        
+        .error-message {
+            color: var(--error);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            display: none;
+        }
+
+        /* CHECKBOX */
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        .checkbox-container input[type="checkbox"] {
+            margin-top: 3px;
+            min-width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .checkbox-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
 
         /* SUMMARY */
         .summary-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f3f4f6; padding-bottom: 15px; margin-bottom: 20px; }
         .summary-header h2 { border: none; padding: 0; margin: 0; }
-        .change-link { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-decoration: none; border: 1px solid #eee; padding: 5px 12px; border-radius: 20px; transition: 0.3s; }
-        .change-link:hover { color: var(--primary); border-color: var(--primary); background: #f9fafb; }
+        .change-link { 
+            font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-decoration: none; 
+            border: 1px solid #eee; padding: 5px 12px; border-radius: 20px; transition: 0.3s; 
+        }
+        .change-link:hover { color: var(--primary); border-color: var(--accent); background: rgba(255, 149, 0, 0.05); }
 
-        .product-preview { display: flex; gap: 15px; align-items: center; margin-bottom: 20px; background: #F9FAFB; padding: 15px; border-radius: 8px; }
-        .flag-icon { font-size: 2rem; }
+        .product-preview { 
+            display: flex; gap: 15px; align-items: center; margin-bottom: 20px; 
+            background: #F9FAFB; padding: 15px; border-radius: 12px; border: 1px solid #e5e7eb;
+        }
+        .flag-icon { font-size: 2.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
 
         .summary-item { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.95rem; }
-        .summary-total { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-weight: 800; font-size: 1.2rem; color: var(--primary); }
+        .summary-total { 
+            display: flex; justify-content: space-between; margin-top: 20px; padding-top: 20px; 
+            border-top: 2px solid var(--accent); font-weight: 800; font-size: 1.3rem; color: var(--primary); 
+        }
 
-        .pay-btn { background: var(--primary); color: white; width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1rem; transition: 0.3s; }
-        .pay-btn:hover { background: var(--accent); color: var(--primary); }
+        .pay-btn { 
+            background: var(--primary); color: white; width: 100%; padding: 16px; 
+            border: none; border-radius: 12px; font-weight: 700; cursor: pointer; 
+            font-size: 1rem; transition: 0.3s; margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(15, 61, 62, 0.2);
+            position: relative;
+        }
+        .pay-btn:hover { background: var(--accent); color: var(--primary-dark); box-shadow: 0 6px 20px rgba(255, 149, 0, 0.3); }
+        .pay-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .pay-btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
         
         .payment-methods { display: flex; gap: 10px; margin-bottom: 20px; }
-        .pm-icon { font-size: 1.5rem; color: #9CA3AF; }
-        .security-note { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; margin-top: 15px; }
+        .pm-icon { 
+            font-size: 1.8rem; color: #9CA3AF; 
+            background: white; padding: 8px; border-radius: 8px; border: 1px solid #e5e7eb;
+            transition: 0.3s;
+        }
+        .pm-icon:hover { color: var(--primary); border-color: var(--accent); }
+        
+        .security-note { 
+            font-size: 0.8rem; color: var(--text-muted); 
+            display: flex; align-items: center; gap: 6px; margin-top: 15px; 
+            padding: 10px; background: rgba(16, 185, 129, 0.05); border-radius: 8px;
+        }
         .security-note i { color: var(--success); }
 
-        footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); padding: 40px 0; }
-        @media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; } }
+        /* FOOTER */
+        footer { 
+            background: var(--primary-dark); color: #94a3b8; padding: 60px 0 30px; 
+            text-align: center; font-size: 0.85rem; margin-top: 60px;
+        }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 60px; }
+        .footer h4 { color: white; margin-bottom: 24px; font-size: 1.1rem; }
+        .footer-list { display: flex; flex-direction: column; gap: 12px; }
+        .footer-list a { transition: 0.2s; color: #94a3b8; width: fit-content; text-decoration: none; }
+        .footer-list a:hover { color: var(--accent); transform: translateX(5px); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; text-align: center; font-size: 0.85rem; }
+        
+        .whatsapp-float { 
+            position: fixed; bottom: 30px; right: 30px; background-color: #25D366; 
+            color: white; width: 64px; height: 64px; border-radius: 50%; 
+            text-align: center; font-size: 32px; line-height: 64px; 
+            box-shadow: 0 10px 25px rgba(37,211,102,0.4); z-index: 1000; 
+            text-decoration: none; 
+        }
+        .whatsapp-float::before { content: "💬"; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) { 
+            .checkout-grid { grid-template-columns: 1fr; } 
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .form-row { flex-direction: column; }
+            .secure-badge { font-size: 0.75rem; padding: 6px 12px; }
+            .whatsapp-float { width: 56px; height: 56px; line-height: 56px; font-size: 28px; bottom: 20px; right: 20px; }
+        }
+        
+        /* ERROR TOAST */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--error);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body>
+    <!-- Accessibility: Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <header>
         <div class="container nav-flex">
-            <a href="index.html" class="logo">Noor<span>Link</span></a>
+            <!-- TEXT LOGO + TM -->
+            <a href="index.html" class="logo">
+                Noor<span>Link</span><sup class="logo-tm">TM</sup>
+            </a>
             <div class="secure-badge"><i class="fas fa-shield-alt"></i> Verified Secure Checkout</div>
         </div>
     </header>
 
-    <div class="container">
-        <div class="checkout-grid">
-            
-            <!-- LEFT: DETAILS -->
-            <div class="details-section">
-                <div class="card">
-                    <h2>1. Contact Information</h2>
-                    <div class="form-group">
-                        <label class="form-label">Email Address (For eSIM Delivery)</label>
-                        <input type="email" class="form-input" placeholder="you@example.com">
+    <main id="main-content">
+        <div class="container">
+            <div class="checkout-grid">
+                
+                <!-- LEFT: DETAILS -->
+                <div class="details-section">
+                    <div class="card">
+                        <h2><i class="fas fa-envelope" style="color: var(--accent);"></i> 1. Contact Information</h2>
+                        <div class="form-group">
+                            <label class="form-label">Email Address (For eSIM Delivery)*</label>
+                            <input type="email" class="form-input" placeholder="you@example.com" required
+                                   aria-label="Email address for eSIM delivery" aria-required="true"
+                                   id="emailInput">
+                            <div class="error-message" id="emailError">
+                                <i class="fas fa-exclamation-circle"></i> Please enter a valid email address
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number (Optional)</label>
+                            <input type="tel" class="form-input" placeholder="+1 (555) 123-4567"
+                                   aria-label="Phone number for delivery notifications"
+                                   id="phoneInput">
+                            <small style="color: var(--text-muted); font-size: 0.8rem;">For delivery notifications</small>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 1;">
+                                <label class="form-label">Currency*</label>
+                                <select class="form-select" id="currencySelect" required>
+                                    <option value="">Select currency</option>
+                                    <option value="USD" selected>USD ($)</option>
+                                    <option value="EUR">EUR (€)</option>
+                                    <option value="GBP">GBP (£)</option>
+                                    <option value="CAD">CAD (C$)</option>
+                                    <option value="AUD">AUD (A$)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label class="form-label">Country of Residence*</label>
+                                <select class="form-select" id="countrySelect" required>
+                                    <option value="">Select country</option>
+                                    <option value="US" selected>United States</option>
+                                    <option value="GB">United Kingdom</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="FR">France</option>
+                                    <option value="JP">Japan</option>
+                                    <option value="SG">Singapore</option>
+                                    <option value="AE">United Arab Emirates</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2><i class="fas fa-calendar-alt" style="color: var(--accent);"></i> 2. Trip Details</h2>
+                        <div class="form-group">
+                            <label class="form-label">When is your arrival date?*</label>
+                            <input type="date" class="form-input" id="travelDate" required>
+                            <div class="date-hint">
+                                <i class="fas fa-bell"></i>
+                                We'll send you an activation reminder 24h before your trip.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2><i class="fas fa-credit-card" style="color: var(--accent);"></i> 3. Payment Method</h2>
+                        <div class="payment-methods">
+                            <i class="fab fa-cc-visa pm-icon" style="color: #1A1F71;"></i>
+                            <i class="fab fa-cc-mastercard pm-icon" style="color: #EB001B;"></i>
+                            <i class="fab fa-cc-amex pm-icon" style="color: #2E77BC;"></i>
+                            <i class="fab fa-apple-pay pm-icon"></i>
+                            <i class="fab fa-google-pay pm-icon" style="color: #4285F4;"></i>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Name on Card*</label>
+                            <input type="text" class="form-input" placeholder="John Doe" required
+                                   aria-label="Name on credit card" id="cardName">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Card Number*</label>
+                            <div style="position: relative;">
+                                <input type="text" class="form-input" 
+                                       placeholder="0000 0000 0000 0000" 
+                                       required
+                                       id="cardNumber"
+                                       maxlength="19"
+                                       aria-label="Credit card number">
+                                <i class="fas fa-lock" style="position: absolute; right: 15px; top: 15px; color: #ccc;"></i>
+                            </div>
+                            <div class="error-message" id="cardError">
+                                <i class="fas fa-exclamation-circle"></i> Please enter a valid card number
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label class="form-label">Expiry*</label>
+                                <input type="text" class="form-input" placeholder="MM/YY" required
+                                       id="cardExpiry" maxlength="5"
+                                       aria-label="Card expiration date">
+                                <div class="error-message" id="expiryError">
+                                    <i class="fas fa-exclamation-circle"></i> Invalid or expired date
+                                </div>
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label class="form-label">CVC*</label>
+                                <input type="text" class="form-input" placeholder="123" required
+                                       id="cardCvc" maxlength="4"
+                                       aria-label="Card verification code">
+                                <div class="error-message" id="cvcError">
+                                    <i class="fas fa-exclamation-circle"></i> Invalid CVC
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Billing Address*</label>
+                            <input type="text" class="form-input" placeholder="123 Main St" required
+                                   aria-label="Billing address" id="billingAddress">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">ZIP/Postal Code*</label>
+                            <input type="text" class="form-input" placeholder="10001" required
+                                   aria-label="ZIP or postal code" id="zipCode">
+                        </div>
+
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="termsCheckbox" required>
+                            <label for="termsCheckbox" class="checkbox-text">
+                                I agree to receive the eSIM via email and understand that activation 
+                                instructions will be sent 24 hours before my trip date. I have read and agree to the 
+                                <a href="terms.html" style="color: var(--primary); font-weight: 600;">Terms of Service</a>.
+                            </label>
+                        </div>
+                        <div class="error-message" id="termsError">
+                            <i class="fas fa-exclamation-circle"></i> You must agree to the terms
+                        </div>
+
+                        <div class="security-note">
+                            <i class="fas fa-lock"></i> All transactions are end-to-end encrypted.
+                        </div>
+                        
+                        <div class="security-note">
+                            <i class="fas fa-user-shield"></i>
+                            We never store your full card details. Payments processed by Stripe.
+                        </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <h2>2. Trip Details</h2>
-                    <div class="form-group">
-                        <label class="form-label">When is your arrival date?</label>
-                        <input type="date" class="form-input" id="travelDate">
-                        <div class="date-hint">
-                            <i class="fas fa-bell" style="color: var(--accent);"></i>
-                            We'll send you an activation reminder 24h before your trip.
+                <!-- RIGHT: SUMMARY -->
+                <div class="summary-section">
+                    <div class="card" style="position: sticky; top: 100px;">
+                        <div class="summary-header">
+                            <h2>Order Summary</h2>
+                            <a href="plans.html" class="change-link">Change Plan</a>
                         </div>
+                        
+                        <div class="product-preview">
+                            <span class="flag-icon" id="sum-flag">🇺🇸</span>
+                            <div>
+                                <strong style="color: var(--primary); font-size: 1.1rem;" id="sum-name">USA Travel eSIM</strong><br>
+                                <span style="font-size: 0.85rem; color: #666;" id="sum-description">5 GB - 30 Days</span>
+                            </div>
+                        </div>
+
+                        <div class="summary-item">
+                            <span>Subtotal</span>
+                            <span id="sum-sub">$12.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Activation Fee</span>
+                            <span style="color: var(--success); font-weight: 600;">FREE</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Support 24/7</span>
+                            <span style="color: var(--success); font-weight: 600;">INCLUDED</span>
+                        </div>
+                        
+                        <div class="summary-total">
+                            <span>Total</span>
+                            <span id="sum-total">$12.00</span>
+                        </div>
+
+                        <button class="pay-btn" id="pay-btn" onclick="processPayment()">
+                            Pay $12.00
+                        </button>
+                        
+                        <p style="font-size: 0.8rem; text-align: center; margin-top: 15px; color: #888;">
+                            By clicking Pay, you agree to our 
+                            <a href="terms.html" style="color:var(--text-main); font-weight:600;">Terms</a> & 
+                            <a href="privacy.html" style="color:var(--text-main); font-weight:600;">Privacy</a>.
+                        </p>
                     </div>
                 </div>
 
-                <div class="card">
-                    <h2>3. Payment Method</h2>
-                    <div class="payment-methods">
-                        <i class="fab fa-cc-visa pm-icon"></i>
-                        <i class="fab fa-cc-mastercard pm-icon"></i>
-                        <i class="fab fa-apple-pay pm-icon"></i>
-                        <i class="fab fa-google-pay pm-icon"></i>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Card Number</label>
-                        <div style="position: relative;">
-                            <input type="text" class="form-input" placeholder="0000 0000 0000 0000">
-                            <i class="fas fa-lock" style="position: absolute; right: 15px; top: 15px; color: #ccc;"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group" style="flex:1;">
-                            <label class="form-label">Expiry</label>
-                            <input type="text" class="form-input" placeholder="MM/YY">
-                        </div>
-                        <div class="form-group" style="flex:1;">
-                            <label class="form-label">CVC</label>
-                            <input type="text" class="form-input" placeholder="123">
-                        </div>
-                    </div>
-
-                    <div class="security-note">
-                        <i class="fas fa-lock"></i> All transactions are end-to-end encrypted.
-                    </div>
-                </div>
             </div>
-
-            <!-- RIGHT: SUMMARY -->
-            <div class="summary-section">
-                <div class="card" style="position: sticky; top: 100px;">
-                    <div class="summary-header">
-                        <h2>Order Summary</h2>
-                        <a href="destinations.html" class="change-link">Change Plan</a>
-                    </div>
-                    
-                    <div class="product-preview">
-                        <!-- DYNAMIC CONTENT GOES HERE -->
-                        <span class="flag-icon" id="sum-flag">🇺🇸</span>
-                        <div>
-                            <strong style="color: var(--primary);" id="sum-name">USA Travel eSIM</strong><br>
-                            <span style="font-size: 0.85rem; color: #666;">5 GB - 30 Days</span>
-                        </div>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Subtotal</span>
-                        <span id="sum-sub">$12.00</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Activation Fee</span>
-                        <span style="color: var(--success); font-weight: 600;">FREE</span>
-                    </div>
-                    
-                    <div class="summary-total">
-                        <span>Total</span>
-                        <span id="sum-total">$12.00</span>
-                    </div>
-
-                    <button class="pay-btn" id="pay-btn" onclick="simulatePayment()">Pay $12.00</button>
-                    
-                    <p style="font-size: 0.8rem; text-align: center; margin-top: 15px; color: #888;">
-                        By clicking Pay, you agree to our <a href="terms.html" style="color:var(--text-main);">Terms</a>.
-                    </p>
-                </div>
-            </div>
-
         </div>
-    </div>
+    </main>
 
     <footer>
-        <p>&copy; 2026 NoorLink.co. Secure Payment Processing.</p>
+        <div class="container footer-grid">
+            <div>
+                <a href="index.html" class="logo" style="color:white !important;">
+                    Noor<span style="color:var(--accent);">Link</span><sup style="color:var(--accent);">TM</sup>
+                </a>
+                <p style="margin-top: 20px; line-height: 1.8;">
+                    Making global travel simple.<br>
+                    📍 MOUNTAIN ROAD PL NE, Suite R<br>
+                    ALBUQUERQUE, NM 87110
+                </p>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <div class="footer-list">
+                    <a href="support.html">Contact Support</a>
+                    <a href="dashboard.html">My eSIMs</a>
+                    <a href="destinations.html">Destinations</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+            </div>
+            <div>
+                <h4>Legal</h4>
+                <div class="footer-list">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="refund.html">Refund Policy</a>
+                    <a href="cookie.html">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 NoorLink.co. Secure Payment Processing.
+        </div>
     </footer>
 
-    <script>
-        // 1. DATE PICKER LOGIC
-        document.getElementById('travelDate').min = new Date().toISOString().split("T")[0];
+    <a href="https://wa.me/17184729390" class="whatsapp-float" target="_blank" title="Chat on WhatsApp" aria-label="Chat with us on WhatsApp"></a>
 
-        // 2. DYNAMIC URL LOGIC (The "Catch")
+    <!-- Toast for errors -->
+    <div class="toast" id="errorToast">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span id="toastMessage">Please fill in all required fields</span>
+    </div>
+
+    <script>
+        // Toast function
+        function showToast(message, type = 'error') {
+            const toast = document.getElementById('errorToast');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.textContent = message;
+            
+            // Set color based on type
+            if (type === 'success') {
+                toast.style.background = 'var(--success)';
+            } else {
+                toast.style.background = 'var(--error)';
+            }
+            
+            toast.classList.add('show');
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // Hide toast on click
+        document.getElementById('errorToast').addEventListener('click', function() {
+            this.classList.remove('show');
+        });
+
+        // 1. DATE PICKER - Set minimum date to today
+        document.getElementById('travelDate').min = new Date().toISOString().split("T")[0];
+        
+        // Set default date to 7 days from now
+        const defaultDate = new Date();
+        defaultDate.setDate(defaultDate.getDate() + 7);
+        document.getElementById('travelDate').value = defaultDate.toISOString().split("T")[0];
+
+        // 2. CARD NUMBER FORMATTING
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let formatted = '';
+            
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formatted += ' ';
+                }
+                formatted += value[i];
+            }
+            
+            e.target.value = formatted.substring(0, 19); // Max 16 digits + 3 spaces
+            
+            // Show card type icon
+            showCardType(value);
+        });
+
+        // 3. EXPIRY DATE FORMATTING
+        document.getElementById('cardExpiry').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            
+            e.target.value = value.substring(0, 5);
+        });
+
+        // 4. DYNAMIC URL LOGIC - Populate from URL parameters
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const country = urlParams.get('country');
             const price = urlParams.get('price');
             const flag = urlParams.get('flag');
+            const plan = urlParams.get('plan');
 
             // If data exists in URL, update the page
             if (country && price) {
-                // Update text
-                document.getElementById('sum-name').innerText = country + " Travel eSIM";
-                document.getElementById('sum-flag').innerText = flag ? flag : "🌍"; // Use globe if no flag
+                // Determine description based on plan/country
+                let description = "High-speed data plan";
+                if (plan) {
+                    if (plan.includes('3GB')) description = "3 GB - 7 Days";
+                    if (plan.includes('10GB')) description = "10 GB - 15 Days";
+                    if (plan.includes('Basic')) description = "1 GB - 7 Days";
+                    if (plan.includes('Standard')) description = "3 GB - 15 Days";
+                    if (plan.includes('Premium')) description = "10 GB - 30 Days";
+                    if (plan.includes('Umrah')) description = "Umrah Special Plan";
+                    
+                    // Update plan name
+                    document.getElementById('sum-name').innerText = plan;
+                } else {
+                    document.getElementById('sum-name').innerText = country + " Travel eSIM";
+                }
+                
+                // Update flag
+                document.getElementById('sum-flag').innerText = flag ? flag : "🌍";
+                
+                // Update description
+                document.getElementById('sum-description').innerText = description;
                 
                 // Update Prices (Clean the $ sign first if it exists)
                 let cleanPrice = price.replace('$','');
@@ -207,19 +618,374 @@
                 document.getElementById('sum-sub').innerText = "$" + cleanPrice;
                 document.getElementById('sum-total').innerText = "$" + cleanPrice;
                 document.getElementById('pay-btn').innerText = "Pay $" + cleanPrice;
+                
+                // Update country select if country matches
+                const countrySelect = document.getElementById('countrySelect');
+                const countryName = country.toLowerCase();
+                for (let option of countrySelect.options) {
+                    if (option.text.toLowerCase().includes(countryName)) {
+                        countrySelect.value = option.value;
+                        break;
+                    }
+                }
+            }
+            
+            // Initialize form validation
+            initializeValidation();
+        };
+
+        // 5. FORM VALIDATION
+        function initializeValidation() {
+            const formInputs = document.querySelectorAll('.form-input[required], .form-select[required]');
+            
+            formInputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                
+                input.addEventListener('input', function() {
+                    // Clear error on input
+                    clearError(this);
+                });
+            });
+            
+            // Validate checkbox
+            const checkbox = document.getElementById('termsCheckbox');
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    clearError(this);
+                }
+            });
+        }
+
+        function validateField(field) {
+            const value = field.value.trim();
+            const fieldId = field.id;
+            
+            // Clear previous error
+            clearError(field);
+            
+            // Check if empty
+            if (!value) {
+                showError(field, "This field is required");
+                return false;
+            }
+            
+            // Field-specific validation
+            switch(fieldId) {
+                case 'emailInput':
+                    if (!isValidEmail(value)) {
+                        showError(field, "Please enter a valid email address");
+                        return false;
+                    }
+                    break;
+                    
+                case 'cardNumber':
+                    if (!isValidCardNumber(value.replace(/\s/g, ''))) {
+                        showError(field, "Please enter a valid card number");
+                        return false;
+                    }
+                    break;
+                    
+                case 'cardExpiry':
+                    if (!isValidExpiry(value)) {
+                        showError(field, "Invalid or expired date");
+                        return false;
+                    }
+                    break;
+                    
+                case 'cardCvc':
+                    if (!isValidCvc(value)) {
+                        showError(field, "Invalid CVC");
+                        return false;
+                    }
+                    break;
+                    
+                case 'phoneInput':
+                    if (value && !isValidPhone(value)) {
+                        showError(field, "Please enter a valid phone number");
+                        return false;
+                    }
+                    break;
+                    
+                case 'travelDate':
+                    const selectedDate = new Date(value);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    if (selectedDate < today) {
+                        showError(field, "Arrival date cannot be in the past");
+                        return false;
+                    }
+                    break;
+            }
+            
+            return true;
+        }
+
+        function showError(field, message) {
+            field.classList.add('error');
+            
+            // Find or create error message element
+            let errorElement = field.nextElementSibling;
+            while (errorElement && !errorElement.classList.contains('error-message')) {
+                errorElement = errorElement.nextElementSibling;
+            }
+            
+            if (errorElement && errorElement.classList.contains('error-message')) {
+                errorElement.style.display = 'flex';
+                errorElement.querySelector('span, div')?.textContent = message;
+            }
+        }
+
+        function clearError(field) {
+            field.classList.remove('error');
+            
+            // Hide error message
+            let errorElement = field.nextElementSibling;
+            while (errorElement && !errorElement.classList.contains('error-message')) {
+                errorElement = errorElement.nextElementSibling;
+            }
+            
+            if (errorElement && errorElement.classList.contains('error-message')) {
+                errorElement.style.display = 'none';
+            }
+        }
+
+        // Validation helper functions
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function isValidCardNumber(number) {
+            // Remove spaces
+            const cleanNumber = number.replace(/\s/g, '');
+            
+            // Check if it's all digits and length is reasonable
+            if (!/^\d+$/.test(cleanNumber) || cleanNumber.length < 13 || cleanNumber.length > 19) {
+                return false;
+            }
+            
+            // Simple Luhn algorithm check (can be enhanced)
+            return luhnCheck(cleanNumber);
+        }
+
+        function luhnCheck(cardNumber) {
+            let sum = 0;
+            let shouldDouble = false;
+            
+            // Loop through values starting from the rightmost digit
+            for (let i = cardNumber.length - 1; i >= 0; i--) {
+                let digit = parseInt(cardNumber.charAt(i));
+                
+                if (shouldDouble) {
+                    digit *= 2;
+                    if (digit > 9) {
+                        digit -= 9;
+                    }
+                }
+                
+                sum += digit;
+                shouldDouble = !shouldDouble;
+            }
+            
+            return (sum % 10) === 0;
+        }
+
+        function isValidExpiry(expiry) {
+            if (!expiry || expiry.length !== 5) return false;
+            
+            const [month, year] = expiry.split('/').map(Number);
+            const currentYear = new Date().getFullYear() % 100;
+            const currentMonth = new Date().getMonth() + 1;
+            
+            // Check if month is valid (1-12)
+            if (month < 1 || month > 12) return false;
+            
+            // Check if year is valid (current year to +10 years)
+            if (year < currentYear || year > currentYear + 10) return false;
+            
+            // Check if card is expired
+            if (year === currentYear && month < currentMonth) return false;
+            
+            return true;
+        }
+
+        function isValidCvc(cvc) {
+            return /^\d{3,4}$/.test(cvc);
+        }
+
+        function isValidPhone(phone) {
+            // Simple international phone validation
+            const re = /^\+?[1-9]\d{1,14}$/;
+            return re.test(phone.replace(/\s/g, ''));
+        }
+
+        // 6. CARD TYPE DETECTION
+        function showCardType(number) {
+            const cardIcons = document.querySelectorAll('.pm-icon');
+            
+            // Reset all icons to gray
+            cardIcons.forEach(icon => {
+                icon.style.color = '#9CA3AF';
+            });
+            
+            // Check card type based on first digits
+            if (/^4/.test(number)) {
+                // Visa
+                document.querySelector('.fa-cc-visa').style.color = '#1A1F71';
+            } else if (/^5[1-5]/.test(number)) {
+                // Mastercard
+                document.querySelector('.fa-cc-mastercard').style.color = '#EB001B';
+            } else if (/^3[47]/.test(number)) {
+                // Amex
+                document.querySelector('.fa-cc-amex').style.color = '#2E77BC';
+            }
+        }
+
+        // 7. PAYMENT PROCESSING
+        function processPayment() {
+            // Validate all required fields
+            const requiredFields = document.querySelectorAll('.form-input[required], .form-select[required]');
+            let isValid = true;
+            
+            // Validate each field
+            requiredFields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+            
+            // Validate checkbox
+            const checkbox = document.getElementById('termsCheckbox');
+            if (!checkbox.checked) {
+                showError(checkbox, "You must agree to the terms");
+                document.getElementById('termsError').style.display = 'flex';
+                isValid = false;
+            } else {
+                document.getElementById('termsError').style.display = 'none';
+            }
+            
+            if (!isValid) {
+                showToast("Please fix the errors in the form", 'error');
+                return;
+            }
+            
+            // Get form values for processing
+            const formData = {
+                email: document.getElementById('emailInput').value,
+                phone: document.getElementById('phoneInput').value,
+                currency: document.getElementById('currencySelect').value,
+                country: document.getElementById('countrySelect').value,
+                travelDate: document.getElementById('travelDate').value,
+                cardName: document.getElementById('cardName').value,
+                cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
+                cardExpiry: document.getElementById('cardExpiry').value,
+                cardCvc: document.getElementById('cardCvc').value,
+                billingAddress: document.getElementById('billingAddress').value,
+                zipCode: document.getElementById('zipCode').value,
+                plan: document.getElementById('sum-name').innerText,
+                price: document.getElementById('sum-total').innerText.replace('$', '')
+            };
+            
+            // Show loading state
+            const btn = document.getElementById('pay-btn');
+            btn.classList.add('loading');
+            btn.disabled = true;
+            
+            // Simulate API call (in production, replace with real payment processor)
+            setTimeout(() => {
+                // Success - redirect to confirmation page
+                // You would typically send this data to your backend
+                console.log('Payment processed:', formData);
+                
+                // Store in sessionStorage for success page
+                sessionStorage.setItem('lastOrder', JSON.stringify(formData));
+                
+                // Redirect to success page
+                window.location.href = "success.html";
+            }, 2000);
+            
+            // Reset button if something goes wrong (timeout)
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }, 10000);
+        }
+
+        // 8. FORM AUTO-SAVE (optional)
+        function autoSaveForm() {
+            const formInputs = document.querySelectorAll('.form-input, .form-select');
+            const formData = {};
+            
+            formInputs.forEach(input => {
+                if (input.id) {
+                    formData[input.id] = input.value;
+                }
+            });
+            
+            // Save to localStorage
+            localStorage.setItem('checkoutFormData', JSON.stringify(formData));
+        }
+
+        // Auto-save on input
+        document.addEventListener('input', function(e) {
+            if (e.target.matches('.form-input, .form-select')) {
+                autoSaveForm();
+            }
+        });
+
+        // Load saved form data
+        window.addEventListener('load', function() {
+            const savedData = localStorage.getItem('checkoutFormData');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                Object.keys(formData).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = formData[key];
+                    }
+                });
+                
+                // Clear saved data after loading
+                localStorage.removeItem('checkoutFormData');
+            }
+        });
+
+        // Structured data for SEO
+        const structuredData = {
+            "@context": "https://schema.org",
+            "@type": "CheckoutPage",
+            "name": "NoorLink eSIM Checkout",
+            "description": "Secure checkout for travel eSIM plans with global coverage",
+            "url": window.location.href,
+            "acceptsPaymentMethod": [
+                {
+                    "@type": "PaymentMethod",
+                    "name": "Visa"
+                },
+                {
+                    "@type": "PaymentMethod",
+                    "name": "MasterCard"
+                },
+                {
+                    "@type": "PaymentMethod",
+                    "name": "American Express"
+                }
+            ],
+            "provider": {
+                "@type": "Organization",
+                "name": "NoorLink",
+                "url": "https://noorlink.co"
             }
         };
 
-        // 3. PAYMENT SIMULATION
-        function simulatePayment() {
-            const btn = document.querySelector('.pay-btn');
-            btn.innerText = "Processing...";
-            btn.style.opacity = "0.7";
-            setTimeout(() => {
-                window.location.href = "success.html";
-            }, 1500);
-        }
+        // Add structured data to page
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(structuredData);
+        document.head.appendChild(script);
     </script>
-
 </body>
 </html>
