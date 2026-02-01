@@ -853,4 +853,157 @@ noorlinkDatabase.getRegionMapping = function() {
         'north-america': 'North America',
         'south-america': 'South America'
     };
+};// ====== ADD THESE FUNCTIONS TO YOUR EXISTING DATABASE FILE ======
+// Add to the noorlinkDatabase object at the end of your file
+
+noorlinkDatabase.getCountryDisplayData = function(countryCode) {
+  // This function hides all tier/template information from users
+  
+  const country = this.countryDatabase[countryCode];
+  
+  if (!country) {
+    // Country not in database - use template
+    const region = this.determineRegion(countryCode);
+    const template = this.regionalTemplates[region];
+    
+    return {
+      flag: this.getFlagForCode(countryCode),
+      name: this.formatCountryName(countryCode),
+      displayName: this.formatCountryName(countryCode).toUpperCase(),
+      plans: template.plans,
+      features: this.generateFeaturesForCountry(countryCode, template),
+      note: template.note,
+      localCarriers: template.carrierPool.slice(0, 2),
+      networkTech: template.networkTech
+    };
+  }
+  
+  // Country is in database - return data WITHOUT tier info
+  return {
+    flag: country.flag,
+    name: country.name,
+    displayName: country.displayName || country.name.toUpperCase(),
+    plans: country.plans,
+    features: country.features || [],
+    note: country.note || '',
+    localCarriers: country.localCarriers || [],
+    networkTech: country.networkTech || ''
+  };
+};
+
+noorlinkDatabase.determineRegion = function(countryCode) {
+  // Determine region based on country code
+  const regionMapping = {
+    // North America
+    'usa': 'north-america', 'canada': 'north-america', 'mexico': 'north-america',
+    
+    // Europe
+    'uk': 'europe', 'france': 'europe', 'germany': 'europe', 'italy': 'europe',
+    'spain': 'europe', 'netherlands': 'europe', 'switzerland': 'europe',
+    'portugal': 'europe', 'austria': 'europe', 'belgium': 'europe',
+    'ireland': 'europe', 'sweden': 'europe', 'norway': 'europe', 'denmark': 'europe',
+    'finland': 'europe',
+    
+    // Asia Pacific
+    'japan': 'asia-pacific', 'china': 'asia-pacific', 'india': 'asia-pacific',
+    'australia': 'asia-pacific', 'singapore': 'asia-pacific', 'thailand': 'asia-pacific',
+    'south-korea': 'asia-pacific', 'indonesia': 'asia-pacific', 'malaysia': 'asia-pacific',
+    'philippines': 'asia-pacific',
+    
+    // Middle East
+    'saudi-arabia': 'middle-east', 'uae': 'middle-east', 'qatar': 'middle-east',
+    'kuwait': 'middle-east', 'bahrain': 'middle-east', 'oman': 'middle-east',
+    'turkey': 'middle-east', 'egypt': 'middle-east', 'jordan': 'middle-east',
+    'lebanon': 'middle-east',
+    
+    // South America
+    'brazil': 'south-america', 'argentina': 'south-america', 'chile': 'south-america',
+    'colombia': 'south-america', 'peru': 'south-america',
+    
+    // Africa
+    'south-africa': 'africa', 'nigeria': 'africa', 'morocco': 'africa',
+    
+    // Islands
+    'iceland': 'europe', 'fiji': 'asia-pacific', 'maldives': 'asia-pacific',
+    'bahamas': 'north-america', 'malta': 'europe'
+  };
+  
+  return regionMapping[countryCode] || 'europe'; // Default to Europe
+};
+
+noorlinkDatabase.generateFeaturesForCountry = function(countryCode, template) {
+  // Generate country-specific features based on template
+  const countryName = this.formatCountryName(countryCode);
+  const carriers = template.carrierPool.slice(0, 2);
+  
+  return [
+    `${countryName} coverage included`,
+    template.networkTech,
+    `${carriers[0]} & ${carriers[1]} networks`,
+    'Instant eSIM activation',
+    'No contracts or commitments',
+    '24/7 customer support'
+  ];
+};
+
+noorlinkDatabase.formatCountryName = function(code) {
+  return code
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+noorlinkDatabase.getFlagForCode = function(code) {
+  const flagMap = {
+    'usa': '🇺🇸', 'uk': '🇬🇧', 'uae': '🇦🇪', 'saudi-arabia': '🇸🇦',
+    'japan': '🇯🇵', 'france': '🇫🇷', 'germany': '🇩🇪', 'australia': '🇦🇺',
+    'canada': '🇨🇦', 'mexico': '🇲🇽', 'brazil': '🇧🇷', 'china': '🇨🇳',
+    'india': '🇮🇳', 'singapore': '🇸🇬', 'thailand': '🇹🇭', 'south-korea': '🇰🇷',
+    'qatar': '🇶🇦', 'kuwait': '🇰🇼', 'bahrain': '🇧🇭', 'oman': '🇴🇲',
+    'turkey': '🇹🇷', 'egypt': '🇪🇬', 'spain': '🇪🇸', 'italy': '🇮🇹'
+  };
+  
+  return flagMap[code] || '🌍';
+};
+
+// For search functionality
+noorlinkDatabase.searchCountries = function(query) {
+  const lowerQuery = query.toLowerCase();
+  const results = [];
+  
+  // Search in country database
+  Object.entries(this.countryDatabase).forEach(([code, country]) => {
+    if (country.name.toLowerCase().includes(lowerQuery) || 
+        code.toLowerCase().includes(lowerQuery)) {
+      results.push({
+        code: code,
+        name: country.name,
+        flag: country.flag,
+        type: 'country'
+      });
+    }
+  });
+  
+  // If no results, check if it's a region
+  const regionMap = {
+    'europe': 'Europe',
+    'asia': 'Asia Pacific',
+    'middle east': 'Middle East',
+    'africa': 'Africa',
+    'america': 'Americas'
+  };
+  
+  for (const [key, regionName] of Object.entries(regionMap)) {
+    if (lowerQuery.includes(key)) {
+      results.push({
+        code: key.replace(' ', '-'),
+        name: `${regionName} Region`,
+        flag: '🌍',
+        type: 'region'
+      });
+      break;
+    }
+  }
+  
+  return results;
 };

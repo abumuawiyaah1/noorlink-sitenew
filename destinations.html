@@ -636,362 +636,102 @@ function updateCardPrices() {
     });
 }
 </script>
-<!-- DATABASE INTEGRATION SCRIPT - Add this BEFORE closing </body> -->
 <script>
-// ====== COMPLETE DATABASE INTEGRATION ======
-// This script will:
-// 1. Remove old click handlers
-// 2. Load your database
-// 3. Update all card prices with real database prices
-// 4. Redirect to plants page with 3+1 visual layout
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("🔄 Starting database integration...");
+    // ====== DESTINATIONS PAGE INTEGRATION ======
+    // This connects your destinations page to plants page
     
-    // PHASE 1: Remove old onclick handlers and store their data
-    removeOldHandlers();
-    
-    // PHASE 2: Load database
-    loadDatabase();
-});
-
-// ====== PHASE 1: REMOVE OLD HANDLERS ======
-function removeOldHandlers() {
-    console.log("🔧 Removing old click handlers...");
-    
-    const cardsWithHandlers = document.querySelectorAll('.card[onclick]');
-    console.log(`Found ${cardsWithHandlers.length} cards with onclick handlers`);
-    
-    cardsWithHandlers.forEach(card => {
-        // Extract country info from onclick attribute
-        const onclickAttr = card.getAttribute('onclick');
-        
-        // Parse goToCheckout('Country', 'Price', 'Flag')
-        const match = onclickAttr.match(/goToCheckout\('([^']+)',\s*'([^']+)',\s*'([^']+)'\)/);
-        
-        if (match) {
-            const [, name, price, flag] = match;
-            
-            // Store original data on the card
-            card.dataset.originalName = name;
-            card.dataset.originalPrice = price;
-            card.dataset.originalFlag = flag;
-            
-            console.log(`📝 Stored: ${name} - $${price} - ${flag}`);
-        }
-        
-        // REMOVE the old onclick handler
-        card.removeAttribute('onclick');
-    });
-    
-    console.log("✅ All old handlers removed");
-}
-
-// ====== PHASE 2: LOAD DATABASE ======
-function loadDatabase() {
-    console.log("📦 Loading database file...");
-    
-    // Check if database is already loaded
-    if (typeof window.noorlinkDatabase !== 'undefined') {
-        console.log("✅ Database already loaded");
-        initializeDatabase();
-        return;
+    function toggleMenu() { 
+        document.getElementById('navLinks').classList.toggle('active'); 
     }
     
-    // Create and load the database script
-    const dbScript = document.createElement('script');
-    dbScript.src = 'esim-database.js';
-    
-    dbScript.onload = function() {
-        console.log("✅ Database loaded successfully");
-        initializeDatabase();
-    };
-    
-    dbScript.onerror = function() {
-        console.error("❌ Failed to load database file");
-        console.log("Please check: 1. File exists 2. Correct filename 3. File permissions");
+    // --- SMOOTH SCROLL + HIGHLIGHT ---
+    function scrollToSearch() { 
+        const searchBox = document.getElementById('mainSearchBox');
+        const searchInput = document.getElementById('searchInput');
         
-        // Even without database, restore basic click functionality
-        restoreBasicClicks();
-    };
-    
-    document.head.appendChild(dbScript);
-}
-
-// ====== PHASE 3: INITIALIZE DATABASE INTEGRATION ======
-function initializeDatabase() {
-    console.log("🚀 Initializing database integration...");
-    
-    // Check if database object exists
-    if (typeof window.noorlinkDatabase === 'undefined') {
-        console.warn("⚠️ Database object not found");
-        restoreBasicClicks();
-        return;
+        searchBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        searchInput.focus();
+        
+        searchBox.classList.add('highlight-pulse');
+        setTimeout(() => {
+            searchBox.classList.remove('highlight-pulse');
+        }, 1000);
     }
-    
-    console.log(`✅ Database ready! Countries: ${Object.keys(window.noorlinkDatabase.countryDatabase || {}).length}`);
-    
-    // STEP 1: Update all card prices with database prices
-    updateCardPricesFromDatabase();
-    
-    // STEP 2: Add new click handlers that go to plants page
-    addPlantsPageClickHandlers();
-    
-    console.log("✅ Database integration complete!");
-}
 
-// ====== UPDATE CARD PRICES FROM DATABASE ======
-function updateCardPricesFromDatabase() {
-    console.log("💰 Updating card prices from database...");
-    
-    const cards = document.querySelectorAll('.card:not(.search-card-style)');
-    let updatedCount = 0;
-    
-    cards.forEach(card => {
-        const titleEl = card.querySelector('h3');
-        const priceEl = card.querySelector('.card-price');
+    // --- GO TO PLANTS PAGE INSTEAD OF CHECKOUT ---
+    function goToPlansPage(countryName) {
+        // Convert display names to database codes
+        const countryMap = {
+            'United States': 'usa',
+            'Canada': 'canada',
+            'Mexico': 'mexico',
+            'Brazil': 'brazil',
+            'Europe (Regional)': 'europe',
+            'United Kingdom': 'uk',
+            'France': 'france',
+            'Germany': 'germany',
+            'Asia (Regional)': 'asia-pacific',
+            'Japan': 'japan',
+            'Thailand': 'thailand',
+            'China': 'china',
+            'Middle East (Regional)': 'middle-east',
+            'Turkey': 'turkey',
+            'Saudi Arabia': 'saudi-arabia',
+            'UAE': 'uae'
+        };
         
-        if (!titleEl || !priceEl) return;
+        const countryCode = countryMap[countryName] || countryName.toLowerCase().replace(/\s+/g, '-');
         
-        const cardTitle = titleEl.textContent.trim();
-        const countryCode = getCountryCodeFromTitle(cardTitle);
-        
-        if (countryCode) {
-            const countryData = window.noorlinkDatabase.getCountryPlans(countryCode);
-            
-            if (countryData && countryData.plans) {
-                // Update the price on the card
-                const newPrice = countryData.plans.basic.price.toFixed(2);
-                priceEl.textContent = `From $${newPrice}`;
-                
-                // Store ALL database data on the card for click handler
-                card.dataset.dbCode = countryCode;
-                card.dataset.dbName = countryData.country.name;
-                card.dataset.dbFlag = countryData.country.flag;
-                card.dataset.dbPrice = newPrice;
-                
-                // Store all plan prices for plants page
-                card.dataset.dbBasic = countryData.plans.basic.price.toFixed(2);
-                card.dataset.dbStandard = countryData.plans.standard.price.toFixed(2);
-                card.dataset.dbPremium = countryData.plans.premium.price.toFixed(2);
-                card.dataset.dbFamily = countryData.plans.family.price.toFixed(2);
-                
-                updatedCount++;
-                console.log(`✅ Updated: ${cardTitle} → $${newPrice}`);
-            }
-        }
-    });
-    
-    console.log(`📊 Updated ${updatedCount} out of ${cards.length} cards`);
-}
+        // Go to plants page
+        window.location.href = `plants.html?country=${encodeURIComponent(countryCode)}`;
+    }
 
-// ====== ADD NEW CLICK HANDLERS (GO TO PLANTS PAGE) ======
-function addPlantsPageClickHandlers() {
-    console.log("🖱️ Adding plants page click handlers...");
-    
-    const cards = document.querySelectorAll('.card:not(.search-card-style)');
-    
-    cards.forEach(card => {
-        card.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+    // --- UPDATE ALL CARD CLICK HANDLERS ---
+    function updateCardHandlers() {
+        const cards = document.querySelectorAll('.card:not(.search-card-style)');
+        
+        cards.forEach(card => {
+            // Remove any existing onclick
+            card.removeAttribute('onclick');
             
-            // Check if we have database data
-            if (card.dataset.dbCode) {
-                // USE DATABASE: Redirect to plants page with country code
-                goToPlantsPage(card.dataset.dbCode);
-                
-            } else if (card.dataset.originalName) {
-                // USE ORIGINAL DATA: Plants page with basic info
-                goToBasicPlantsPage(
-                    card.dataset.originalName,
-                    card.dataset.originalPrice,
-                    card.dataset.originalFlag
-                );
-                
-            } else {
-                // LAST RESORT: Try to get from card HTML
-                const titleEl = card.querySelector('h3');
-                if (titleEl) {
-                    const countryName = titleEl.textContent.trim();
-                    goToBasicPlantsPage(countryName, "0", "🏳️");
-                }
-            }
+            // Add new click listener
+            card.addEventListener('click', function() {
+                const title = this.querySelector('h3').textContent;
+                goToPlansPage(title);
+            });
         });
+        
+        console.log(`✅ Updated ${cards.length} cards to go to plants page`);
+    }
+
+    // --- YOUR EXISTING FILTER FUNCTIONS (KEEP THESE) ---
+    // These are your original functions that should stay:
+    // 1. runFilter()
+    // 2. filterDestinations() 
+    // 3. globalData array
+    // 4. window.onload function
+    
+    // --- INITIALIZE ON PAGE LOAD ---
+    window.addEventListener('load', function() {
+        // Your existing URL parameter handling
+        const urlParams = new URLSearchParams(window.location.search);
+        const region = urlParams.get('region');
+        const search = urlParams.get('q');
+
+        if (region) { 
+            runFilter(region); 
+        } else { 
+            runFilter('all'); 
+        }
+
+        if (search) { 
+            document.getElementById('searchInput').value = search; 
+            filterDestinations(); 
+        }
+        
+        // UPDATE: Add this line to update card handlers
+        updateCardHandlers();
     });
-    
-    console.log(`✅ Added click handlers to ${cards.length} cards`);
-    
-    // Also update the search banner click
-    const searchBanner = document.querySelector('.search-card-style');
-    if (searchBanner) {
-        searchBanner.addEventListener('click', function() {
-            scrollToSearch();
-        });
-    }
-}
-
-// ====== COUNTRY NAME TO CODE MAPPING ======
-function getCountryCodeFromTitle(cardTitle) {
-    // Map your card titles to database country codes
-    const mapping = {
-        // Americas
-        "United States": "usa",
-        "Canada": "canada",
-        "Mexico": "mexico",
-        "Brazil": "brazil",
-        
-        // Europe
-        "Europe (Regional)": "france", // Will show France template as "Europe Plans"
-        "United Kingdom": "uk",
-        "France": "france",
-        "Germany": "germany",
-        
-        // Asia
-        "Asia (Regional)": "japan", // Will show Japan template as "Asia Plans"
-        "Japan": "japan",
-        "Thailand": "thailand",
-        "China": "china",
-        
-        // Middle East
-        "Middle East (Regional)": "uae", // Will show UAE template as "Middle East Plans"
-        "Turkey": "turkey",
-        "Saudi Arabia": "saudi-arabia",
-        "UAE": "uae"
-    };
-    
-    return mapping[cardTitle] || null;
-}
-
-// ====== REDIRECT TO PLANTS PAGE ======
-function goToPlantsPage(countryCode) {
-    console.log(`🌍 Redirecting to plants page for: ${countryCode}`);
-    
-    // Redirect to YOUR plants page with country code
-    // This will show the 3+1 visual layout
-    window.location.href = `plants.html?country=${encodeURIComponent(countryCode)}`;
-}
-
-function goToBasicPlantsPage(countryName, price, flag) {
-    console.log(`📄 Redirecting to basic plants page for: ${countryName}`);
-    
-    // Fallback if database not available
-    window.location.href = `plants.html?name=${encodeURIComponent(countryName)}&price=${price}&flag=${encodeURIComponent(flag)}`;
-}
-
-// ====== FALLBACK: RESTORE BASIC CLICKS (NO DATABASE) ======
-function restoreBasicClicks() {
-    console.log("🔄 Restoring basic click functionality...");
-    
-    const cards = document.querySelectorAll('.card:not(.search-card-style)');
-    
-    cards.forEach(card => {
-        card.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // Use original data if available
-            if (card.dataset.originalName) {
-                window.location.href = `checkout.html?country=${encodeURIComponent(card.dataset.originalName)}&price=${card.dataset.originalPrice}&flag=${encodeURIComponent(card.dataset.originalFlag)}`;
-            }
-        });
-    });
-    
-    console.log(`✅ Restored basic clicks for ${cards.length} cards`);
-}
-
-// ====== KEEP YOUR ORIGINAL FUNCTIONS FOR COMPATIBILITY ======
-// Your original goToCheckout function (keep for reference)
-function goToCheckout(name, price, flag) {
-    // This is kept for compatibility with any other code
-    window.location.href = `checkout.html?country=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}&flag=${encodeURIComponent(flag)}`;
-}
-
-// Your original filter functions (they'll still work)
-function runFilter(region) {
-    // Your existing filter function
-    let cards = document.getElementsByClassName('card');
-    
-    if(event && event.type === 'click') {
-        let btns = document.getElementsByClassName('filter-btn');
-        for (let b of btns) { b.classList.remove('active'); }
-        event.target.classList.add('active');
-    }
-    
-    const trendingCards = [
-        "United States",
-        "Europe (Regional)", 
-        "Japan", 
-        "UAE"
-    ];
-    
-    for (let i = 0; i < cards.length; i++) {
-        if (cards[i].classList.contains('search-card-style')) {
-            cards[i].style.display = "";
-            continue;
-        }
-        
-        let cardRegion = cards[i].getAttribute('data-region');
-        let cardTitle = cards[i].querySelector('h3').innerText.trim();
-        
-        if (region === 'all') {
-            if (trendingCards.includes(cardTitle)) {
-                cards[i].style.display = "";
-            } else {
-                cards[i].style.display = "none";
-            }
-        } 
-        else if (cardRegion === region) {
-            cards[i].style.display = "";
-        } 
-        else {
-            cards[i].style.display = "none";
-        }
-    }
-}
-
-function filterDestinations() {
-    // Your existing search function
-    const input = document.getElementById('searchInput').value.trim().toLowerCase();
-    const cards = document.getElementsByClassName('card');
-    const grid = document.getElementById('destGrid');
-    let foundInCards = false;
-
-    const existingDynamic = document.getElementById('dynamic-result');
-    if (existingDynamic) existingDynamic.remove();
-
-    for (let i = 0; i < cards.length; i++) {
-        if (cards[i].classList.contains('search-card-style')) continue;
-        
-        let title = cards[i].getElementsByTagName('h3')[0];
-        if (title.innerText.toLowerCase().indexOf(input) > -1) {
-            cards[i].style.display = "";
-            foundInCards = true;
-        } else {
-            cards[i].style.display = "none";
-        }
-    }
-}
-
-// Your other existing functions
-function scrollToSearch() { 
-    const searchBox = document.getElementById('mainSearchBox');
-    const searchInput = document.getElementById('searchInput');
-    
-    searchBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    searchInput.focus();
-    
-    searchBox.classList.add('highlight-pulse');
-    setTimeout(() => {
-        searchBox.classList.remove('highlight-pulse');
-    }, 1000);
-}
-
-function toggleMenu() { 
-    document.getElementById('navLinks').classList.toggle('active'); 
-}
-
-console.log("✅ Integration script loaded successfully");
 </script>
 </body>
 </html> this is the current destinations.html and you add the new and remove the old

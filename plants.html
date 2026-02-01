@@ -1583,5 +1583,274 @@
             });
         });
     </script>
+    <script>
+    // Load the database first
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for database to load
+        setTimeout(initializePlantsPage, 500);
+    });
+
+    function initializePlantsPage() {
+        // Get country from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const countryCode = urlParams.get('country');
+        const countryName = urlParams.get('name');
+        
+        if (!countryCode) {
+            // Default to USA if no country specified
+            loadCountryData('usa');
+            return;
+        }
+        
+        loadCountryData(countryCode, countryName);
+    }
+
+    function loadCountryData(countryCode, displayName) {
+        // Check if database is available
+        if (typeof noorlinkDatabase === 'undefined') {
+            console.error('Database not loaded');
+            showFallbackPlans(countryCode, displayName);
+            return;
+        }
+        
+        // Get country data from database
+        const countryData = noorlinkDatabase.getCountryDisplayData(countryCode);
+        
+        if (!countryData) {
+            showFallbackPlans(countryCode, displayName);
+            return;
+        }
+        
+        displayCountryPlans(countryData);
+    }
+
+    function showFallbackPlans(countryCode, displayName) {
+        // Fallback if database not available
+        const fallbackData = {
+            country: {
+                flag: getFlagForCode(countryCode),
+                name: displayName || formatCountryName(countryCode),
+                displayName: (displayName || formatCountryName(countryCode)).toUpperCase()
+            },
+            plans: {
+                basic: { name: 'Basic', data: '5GB', days: 7, price: 19.99 },
+                standard: { name: 'Standard', data: '10GB', days: 15, price: 34.99, popular: true },
+                premium: { name: 'Premium', data: 'UNLIMITED*', days: 30, price: 64.99 },
+                family: { name: 'Family Bundle', lines: 4, sharedData: '50GB', days: 30, price: 89.99 }
+            },
+            features: [
+                'High-speed data coverage',
+                'Instant eSIM activation',
+                'No contracts required',
+                '24/7 customer support',
+                'Reliable network connectivity'
+            ],
+            note: '*Fair usage may apply'
+        };
+        
+        displayCountryPlans(fallbackData);
+    }
+
+    function displayCountryPlans(countryData) {
+        const container = document.getElementById('plansSection');
+        if (!container) return;
+        
+        container.innerHTML = generatePlansHTML(countryData);
+    }
+
+    function generatePlansHTML(data) {
+        const { country, plans, features, note } = data;
+        
+        return `
+            <!-- COUNTRY HEADER -->
+            <div class="country-header">
+                <div class="flag">${country.flag}</div>
+                <h2>${country.displayName} PLANS</h2>
+                <p>Choose from our complete 4-plan structure</p>
+            </div>
+
+            <!-- 4-PLAN GRID -->
+            <div class="plans-grid">
+                <!-- BASIC PLAN -->
+                <div class="plan-card basic">
+                    <div class="plan-badge">Plan 1</div>
+                    <h3 class="plan-name">${plans.basic.name}</h3>
+                    <div class="plan-positioning">Perfect for light data usage</div>
+                    <div class="plan-data">${plans.basic.data}</div>
+                    <div class="plan-duration">${plans.basic.days} days</div>
+                    <div class="plan-price">$${plans.basic.price.toFixed(2)}</div>
+                    <ul class="plan-features">
+                        ${getPlanFeatures('basic')}
+                    </ul>
+                    <button class="plan-btn" onclick="selectPlan('${country.name}', '${plans.basic.name}', ${plans.basic.price})">
+                        Get Basic Plan
+                    </button>
+                </div>
+
+                <!-- STANDARD PLAN -->
+                <div class="plan-card standard">
+                    <div class="plan-badge">Plan 2</div>
+                    ${plans.standard.popular ? '<div class="popular-badge">✓ Most Popular</div>' : ''}
+                    <h3 class="plan-name">${plans.standard.name}</h3>
+                    <div class="plan-positioning">Best balance of data & value</div>
+                    <div class="plan-data">${plans.standard.data}</div>
+                    <div class="plan-duration">${plans.standard.days} days</div>
+                    <div class="plan-price">$${plans.standard.price.toFixed(2)}</div>
+                    <ul class="plan-features">
+                        ${getPlanFeatures('standard')}
+                    </ul>
+                    <button class="plan-btn" onclick="selectPlan('${country.name}', '${plans.standard.name}', ${plans.standard.price})">
+                        Get Standard Plan
+                    </button>
+                </div>
+
+                <!-- PREMIUM PLAN -->
+                <div class="plan-card premium">
+                    <div class="plan-badge">Plan 3</div>
+                    <h3 class="plan-name">${plans.premium.name}</h3>
+                    <div class="plan-positioning">Unlimited data for heavy users</div>
+                    <div class="plan-data">${plans.premium.data}</div>
+                    <div class="plan-duration">${plans.premium.days} days</div>
+                    <div class="plan-price">$${plans.premium.price.toFixed(2)}</div>
+                    <ul class="plan-features">
+                        ${getPlanFeatures('premium')}
+                    </ul>
+                    <button class="plan-btn" onclick="selectPlan('${country.name}', '${plans.premium.name}', ${plans.premium.price})">
+                        Get Premium Plan
+                    </button>
+                </div>
+
+                <!-- FAMILY BUNDLE -->
+                <div class="plan-card family">
+                    <div class="plan-badge">Plan 4</div>
+                    <h3 class="plan-name">${plans.family.name}</h3>
+                    <div class="plan-positioning">Perfect for groups & families</div>
+                    <div class="plan-data">${plans.family.sharedData || 'Shared data'}</div>
+                    <div class="plan-duration">${plans.family.lines || 4} lines • ${plans.family.days} days</div>
+                    <div class="plan-price">$${plans.family.price.toFixed(2)}</div>
+                    <div class="plan-savings">Great value for multiple lines</div>
+                    <ul class="plan-features">
+                        ${getPlanFeatures('family')}
+                    </ul>
+                    <button class="plan-btn" onclick="selectPlan('${country.name}', '${plans.family.name}', ${plans.family.price})">
+                        Get Family Bundle
+                    </button>
+                </div>
+            </div>
+
+            <!-- FEATURES SECTION -->
+            <div class="features-card">
+                <h3>What's included in all plans:</h3>
+                <div class="features-list">
+                    ${features.map(feature => `<div class="feature-item">✓ ${feature}</div>`).join('')}
+                </div>
+                ${note ? `<p class="plan-note">${note}</p>` : ''}
+            </div>
+
+            <!-- FLEX DATA OPTION -->
+            <div class="flex-data-card">
+                <h3>Flex Data - Pay As You Go</h3>
+                <p class="flex-subtitle">Perfect if you're unsure about your data needs</p>
+                
+                <div class="flex-content">
+                    <div class="flex-details">
+                        <div class="flex-price">$25</div>
+                        <div class="flex-desc">Start with 5GB + $5/GB extra</div>
+                        <ul class="flex-features">
+                            <li>✓ Start with 5GB ($25)</li>
+                            <li>✓ Add more data as needed: $5/GB</li>
+                            <li>✓ 30-day validity</li>
+                            <li>✓ No overage charges</li>
+                            <li>✓ Perfect if unsure of usage</li>
+                        </ul>
+                    </div>
+                    <button class="flex-btn" onclick="selectFlexData('${country.name}')">
+                        Choose Flex Data
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    function getPlanFeatures(type) {
+        const features = {
+            basic: [
+                'Basic data allowance',
+                'Essential connectivity',
+                'Email support',
+                'Reliable coverage'
+            ],
+            standard: [
+                'Generous data allocation',
+                'Priority network speeds',
+                '24/7 chat support',
+                'Hotspot enabled'
+            ],
+            premium: [
+                'Unlimited high-speed data',
+                'VIP priority access',
+                'Premium network coverage',
+                'Unlimited hotspot'
+            ],
+            family: [
+                'Multiple eSIM lines',
+                'Shared data pool',
+                'Family management dashboard',
+                'Great value for groups'
+            ]
+        };
+        
+        return features[type].map(feature => `<li>${feature}</li>`).join('');
+    }
+
+    function getFlagForCode(code) {
+        const flagMap = {
+            'usa': '🇺🇸', 'uk': '🇬🇧', 'uae': '🇦🇪', 'saudi-arabia': '🇸🇦',
+            'japan': '🇯🇵', 'france': '🇫🇷', 'germany': '🇩🇪', 'australia': '🇦🇺'
+        };
+        return flagMap[code] || '🌍';
+    }
+
+    function formatCountryName(code) {
+        return code
+            .split('-')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+
+    // Global functions for plan selection
+    window.selectPlan = function(countryName, planName, price) {
+        // Store selection in localStorage
+        const selection = {
+            country: countryName,
+            plan: planName,
+            price: price,
+            timestamp: new Date().toISOString()
+        };
+        
+        localStorage.setItem('selectedPlan', JSON.stringify(selection));
+        
+        // Redirect to checkout
+        window.location.href = `checkout.html?plan=${encodeURIComponent(planName)}&price=${price}&country=${encodeURIComponent(countryName)}`;
+    };
+
+    window.selectFlexData = function(countryName) {
+        const selection = {
+            country: countryName,
+            plan: 'Flex Data',
+            price: 25.00,
+            isFlex: true,
+            timestamp: new Date().toISOString()
+        };
+        
+        localStorage.setItem('selectedPlan', JSON.stringify(selection));
+        window.location.href = `checkout.html?plan=Flex%20Data&price=25&country=${encodeURIComponent(countryName)}`;
+    };
+    
+    // Mobile menu toggle
+    function toggleMenu() { 
+        document.getElementById('navLinks').classList.toggle('active'); 
+    }
+</script>
 </body>
 </html>

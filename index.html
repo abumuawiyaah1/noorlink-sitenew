@@ -282,7 +282,6 @@
             .promo-content { flex-direction: column-reverse; padding: 30px; }
             .promo-feature-img { width: 100%; height: 250px; transform: rotate(0deg); }
             .newsletter-box { grid-template-columns: 1fr; padding: 30px; }
-			
         }
     </style>
     <!-- Cookie Banner -->
@@ -327,9 +326,18 @@
             <!-- QUICK PICKS -->
             <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 30px;">
                 <span style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 5px;">Popular:</span>
-                <a href="checkout.html?country=Saudi%20Arabia&price=7.00&flag=🇸🇦" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); text-decoration: none; color: white; transition: 0.3s;">🇸🇦 Umrah</a>
-                <a href="checkout.html?country=Turkey&price=4.50&flag=🇹🇷" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); text-decoration: none; color: white; transition: 0.3s;">🇹🇷 Turkey</a>
-                <a href="checkout.html?country=Europe&price=5.00&flag=🇪🇺" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); text-decoration: none; color: white; transition: 0.3s;">🇪🇺 Europe</a>
+                <a href="destinations.html?country=saudi-arabia" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); text-decoration: none; color: white; transition: 0.3s;">🇸🇦 Umrah</a>
+                <a href="destinations.html?country=turkey" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); text-decoration: none; color: white; transition: 0.3s;">🇹🇷 Turkey</a>
+                <a href="destinations.html?region=Europe" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); text-decoration: none; color: white; transition: 0.3s;">🇪🇺 Europe</a>
+            </div>
+
+            <!-- ELIGIBILITY CHECK -->
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="eligibility.html" 
+                   style="display: inline-flex; align-items: center; gap: 8px; color: #FF9500; font-weight: 700; text-decoration: none;">
+                    <i class="fas fa-check-circle"></i>
+                    Check if your device is eSIM compatible →
+                </a>
             </div>
 
             <!-- TRUST BADGES (CLICKABLE SUPPORT) -->
@@ -390,7 +398,7 @@
                     <p style="font-size: 1.1rem; color: #cbd5e1; margin-bottom: 25px; line-height: 1.6;">
                         Stay connected in Mecca & Medina with <strong>Unlimited 5G Data</strong>. 5% of proceeds go to charity.
                     </p>
-                    <a href="ramadan.html" class="btn-nav" style="background: #FF9500; color: white !important; display: inline-block; padding: 14px 35px; text-decoration: none;">Get the Offer</a>
+                    <a href="destinations.html?country=saudi-arabia" class="btn-nav" style="background: #FF9500; color: white !important; display: inline-block; padding: 14px 35px; text-decoration: none;">Get the Offer</a>
                 </div>
                 <div class="promo-feature-img"></div>
             </div>
@@ -537,10 +545,15 @@
 
     <script>
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+        
+        // Updated search function - goes to destinations page
         function searchFromHome() {
             const query = document.getElementById('homeSearch').value.trim();
-            if(query) { window.location.href = `destinations.html?q=${encodeURIComponent(query)}`; } 
-            else { window.location.href = 'destinations.html'; }
+            if(query) { 
+                window.location.href = `destinations.html?q=${encodeURIComponent(query)}`; 
+            } else { 
+                window.location.href = 'destinations.html'; 
+            }
         }
 
         // --- WHATSAPP CONFIG ---
@@ -609,6 +622,13 @@
                 btn.innerHTML = '<i class="fas fa-check"></i> You are in!';
             }, 1500);
         }
+        
+        // Add Enter key support for search
+        document.getElementById('homeSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchFromHome();
+            }
+        });
     </script>
 </body>
 </html>

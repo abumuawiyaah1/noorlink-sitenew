@@ -579,7 +579,64 @@
             
             e.target.value = value.substring(0, 5);
         });
+// ====== ADD THESE FUNCTIONS HERE ======
 
+function initializeCheckoutFromStorage() {
+    // Try to get plan from localStorage first
+    const savedPlan = localStorage.getItem('selectedPlan');
+    
+    if (savedPlan) {
+        try {
+            const planData = JSON.parse(savedPlan);
+            
+            // Update order summary
+            document.getElementById('sum-name').textContent = `${planData.country} - ${planData.plan}`;
+            document.getElementById('sum-description').textContent = planData.isFlex ? 
+                'Flex Data: 5GB + $5/GB extra' : 'High-speed eSIM plan';
+            document.getElementById('sum-sub').textContent = `$${planData.price.toFixed(2)}`;
+            document.getElementById('sum-total').textContent = `$${planData.price.toFixed(2)}`;
+            document.getElementById('pay-btn').textContent = `Pay $${planData.price.toFixed(2)}`;
+            
+            // Update flag
+            updateFlag(planData.country);
+            
+            // Clear localStorage after use
+            localStorage.removeItem('selectedPlan');
+            
+            return;
+        } catch (e) {
+            console.error('Error parsing saved plan:', e);
+        }
+    }
+    
+    // Fallback to URL parameters
+    updateFromURL();
+}
+
+function updateFlag(countryName) {
+    const flagMap = {
+        'USA': '🇺🇸', 'United States': '🇺🇸',
+        'UAE': '🇦🇪', 'United Arab Emirates': '🇦🇪',
+        'Saudi Arabia': '🇸🇦',
+        'Japan': '🇯🇵',
+        'UK': '🇬🇧', 'United Kingdom': '🇬🇧',
+        'Canada': '🇨🇦',
+        'France': '🇫🇷',
+        'Germany': '🇩🇪',
+        'Australia': '🇦🇺'
+    };
+    
+    const flag = flagMap[countryName] || '🌍';
+    document.getElementById('sum-flag').textContent = flag;
+}
+
+// ====== THEN YOUR EXISTING CODE CONTINUES ======
+window.onload = function() {
+    // Make sure this line is added here:
+    initializeCheckoutFromStorage();
+    
+    // Your existing code...
+};
         // 4. DYNAMIC URL LOGIC - Populate from URL parameters
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -987,5 +1044,6 @@
         script.textContent = JSON.stringify(structuredData);
         document.head.appendChild(script);
     </script>
+    
 </body>
 </html>
