@@ -1,0 +1,136 @@
+/* --- PREMIUM THEME VARIABLES --- */
+        :root {
+            --primary: #0F3D3E;       
+            --accent: #FFAD5A;        
+            --bg-body: #F3F5F7;       
+            --surface: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --success: #10B981;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-main); 
+            background: var(--bg-body); 
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header { 
+            background: var(--surface); padding: 15px 0; 
+            border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        .logo span { color: var(--accent); }
+        .back-link { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); text-decoration: none; }
+        .back-link:hover { color: var(--primary); }
+
+        /* --- VIEW 1: LOGIN (ORDER LOOKUP) --- */
+        #login-view {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 80vh;
+        }
+        .login-card {
+            background: var(--surface); padding: 40px; border-radius: 24px;
+            width: 100%; max-width: 450px; text-align: center;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .login-card h1 { font-size: 1.8rem; margin-bottom: 10px; color: var(--primary); }
+        .login-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+        
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        .input-field {
+            width: 100%; padding: 14px; border: 1px solid #e5e7eb; border-radius: 12px;
+            font-size: 1rem; outline: none; transition: 0.3s;
+        }
+        .input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(15, 61, 62, 0.1); }
+        
+        .login-btn {
+            background: var(--primary); color: white; width: 100%; padding: 16px;
+            border-radius: 12px; font-weight: 700; border: none; cursor: pointer;
+            transition: 0.3s; margin-top: 10px;
+        }
+        .login-btn:hover { background: var(--accent); color: var(--primary); }
+
+        /* --- VIEW 2: DASHBOARD (HIDDEN BY DEFAULT) --- */
+        #dashboard-view { display: none; padding: 40px 0; }
+        
+        .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        
+        /* CARD: ESIM STATUS */
+        .esim-visual-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #062223 100%);
+            color: white; padding: 30px; border-radius: 24px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 15px 30px rgba(15, 61, 62, 0.3);
+        }
+        .esim-visual-card::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.3;
+        }
+        .status-badge {
+            background: rgba(16, 185, 129, 0.2); border: 1px solid var(--success);
+            color: #6ee7b7; padding: 6px 12px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .pulse-dot { width: 8px; height: 8px; background: #6ee7b7; border-radius: 50%; animation: pulse 2s infinite; }
+        
+        .data-circle {
+            margin: 30px 0; display: flex; align-items: flex-end; gap: 10px;
+        }
+        .big-data { font-size: 3.5rem; font-weight: 800; line-height: 1; }
+        .total-data { font-size: 1.2rem; opacity: 0.7; margin-bottom: 8px; }
+        
+        .progress-container { background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; overflow: hidden; }
+        .progress-bar { background: var(--accent); height: 100%; width: 75%; border-radius: 10px; }
+        
+        .plan-name { margin-top: 20px; font-size: 1.1rem; opacity: 0.9; }
+
+        /* CARD: ACTIONS */
+        .actions-card {
+            background: var(--surface); padding: 30px; border-radius: 24px;
+            border: 1px solid #e5e7eb;
+        }
+        .action-btn {
+            display: flex; align-items: center; justify-content: space-between;
+            width: 100%; padding: 15px; border: 1px solid #e5e7eb; border-radius: 12px;
+            background: white; cursor: pointer; transition: 0.2s; margin-bottom: 15px;
+            text-align: left; font-weight: 600; color: var(--text-main); font-size: 1rem;
+        }
+        .action-btn:hover { border-color: var(--primary); background: #F8F9FA; transform: translateY(-2px); }
+        
+        /* Flex wrapper for span content inside button */
+        .btn-flex-wrapper { display: flex; align-items: center; }
+
+        .btn-icon { background: #E0F2F1; color: var(--primary); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px; }
+        .arrow { color: #ccc; }
+
+        .top-up-btn {
+            background: var(--accent); color: var(--primary); border: none;
+            width: 100%; padding: 16px; border-radius: 12px; font-weight: 800;
+            font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .top-up-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 173, 90, 0.3); }
+
+        /* QR CODE SECTION (Hidden toggle) */
+        .qr-section { margin-top: 30px; text-align: center; display: none; padding-top: 20px; border-top: 1px solid #eee; }
+        .qr-img { width: 150px; height: 150px; background: #eee; margin: 0 auto 15px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #999; }
+        .manual-details { background: #f9fafb; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.9rem; color: var(--primary); text-align: left; margin-top: 15px; word-break: break-all; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        @media (max-width: 768px) {
+            .dash-grid { grid-template-columns: 1fr; }
+        }

@@ -1,0 +1,117 @@
+.hero-search-widget {
+  position: relative;
+  max-width: 550px;
+  margin: 0 auto 30px;
+}
+
+.hero-search-widget .hero-search {
+  margin-bottom: 0;
+}
+
+.hero-search-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+
+  animation: hero-dropdown-in 0.2s ease-out;
+
+  background: rgba(5, 25, 26, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+}
+
+@keyframes hero-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-search-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: #f8fafc;
+  font-family: var(--font-plus-jakarta), "Plus Jakarta Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.hero-search-dropdown__item:hover,
+.hero-search-dropdown__item.is-active {
+  background: rgba(255, 149, 0, 0.18);
+  color: #ff9500;
+}
+
+.hero-search-dropdown__flag {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.hero-search-dropdown__meta {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+.hero-search-pills {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  margin-bottom: 30px;
+}
+
+.hero-search-pills__label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.hero-search-pill {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-family: var(--font-plus-jakarta), "Plus Jakarta Sans", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.hero-search-pill:hover,
+.hero-search-pill.is-selected {
+  background: rgba(255, 149, 0, 0.25);
+  border-color: rgba(255, 149, 0, 0.6);
+  transform: translateY(-1px);
+}

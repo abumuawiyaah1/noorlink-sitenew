@@ -1,0 +1,14 @@
+import type { Metadata } from "next";
+import "@/styles/landing.css";
+import { LandingPage } from "@/components/legacy/LandingPage";
+
+export const metadata: Metadata = {
+  title: "NoorLink | Instant Travel eSIMs",
+  description:
+    "Enjoy hassle-free travel with instant high-speed eSIM data in 190+ countries. No physical SIM required.",
+  icons: { icon: "/images/favicon.png" },
+};
+
+export default function Home() {
+  return <LandingPage />;
+}

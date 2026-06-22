@@ -1,0 +1,326 @@
+.plans-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #05191a 0%, #0a2a2c 45%, #05191a 100%);
+  color: #e8f4f4;
+  padding: 2.5rem 0 4rem;
+}
+
+.plans-page__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.plans-page__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.plans-page__eyebrow {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 149, 0, 0.12);
+  border: 1px solid rgba(255, 149, 0, 0.35);
+  color: #ffad5a;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.plans-page__title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  color: #fff;
+}
+
+.plans-page__subtitle {
+  margin: 0;
+  color: rgba(232, 244, 244, 0.72);
+  font-size: 1rem;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.plans-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 20px 20px;
+  border-radius: 20px;
+  background: rgba(5, 25, 26, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.plans-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.plans-card--payg {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(5, 25, 26, 0.94), rgba(5, 25, 26, 0.94)) padding-box,
+    linear-gradient(135deg, #ff9500, #1f6f70, #ff9500) border-box;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.28),
+    0 0 24px rgba(255, 149, 0, 0.15);
+}
+
+.plans-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.plans-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(232, 244, 244, 0.78);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.plans-tab.is-active {
+  background: rgba(255, 149, 0, 0.16);
+  border-color: rgba(255, 149, 0, 0.45);
+  color: #fff;
+}
+
+.plans-tab__count {
+  min-width: 22px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 0.75rem;
+}
+
+.plans-card--best {
+  border-color: rgba(74, 222, 128, 0.35);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.28),
+    0 0 20px rgba(74, 222, 128, 0.12);
+}
+
+.plans-card__badge {
+  align-self: flex-start;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 149, 0, 0.18);
+  color: #ffb347;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.plans-card__badge--best {
+  background: rgba(74, 222, 128, 0.16);
+  color: #4ade80;
+}
+
+.plans-card__name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.plans-card__metrics {
+  display: grid;
+  gap: 10px;
+}
+
+.plans-card__metric {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.92rem;
+}
+
+.plans-card__metric-label {
+  color: rgba(232, 244, 244, 0.62);
+}
+
+.plans-card__metric-value {
+  font-weight: 700;
+  color: #fff;
+}
+
+.plans-card__price {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #4ade80;
+}
+
+.plans-card__price-value {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #4ade80;
+}
+
+.plans-card__price-cents {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-left: 1px;
+  vertical-align: super;
+  color: #86efac;
+}
+
+.plans-card__price small {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(232, 244, 244, 0.55);
+}
+
+.plans-card__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff9500, #ffad5a);
+  color: #05191a;
+  font-weight: 800;
+  font-size: 0.92rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.plans-card__cta:hover {
+  opacity: 0.92;
+}
+
+.plans-card--payg .plans-card__cta {
+  background: linear-gradient(135deg, #1f6f70, #2d9b9c);
+  color: #fff;
+}
+
+.plans-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.plans-skeleton-card {
+  height: 260px;
+  border-radius: 20px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: plans-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes plans-skeleton-pulse {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.plans-page__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.plans-page__loading-text {
+  margin: 0;
+  color: rgba(232, 244, 244, 0.85);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.plans-page__empty,
+.plans-page__error {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(232, 244, 244, 0.8);
+}
+
+.plans-page__error {
+  border-color: rgba(248, 113, 113, 0.35);
+  color: #fca5a5;
+}
+
+.plans-page__error-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fecaca;
+}
+
+.plans-page__error-detail,
+.plans-page__error-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  color: rgba(252, 165, 165, 0.92);
+}
+
+.plans-page__error-hint {
+  margin-top: 0.85rem;
+  color: rgba(232, 244, 244, 0.65);
+  font-size: 0.88rem;
+}
+
+.plans-page__inline-link {
+  color: #ff9500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.psychological-price {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.1rem;
+  line-height: 1;
+}
+
+.psychological-price__symbol {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 0.35rem;
+}
+
+.plans-card__price .psychological-price {
+  color: #fff;
+}

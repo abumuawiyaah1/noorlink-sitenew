@@ -1,0 +1,106 @@
+/* ─── GlobalBackButton — document-flow block, centered below page content ──── */
+
+.back-button-anchor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* 4rem top margin keeps clear of Section 6 address text and any page footer */
+  padding: 4rem 24px 3.5rem;
+}
+
+.back-button-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 220px;
+  padding: 14px 18px 12px;
+
+  text-decoration: none;
+  color: #0f3d3e;
+
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(135deg, #ff9500 0%, #ffad5a 50%, #0f3d3e 100%) border-box;
+  border: 2px solid transparent;
+  border-radius: 20px;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.back-button-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+}
+
+.back-button-card:focus-visible {
+  outline: 3px solid rgba(255, 149, 0, 0.45);
+  outline-offset: 4px;
+}
+
+.back-button-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+
+  background: #fff3e0;
+  color: #ff9500;
+
+  box-shadow: 0 3px 10px rgba(255, 149, 0, 0.12);
+}
+
+.back-button-card__icon-svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.back-button-card__label {
+  font-family: var(--font-plus-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #0f3d3e;
+  line-height: 1.2;
+}
+
+.back-button-card:hover .back-button-card__label {
+  color: #ff9500;
+}
+
+@media (max-width: 768px) {
+  .back-button-anchor {
+    padding: 3rem 20px 2.5rem;
+  }
+
+  .back-button-card {
+    width: 200px;
+    padding: 12px 16px 10px;
+    gap: 8px;
+  }
+
+  .back-button-card__icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .back-button-card__icon-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .back-button-card__label {
+    font-size: 0.62rem;
+    letter-spacing: 1.75px;
+  }
+}
