@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple eSIM Plans | NoorLink</title>
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- PREMIUM THEME VARIABLES --- */
+        :root {
+            --primary: #0F3D3E;       /* Deep Midnight Teal */
+            --primary-dark: #05191a;
+            --primary-light: #1F6F70;
+            --primary-lightest: #E8F4F4;
+            --accent: #FF9500;        /* Vibrant Orange */
+            --accent-light: #FFAD5A;
+            --accent-lighter: #FFE8CC;
+            --accent-glow: rgba(255, 149, 0, 0.4);
+            --bg-body: #F3F5F7;       
+            --surface: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --text-light: #9CA3AF;
+            --whatsapp: #25D366;
+            --glass: rgba(255, 255, 255, 0.95);
+            --success: #10B981;
+            --border: #E5E7EB;
+            --shadow: 0 10px 30px rgba(15, 61, 62, 0.1);
+            --shadow-light: 0 5px 20px rgba(15, 61, 62, 0.05);
+        }
+
+        /* --- GLOBAL RESET --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-main); 
+            line-height: 1.6;
+            background-color: var(--bg-body);
+            background-image: url('images/map-texture.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: soft-light;
+            padding-top: 20px;
+        }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* HEADER */
+        header { 
+            background: var(--glass); backdrop-filter: blur(12px); 
+            padding: 15px 0; position: sticky; top: 0; z-index: 1000; 
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-light);
+            margin-bottom: 40px;
+        }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* LOGO */
+        .logo-text { 
+            font-size: 1.8rem; font-weight: 800; color: var(--primary); 
+            letter-spacing: -0.5px; display: flex; align-items: flex-start;
+        }
+        .logo-tm { font-size: 0.8rem; margin-left: 2px; margin-top: 5px; font-weight: 700; color: var(--accent); }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
+        .nav-links a:hover { color: var(--primary); }
+        .btn-nav { background: var(--primary); color: white !important; padding: 10px 24px; border-radius: 50px; opacity: 1 !important; box-shadow: 0 4px 10px rgba(15, 61, 62, 0.2); }
+        .btn-nav:hover { background: var(--primary-light); transform: translateY(-2px); }
+        .mobile-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
+
+        /* PAGE HEADER */
+        .page-header {
+            text-align: center;
+            padding: 40px 0 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* ====== ENHANCED SEARCH SECTION ====== */
+        .search-section {
+            text-align: center;
+            margin: 40px auto;
+            max-width: 900px;
+        }
+
+        .search-wrapper {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 50px 18px 20px;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(15, 61, 62, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .search-result-item:hover {
+            background: var(--primary-lightest);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .country-flag {
+            font-size: 1.2rem;
+        }
+
+        .country-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .premium-badge {
+            background: var(--accent);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .search-result-type {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* CHOICE BUTTONS STYLES */
+        .choice-section {
+            margin-bottom: 25px;
+        }
+
+        .section-label {
+            color: var(--text-muted);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .choice-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .choice-btn {
+            padding: 15px 30px;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+        }
+
+        .choice-btn:hover,
+        .choice-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .choice-btn.active {
+            background: var(--primary-light);
+        }
+
+        /* ====== 4-PLAN STRUCTURE ====== */
+        .plans-section {
+            margin: 60px 0;
+        }
+
+        .country-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--surface);
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+            border-left: 5px solid var(--accent);
+        }
+
+        .country-header .flag {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+
+        .country-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .country-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 1200px) {
+            .plans-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .plan-card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+            border: 2px solid var(--border);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary-light);
+        }
+
+        /* Plan type specific styling */
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .plan-card.basic::before { background: var(--primary); }
+        .plan-card.standard::before { background: var(--primary-light); }
+        .plan-card.premium::before { background: var(--accent); }
+        .plan-card.family::before { background: var(--accent-light); }
+
+        .plan-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            background: var(--primary);
+            z-index: 1;
+        }
+
+        .popular-badge {
+            background: var(--accent) !important;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 15px 0 10px;
+        }
+
+        .plan-data {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .plan-duration {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .plan-price {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 15px 0;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .plan-positioning {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.95rem;
+            margin: 15px 0;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+        .plan-savings {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            background: var(--accent-lighter);
+            padding: 8px 15px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        .plan-features {
+            text-align: left;
+            margin: 25px 0;
+            flex-grow: 1;
+        }
+
+        .plan-features li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--border-light, #f1f1f1);
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .plan-features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .plan-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-btn:hover {
+            background: var(--accent);
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px var(--accent-glow);
+        }
+
+        /* ====== FAMILY BUNDLE DETAILS CARD ====== */
+        .family-details-card {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--primary-lightest) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            border: 2px solid var(--accent-light);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .family-details-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at top right, var(--accent-lighter), transparent 70%);
+            opacity: 0.3;
+        }
+
+        .family-details-card h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .family-details-card h3:before {
+            content: '🧑‍👩‍👧‍👦';
+            margin-right: 15px;
+        }
+
+        .family-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 992px) {
+            .family-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .family-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .family-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .family-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s;
+        }
+
+        .family-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .family-feature i {
+            color: var(--accent);
+            font-size: 1.5rem;
+            min-width: 30px;
+            padding-top: 3px;
+        }
+
+        .family-feature strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .family-feature p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .family-use-cases {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            border-left: 5px solid var(--accent);
+        }
+
+        .family-use-cases h4 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .family-use-cases ul {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .family-use-cases li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-main);
+        }
+
+        .family-use-cases li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 2rem;
+            line-height: 0.8;
+        }
+
+        /* ====== FLEX DATA OPTION ====== */
+        .flex-data-card {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--accent-lighter) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            border: 2px dashed var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flex-data-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at top right, var(--accent-light), transparent 70%);
+            opacity: 0.2;
+        }
+
+        .flex-data-card h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flex-data-card h3:before {
+            content: '💳';
+            margin-right: 15px;
+        }
+
+        .flex-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flex-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 992px) {
+            .flex-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .flex-how-it-works {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .flex-how-it-works h4 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+        }
+
+        .flex-step {
+            padding: 15px 0;
+            padding-left: 40px;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .flex-step:last-child {
+            border-bottom: none;
+        }
+
+        .flex-step:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 15px;
+            width: 26px;
+            height: 26px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .flex-step:nth-child(1):before { content: '1'; }
+        .flex-step:nth-child(2):before { content: '2'; }
+        .flex-step:nth-child(3):before { content: '3'; }
+        .flex-step:nth-child(4):before { content: '4'; }
+        .flex-step:nth-child(5):before { content: '5'; }
+
+        .flex-step strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .flex-step p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .flex-highlight {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            border: 2px solid var(--accent);
+            text-align: center;
+        }
+
+        .flex-price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .flex-price span {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .flex-features {
+            text-align: left;
+            margin: 25px 0;
+        }
+
+        .flex-features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .flex-features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .flex-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .flex-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 149, 0, 0.3);
+        }
+
+        /* ====== HOW IT WORKS ====== */
+        .steps-section { 
+            padding: 100px 0; 
+            background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(243, 245, 247, 0.9)), url('images/map-texture.jpg');
+            background-size: cover; 
+            background-attachment: fixed;
+            margin: 80px 0;
+        }
+        
+        .steps-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 40px; 
+            margin-top: 50px; 
+            text-align: center; 
+        }
+        
+        .step-card { 
+            padding: 40px 30px; 
+            border-radius: 24px; 
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, var(--primary), var(--accent), var(--success)) border-box;
+            border: 3px solid transparent;
+            box-shadow: var(--shadow-light); 
+            transition: all 0.3s ease;
+        }
+        
+        .step-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: var(--shadow); 
+        }
+        
+        .step-icon { 
+            width: 80px; 
+            height: 80px; 
+            background: var(--primary-lightest); 
+            color: var(--primary); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 2rem; 
+            margin: 0 auto 25px auto; 
+            border: 2px solid var(--primary-light);
+        }
+        
+        .step-card h3 { 
+            margin-bottom: 15px; 
+            font-size: 1.4rem; 
+            color: var(--primary); 
+            font-weight: 700;
+        }
+        
+        .step-card p { 
+            color: var(--text-muted); 
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+        footer { 
+            background: var(--primary-dark); 
+            color: #94a3b8; 
+            padding: 60px 0; 
+            text-align: center; 
+            font-size: 0.9rem; 
+            margin-top: 80px;
+        }
+        
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr 1fr; 
+            gap: 50px; 
+            margin-bottom: 60px; 
+        }
+        
+        .footer h4 { 
+            color: white; 
+            margin-bottom: 24px; 
+            font-size: 1.1rem; 
+        }
+        
+        .footer-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+        
+        .footer-list a { 
+            transition: 0.2s; 
+            color: #94a3b8; 
+            width: fit-content; 
+            text-decoration: none; 
+        }
+        
+        .footer-list a:hover { 
+            color: var(--accent); 
+            transform: translateX(5px); 
+        }
+        
+        .footer-bottom { 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            padding-top: 30px; 
+            text-align: center; 
+            font-size: 0.85rem; 
+        }
+        
+        /* WHATSAPP FLOAT */
+        .whatsapp-float { 
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            background-color: var(--whatsapp); 
+            color: white; 
+            width: 64px; 
+            height: 64px; 
+            border-radius: 50%; 
+            text-align: center; 
+            font-size: 32px; 
+            line-height: 64px; 
+            box-shadow: 0 10px 25px rgba(37,211,102,0.4); 
+            z-index: 1000; 
+            text-decoration: none; 
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 35px rgba(37,211,102,0.6);
+        }
+        
+        .whatsapp-float::before { content: "💬"; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { 
+                display: none; 
+                flex-direction: column; 
+                position: absolute; 
+                top: 75px; 
+                left: 0; 
+                right: 0; 
+                background: white; 
+                padding: 20px; 
+                box-shadow: var(--shadow); 
+                border-bottom: 1px solid var(--border); 
+                gap: 20px; 
+                text-align: center; 
+            }
+            .nav-links.active { display: flex; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .page-header h1 { font-size: 2.2rem; }
+            .page-header p { font-size: 1rem; }
+            .family-grid, .flex-grid { grid-template-columns: 1fr; gap: 30px; }
+            .steps-grid { grid-template-columns: 1fr; gap: 30px; }
+            .plan-card { padding: 25px 20px; }
+            .plan-name { font-size: 1.5rem; }
+            .plan-data { font-size: 2rem; }
+            .plan-price { font-size: 2.2rem; }
+            .family-details-card, .flex-data-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo-text">
+                Noor<span style="color: var(--accent);">Link</span><sup class="logo-tm">TM</sup>
+            </a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="about.html">About</a>
+                <a href="destinations.html">Destinations</a>
+                <a href="plans.html" style="color: var(--primary);">Plans</a>
+                <a href="support.html">Support</a>
+                <a href="dashboard.html" class="btn-nav">My eSIMs</a>
+            </nav>
+
+            <div class="mobile-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+            <h1>Your Complete 4-Plan Structure</h1>
+            <p>Choose the perfect eSIM plan for your travel needs. Simple, transparent pricing.</p>
+        </div>
+
+        <!-- SEARCH SECTION -->
+        <div class="search-section">
+            <div class="search-wrapper">
+                <div class="search-box">
+                    <input type="text" 
+                           id="countrySearch" 
+                           class="search-input"
+                           placeholder="🔍 Search for a country (USA, UAE, Japan, etc.)..."
+                           autocomplete="off">
+                    <button class="search-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="searchResults" class="search-results"></div>
+            </div>
+
+            <!-- QUICK SELECTION -->
+            <div class="choice-section">
+                <h3 class="section-label">Popular Destinations</h3>
+                <div class="choice-buttons">
+                    <button class="choice-btn" onclick="loadCountryPlans('usa')">
+                        🇺🇸 USA
+                    </button>
+                    <button class="choice-btn" onclick="loadCountryPlans('uae')">
+                        🇦🇪 UAE
+                    </button>
+                    <button class="choice-btn" onclick="loadCountryPlans('ksa')">
+                        🇸🇦 Saudi Arabia
+                    </button>
+                    <button class="choice-btn" onclick="loadCountryPlans('japan')">
+                        🇯🇵 Japan
+                    </button>
+                    <button class="choice-btn" onclick="loadCountryPlans('uk')">
+                        🇬🇧 UK
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLANS SECTION (DYNAMICALLY LOADED) -->
+        <section class="plans-section" id="plansSection">
+            <!-- Country plans will be loaded here -->
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="steps-section" id="how-it-works">
+            <div class="container">
+                <div style="text-align:center;">
+                    <h2 style="font-size: 2.5rem; color: var(--primary);">How It Works</h2>
+                    <p style="color: var(--text-muted); font-size: 1.2rem; margin-top: 10px;">Get online in 3 simple steps</p>
+                </div>
+                
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>1. Verify & Buy</h3>
+                        <p>Check if your phone is compatible, then choose your destination and data plan.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-envelope-open-text"></i></div>
+                        <h3>2. Get Your Plan</h3>
+                        <p>Receive your QR code and activation details instantly via email.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-qrcode"></i></div>
+                        <h3>3. Scan & Connect</h3>
+                        <p>Scan the code in your settings to install the eSIM. Turn on roaming and enjoy!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <a href="index.html" class="logo-text" style="color:white !important;">
+                    Noor<span style="color:var(--accent);">Link</span><sup class="logo-tm">TM</sup>
+                </a>
+                <p style="margin-top: 20px; line-height: 1.8;">
+                    Making global travel simple.<br>
+                    📍 MOUNTAIN ROAD PL NE, Suite R<br>
+                    ALBUQUERQUE, NM 87110
+                </p>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <div class="footer-list">
+                    <a href="about.html">About Us</a>
+                    <a href="support.html">Contact Support</a>
+                    <a href="#">Partner Program</a>
+                </div>
+            </div>
+            <div>
+                <h4>Legal</h4>
+                <div class="footer-list">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="refund.html">Refund Policy</a>
+                    <a href="kyc.html">KYC / AML Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 NoorLink.co. All rights reserved.
+        </div>
+    </footer>
+
+    <a href="https://wa.me/17184729390" class="whatsapp-float" target="_blank" title="Chat on WhatsApp"></a>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() { 
+            document.getElementById('navLinks').classList.toggle('active'); 
+        }
+
+        // ====== COUNTRY DATABASE ======
+        const countryDatabase = {
+            'usa': {
+                flag: '🇺🇸',
+                name: 'United States',
+                displayName: 'UNITED STATES',
+                independent: true,
+                plans: {
+                    basic: {
+                        name: 'BASIC',
+                        data: '3 GB',
+                        days: '7',
+                        price: 9.99,
+                        positioning: 'Just enough to stay connected',
+                        features: [
+                            'Light data usage',
+                            '7-day validity',
+                            'Basic network coverage',
+                            'Email support',
+                            'Hotspot supported'
+                        ]
+                    },
+                    standard: {
+                        name: 'STANDARD',
+                        data: '10 GB',
+                        days: '15',
+                        price: 19.99,
+                        positioning: 'Perfect balance of data & value',
+                        popular: true,
+                        features: [
+                            '10 GB high-speed data',
+                            '15-day validity',
+                            '5G nationwide coverage',
+                            'Priority customer support',
+                            'Hotspot supported',
+                            'Unlimited calls & SMS'
+                        ]
+                    },
+                    premium: {
+                        name: 'PREMIUM UNLIMITED',
+                        data: 'Unlimited*',
+                        days: '30',
+                        price: 64.99,
+                        positioning: 'Truly unlimited, worry-free browsing',
+                        features: [
+                            'Truly unlimited data',
+                            '30-day validity',
+                            'Premium 5G nationwide',
+                            'VIP 24/7 support',
+                            'Priority network access',
+                            'Unlimited hotspot'
+                        ]
+                    },
+                    family: {
+                        name: 'FAMILY BUNDLE',
+                        data: '50 GB',
+                        lines: 4,
+                        days: '30',
+                        price: 89.99,
+                        positioning: 'One plan for everyone traveling together',
+                        features: [
+                            '4 eSIM lines',
+                            '50 GB shared data pool',
+                            '30 days for everyone',
+                            'Family management dashboard',
+                            'One-time setup',
+                            'Save 35% vs buying individually'
+                        ]
+                    }
+                }
+            },
+            
+            'uae': {
+                flag: '🇦🇪',
+                name: 'United Arab Emirates',
+                displayName: 'UNITED ARAB EMIRATES',
+                independent: true,
+                plans: {
+                    basic: {
+                        name: 'BASIC',
+                        data: '5 GB',
+                        days: '7',
+                        price: 14.99,
+                        positioning: 'Essential UAE connectivity',
+                        features: [
+                            '5 GB high-speed data',
+                            '7-day validity',
+                            'Etisalat network',
+                            'Basic coverage',
+                            'Email support'
+                        ]
+                    },
+                    standard: {
+                        name: 'STANDARD',
+                        data: '10 GB',
+                        days: '15',
+                        price: 24.99,
+                        positioning: 'Perfect balance for UAE travel',
+                        popular: true,
+                        features: [
+                            '10 GB high-speed data',
+                            '15-day validity',
+                            'Etisalat & Du networks',
+                            'All emirates coverage',
+                            'Priority support',
+                            'Local number included'
+                        ]
+                    },
+                    premium: {
+                        name: 'PREMIUM UNLIMITED',
+                        data: 'Unlimited*',
+                        days: '30',
+                        price: 69.99,
+                        positioning: 'Unlimited UAE experience',
+                        features: [
+                            'Truly unlimited data',
+                            '30-day validity',
+                            'Premium 5G coverage',
+                            'All UAE networks',
+                            'VIP concierge',
+                            'Priority data speeds'
+                        ]
+                    },
+                    family: {
+                        name: 'FAMILY BUNDLE',
+                        data: '60 GB',
+                        lines: 4,
+                        days: '30',
+                        price: 99.99,
+                        positioning: 'Perfect for family UAE vacations',
+                        features: [
+                            '4 eSIM lines',
+                            '60 GB shared data',
+                            '30 days validity',
+                            'Family management dashboard',
+                            'One-time setup for all',
+                            'Save 40% vs individual'
+                        ]
+                    }
+                }
+            }
+        };
+
+        // Search index for autocomplete
+        const countrySearchIndex = [
+            { code: 'usa', name: 'United States', flag: '🇺🇸', independent: true },
+            { code: 'uae', name: 'United Arab Emirates', flag: '🇦🇪', independent: true },
+            { code: 'ksa', name: 'Saudi Arabia', flag: '🇸🇦', independent: true },
+            { code: 'japan', name: 'Japan', flag: '🇯🇵', independent: true },
+            { code: 'uk', name: 'United Kingdom', flag: '🇬🇧', independent: true }
+        ];
+
+        // Current country
+        let currentCountry = null;
+
+        // ====== SEARCH FUNCTIONS ======
+        function performSearch() {
+            const query = document.getElementById('countrySearch').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('searchResults');
+            
+            if (query.length < 2) {
+                resultsDiv.style.display = 'none';
+                return;
+            }
+            
+            const matches = countrySearchIndex.filter(country => 
+                country.name.toLowerCase().includes(query) || 
+                country.code.toLowerCase().includes(query)
+            );
+            
+            let html = '';
+            
+            if (matches.length > 0) {
+                matches.forEach(country => {
+                    html += `
+                        <div class="search-result-item" onclick="selectCountry('${country.code}')">
+                            <div class="search-result-info">
+                                <span class="country-flag">${country.flag}</span>
+                                <span class="country-name">${country.name}</span>
+                                <span class="premium-badge">4-Plan Structure</span>
+                            </div>
+                            <div class="search-result-type">
+                                Click to view plans
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                html = `
+                    <div class="search-result-item" onclick="loadCountryPlans('usa')">
+                        <div class="search-result-info">
+                            <span class="country-flag">🇺🇸</span>
+                            <span class="country-name">United States</span>
+                            <span class="premium-badge">Sample Plans</span>
+                        </div>
+                        <div class="search-result-type">
+                            View our 4-plan structure
+                        </div>
+                    </div>
+                `;
+            }
+            
+            resultsDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+        }
+
+        function hideSearchResults() {
+            document.getElementById('searchResults').style.display = 'none';
+        }
+
+        function selectCountry(countryCode) {
+            loadCountryPlans(countryCode);
+            hideSearchResults();
+            document.getElementById('countrySearch').value = '';
+        }
+
+        // ====== LOAD COUNTRY PLANS ======
+        function loadCountryPlans(countryCode) {
+            const country = countryDatabase[countryCode];
+            
+            if (!country) {
+                // Fallback to USA if country not in database
+                alert('Detailed plans for this country are coming soon! Showing USA plans as an example of our 4-plan structure.');
+                loadCountryPlans('usa');
+                return;
+            }
+            
+            currentCountry = country;
+            
+            const plansSection = document.getElementById('plansSection');
+            plansSection.innerHTML = generateCountryPlansHTML(country);
+            
+            // Scroll to plans section
+            plansSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Update active button
+            document.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.onclick && btn.onclick.toString().includes(countryCode)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function generateCountryPlansHTML(country) {
+            const { flag, name, displayName, plans } = country;
+            
+            return `
+                <!-- COUNTRY HEADER -->
+                <div class="country-header">
+                    <div class="flag">${flag}</div>
+                    <h2>${displayName} PLANS</h2>
+                    <p>Choose from our complete 4-plan structure</p>
+                </div>
+
+                <!-- 4-PLAN GRID -->
+                <div class="plans-grid">
+                    <!-- BASIC PLAN -->
+                    <div class="plan-card basic">
+                        <div class="plan-badge">Plan 1</div>
+                        <h3 class="plan-name">${plans.basic.name}</h3>
+                        <div class="plan-positioning">${plans.basic.positioning}</div>
+                        <div class="plan-data">${plans.basic.data}</div>
+                        <div class="plan-duration">${plans.basic.days} days</div>
+                        <div class="plan-price">$${plans.basic.price}</div>
+                        <ul class="plan-features">
+                            ${plans.basic.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        <button class="plan-btn" onclick="buyPlan('${plans.basic.name}', ${plans.basic.price}, '${name}')">
+                            Get Basic Plan
+                        </button>
+                    </div>
+
+                    <!-- STANDARD PLAN -->
+                    <div class="plan-card standard">
+                        <div class="plan-badge">Plan 2</div>
+                        ${plans.standard.popular ? '<div class="popular-badge">✓ Most Popular</div>' : ''}
+                        <h3 class="plan-name">${plans.standard.name}</h3>
+                        <div class="plan-positioning">${plans.standard.positioning}</div>
+                        <div class="plan-data">${plans.standard.data}</div>
+                        <div class="plan-duration">${plans.standard.days} days</div>
+                        <div class="plan-price">$${plans.standard.price}</div>
+                        <ul class="plan-features">
+                            ${plans.standard.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        <button class="plan-btn" onclick="buyPlan('${plans.standard.name}', ${plans.standard.price}, '${name}')">
+                            Get Standard Plan
+                        </button>
+                    </div>
+
+                    <!-- PREMIUM PLAN -->
+                    <div class="plan-card premium">
+                        <div class="plan-badge">Plan 3</div>
+                        <h3 class="plan-name">${plans.premium.name}</h3>
+                        <div class="plan-positioning">${plans.premium.positioning}</div>
+                        <div class="plan-data">${plans.premium.data}</div>
+                        <div class="plan-duration">${plans.premium.days} days</div>
+                        <div class="plan-price">$${plans.premium.price}</div>
+                        <ul class="plan-features">
+                            ${plans.premium.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        <button class="plan-btn" onclick="buyPlan('${plans.premium.name}', ${plans.premium.price}, '${name}')">
+                            Get Premium Plan
+                        </button>
+                    </div>
+
+                    <!-- FAMILY BUNDLE -->
+                    <div class="plan-card family">
+                        <div class="plan-badge">Plan 4</div>
+                        <h3 class="plan-name">${plans.family.name}</h3>
+                        <div class="plan-positioning">${plans.family.positioning}</div>
+                        <div class="plan-data">${plans.family.data}</div>
+                        <div class="plan-duration">${plans.family.lines} lines • ${plans.family.days} days</div>
+                        <div class="plan-price">$${plans.family.price}</div>
+                        <div class="plan-savings">Save 35% vs individual plans</div>
+                        <ul class="plan-features">
+                            ${plans.family.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        <button class="plan-btn" onclick="buyPlan('${plans.family.name}', ${plans.family.price}, '${name}')">
+                            Get Family Bundle
+                        </button>
+                    </div>
+                </div>
+
+                <!-- FAMILY BUNDLE DETAILS CARD -->
+                <div class="family-details-card">
+                    <h3>FAMILY TRAVEL BUNDLE</h3>
+                    <div class="family-grid">
+                        <div>
+                            <div class="family-features">
+                                <div class="family-feature">
+                                    <i class="fas fa-sim-card"></i>
+                                    <div>
+                                        <strong>4 eSIM lines</strong>
+                                        <p>Same destination, one purchase</p>
+                                    </div>
+                                </div>
+                                <div class="family-feature">
+                                    <i class="fas fa-database"></i>
+                                    <div>
+                                        <strong>Shared data pool</strong>
+                                        <p>Flexible usage across all lines</p>
+                                    </div>
+                                </div>
+                                <div class="family-feature">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <div>
+                                        <strong>30 days validity</strong>
+                                        <p>For everyone in the group</p>
+                                    </div>
+                                </div>
+                                <div class="family-feature">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <div>
+                                        <strong>Family management dashboard</strong>
+                                        <p>Monitor and control all lines</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="family-use-cases">
+                            <h4>Perfect for:</h4>
+                            <ul>
+                                <li>Family vacations</li>
+                                <li>Pilgrimages (Umrah/Hajj)</li>
+                                <li>Group business trips</li>
+                                <li>Friends traveling together</li>
+                                <li>School groups</li>
+                                <li>Corporate retreats</li>
+                            </ul>
+                            <button class="plan-btn" style="margin-top: 20px;" onclick="buyPlan('${plans.family.name}', ${plans.family.price}, '${name}')">
+                                Get Family Bundle - $${plans.family.price}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FLEX DATA OPTION -->
+                <div class="flex-data-card">
+                    <h3>FLEX DATA - PAY AS YOU GO</h3>
+                    <p class="flex-subtitle">Our hidden 5th option: Perfect if you're unsure of usage</p>
+                    
+                    <div class="flex-grid">
+                        <div class="flex-how-it-works">
+                            <h4>How it works:</h4>
+                            <div class="flex-step">
+                                <strong>Buy 5GB starting pack</strong>
+                                <p>Start with 5GB for $25. Perfect base for your trip.</p>
+                            </div>
+                            <div class="flex-step">
+                                <strong>Use data as needed</strong>
+                                <p>Browse, stream, and connect normally.</p>
+                            </div>
+                            <div class="flex-step">
+                                <strong>Get alert at 80% used</strong>
+                                <p>We'll notify you before you run out of data.</p>
+                            </div>
+                            <div class="flex-step">
+                                <strong>Top up easily in dashboard</strong>
+                                <p>Add more data instantly: $5/GB</p>
+                            </div>
+                            <div class="flex-step">
+                                <strong>No contracts, no waste</strong>
+                                <p>Only pay for what you actually use.</p>
+                            </div>
+                        </div>
+                        <div class="flex-highlight">
+                            <div class="flex-price">$5<span>/GB</span></div>
+                            <div class="plan-duration">30-day validity</div>
+                            <ul class="flex-features">
+                                <li>Start with 5GB ($25)</li>
+                                <li>Add more as needed</li>
+                                <li>No overage charges</li>
+                                <li>30-day validity</li>
+                                <li>Pay for what you use</li>
+                            </ul>
+                            <button class="flex-btn" onclick="buyPlan('Flex Data Starting Pack', 25, '${name}')">
+                                Start with Flex Data - $25
+                            </button>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 15px;">
+                                Need flexibility? This is for you!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ====== PURCHASE FUNCTION ======
+        function buyPlan(planName, price, country) {
+            // Save to cart
+            const cartItem = {
+                planName,
+                price,
+                country,
+                timestamp: new Date().toISOString()
+            };
+            
+            let cart = JSON.parse(localStorage.getItem('noorlinkCart') || '[]');
+            cart.push(cartItem);
+            localStorage.setItem('noorlinkCart', JSON.stringify(cart));
+            
+            // Show confirmation
+            if (confirm(`Add "${planName} for ${country}" for $${price} to cart?`)) {
+                alert('Added to cart! Redirecting to checkout...');
+                setTimeout(() => {
+                    window.location.href = 'checkout.html';
+                }, 1000);
+            }
+        }
+
+        // ====== INITIALIZATION ======
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load default country (USA)
+            loadCountryPlans('usa');
+            
+            // Search event listeners
+            const searchInput = document.getElementById('countrySearch');
+            searchInput.addEventListener('input', performSearch);
+            
+            // Click outside to close search results
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#countrySearch') && !e.target.closest('#searchResults')) {
+                    hideSearchResults();
+                }
+            });
+            
+            // Enter key for search
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                    if (searchInput.value.trim()) {
+                        const firstResult = document.querySelector('.search-result-item');
+                        if (firstResult) firstResult.click();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Destinations | NoorLink</title>
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- PREMIUM THEME --- */
+        :root {
+            --primary: #0F3D3E; --primary-dark: #05191a; --accent: #FF9500; --bg-body: #F3F5F7; --surface: #FFFFFF; --text-main: #111827; --text-muted: #6B7280; --whatsapp: #25D366; --glass: rgba(255, 255, 255, 0.95);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--text-main); 
+            line-height: 1.6;
+            background-color: var(--bg-body);
+            background-image: url('images/map-texture.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: soft-light;
+        }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* HEADER */
+        header { background: var(--glass); backdrop-filter: blur(12px); padding: 15px 0; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* LOGO TEXT + TM */
+        .logo-text { 
+            font-size: 1.8rem; font-weight: 800; color: var(--primary); 
+            letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: flex-start;
+        }
+        .logo-tm { font-size: 0.8rem; margin-left: 2px; margin-top: 5px; font-weight: 700; color: var(--accent); }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
+        .nav-links a:hover { color: var(--primary); }
+        .btn-nav { background: var(--primary); color: white !important; padding: 10px 24px; border-radius: 50px; opacity: 1 !important; box-shadow: 0 4px 10px rgba(15, 61, 62, 0.2); }
+        .mobile-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
+
+        /* HERO AREA */
+        .page-header { 
+            background: linear-gradient(rgba(15, 61, 62, 0.9), rgba(5, 25, 26, 0.95)), 
+                        url('images/hero.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white; 
+            padding: 100px 0 120px; 
+            text-align: center; 
+        }
+        .page-header h1 { font-size: 3rem; margin-bottom: 10px; font-weight: 800; text-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        
+        .back-link-hero { 
+            display: inline-block;
+            color: var(--accent); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 30px; padding: 12px 30px; 
+            background: rgba(15, 61, 62, 0.8); border: 1px solid var(--accent); border-radius: 4px; 
+            backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 0 15px rgba(255, 149, 0, 0.1);
+        }
+        .back-link-hero:hover { background: var(--accent); color: var(--primary-dark); box-shadow: 0 0 25px rgba(255, 149, 0, 0.5); transform: translateY(-2px); }
+        
+        /* SEARCH & FILTER */
+        .search-container { max-width: 600px; margin: -50px auto 40px; padding: 0 20px; position: relative; z-index: 10; }
+        .search-box { 
+            background: linear-gradient(white, white) padding-box, linear-gradient(135deg, var(--primary), var(--accent)) border-box;
+            border: 3px solid transparent;
+            padding: 8px; border-radius: 50px; display: flex; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            transition: 0.3s;
+        }
+        /* Animation class for the search box */
+        .search-box.highlight-pulse {
+            box-shadow: 0 0 30px rgba(255, 149, 0, 0.8);
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
+        .search-box input { border: none; flex: 1; padding: 12px 24px; font-size: 1rem; outline: none; border-radius: 50px; background: transparent; }
+        .search-btn { background: var(--accent); border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.3s; color: white; }
+        .search-btn:hover { transform: scale(1.05); background: var(--primary); }
+
+        .filter-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 50px; flex-wrap: wrap; }
+        .filter-btn { 
+            background: linear-gradient(white, white) padding-box, linear-gradient(90deg, #e5e7eb, #e5e7eb) border-box;
+            border: 2px solid transparent;
+            padding: 10px 25px; border-radius: 30px; 
+            cursor: pointer; font-weight: 700; color: var(--text-muted); transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .filter-btn:hover, .filter-btn.active { 
+            background: linear-gradient(white, white) padding-box, linear-gradient(135deg, var(--primary), var(--accent)) border-box;
+            color: var(--primary); transform: translateY(-2px); 
+        }
+
+        /* DESTINATIONS GRID */
+        .dest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; padding-bottom: 100px; }
+        
+        .card { 
+            height: 320px; border-radius: 24px; position: relative; overflow: hidden; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.25); border-color: var(--accent); }
+        .card:hover .card-overlay { background: linear-gradient(to top, rgba(15, 61, 62, 0.95) 0%, rgba(0,0,0,0.2) 100%); }
+        .card:hover .flag { transform: scale(1.1); }
+        .card:hover .card-price { background: white; color: var(--primary); }
+
+        /* BACKGROUND IMAGES */
+        .bg-usa { background: url('images/usa.jpg') center/cover; }
+        .bg-eu { background: url('images/europe.jpg') center/cover; }
+        .bg-sa { background: url('images/middle-east.jpg') center/cover; }
+        .bg-tr { background: url('images/middle-east.jpg') center/cover; }
+        .bg-uk { background: url('images/europe.jpg') center/cover; }
+        .bg-japan { background: url('images/asia.jpg') center/cover; }
+        
+        .bg-americas { background: url('images/usa.jpg') center/cover; }
+        .bg-europe { background: url('images/europe.jpg') center/cover; }
+        .bg-asia { background: url('images/asia.jpg') center/cover; }
+        .bg-mea { background: url('images/middle-east.jpg') center/cover; }
+        .bg-dynamic { background: linear-gradient(135deg, #2c3e50, #4ca1af); }
+
+        .card-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; color: white; text-align: left;
+            transition: 0.4s;
+        }
+        .flag { font-size: 4rem; display: block; margin: 0 auto 15px auto; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); transition: 0.4s; }
+        .card h3 { margin: 0; font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .card-price { background: var(--accent); color: var(--text-main); font-weight: 800; padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; margin: 0 auto 5px auto; display: inline-block; transition: 0.3s; }
+
+        /* SEARCH CARD */
+        .search-card-style {
+            width: 100%; grid-column: 1 / -1; 
+            background: linear-gradient(to right, rgba(15, 61, 62, 0.9), rgba(5, 25, 26, 0.7)), url('images/world-hands.jpg');
+            background-size: cover; background-position: center;
+            border-radius: 24px; padding: 60px; text-align: center; color: white;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 1px solid rgba(255, 149, 0, 0.2);
+            margin-top: 40px; cursor: pointer; transition: 0.3s;
+        }
+        .search-card-style:hover { transform: scale(1.01); border-color: var(--accent); }
+        .search-text { font-weight: 800; font-size: 2.5rem; margin-bottom: 15px; }
+        .search-sub { font-size: 1.2rem; color: #cbd5e1; margin-bottom: 30px; }
+        .glow-btn { background: var(--accent); color: var(--text-main); padding: 15px 40px; border-radius: 50px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 0 20px rgba(255, 149, 0, 0.4); display: inline-block; }
+
+        /* FOOTER */
+        footer { background: #05191a; color: #94a3b8; padding: 60px 0; text-align: center; font-size: 0.9rem; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 60px; }
+        .footer h4 { color: white; margin-bottom: 24px; font-size: 1.1rem; }
+        .footer-list { display: flex; flex-direction: column; gap: 12px; }
+        .footer-list a { transition: 0.2s; color: #94a3b8; width: fit-content; text-decoration: none; }
+        .footer-list a:hover { color: var(--accent); transform: translateX(5px); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; text-align: center; font-size: 0.85rem; }
+        
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: var(--whatsapp); color: white; width: 64px; height: 64px; border-radius: 50%; text-align: center; font-size: 32px; line-height: 64px; box-shadow: 0 10px 25px rgba(37,211,102,0.4); z-index: 1000; text-decoration: none; }
+        .whatsapp-float::before { content: "💬"; }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 75px; left: 0; right: 0; background: white; padding: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-bottom: 1px solid #eee; gap: 20px; text-align: center; }
+            .nav-links.active { display: flex; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+    </style>
+    <!-- Cookie Banner -->
+    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/961f820e92b5546e026c4c37009d673e/script.js"></script> 
+</head>
+<body>
+
+    <header>
+        <div class="container nav-wrapper">
+            <!-- TEXT LOGO + TM -->
+            <a href="index.html" class="logo-text">
+                Noor<span style="color: var(--accent);">Link</span><sup class="logo-tm">TM</sup>
+            </a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="about.html">About</a>
+                 <a href="newsletter.html">Newsletter Archive</a> <!-- ADD THIS -->
+                <a href="destinations.html">Destinations</a>
+                <a href="support.html">Support</a>
+                <a href="dashboard.html" class="btn-nav">My eSIMs</a>
+            </nav>
+
+            <div class="mobile-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <!-- TECH BACK BUTTON -->
+            <a href="index.html" class="back-link-hero">BACK TO HOME</a>
+            <h1>Find Your Destination</h1>
+            <p style="opacity: 0.8;">Connectivity in 190+ countries and regions.</p>
+        </div>
+    </div>
+
+    <!-- Search & Filter -->
+    <div class="search-container">
+        <div class="search-box" id="mainSearchBox">
+            <input type="text" id="searchInput" placeholder="Search for a country..." onkeyup="filterDestinations()">
+            <button class="search-btn">🔍</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="filter-bar">
+            <!-- Filter Buttons -->
+            <button class="filter-btn active" onclick="runFilter('all')">🔥 Trending</button>
+            <button class="filter-btn" onclick="runFilter('Europe')">Europe</button>
+            <button class="filter-btn" onclick="runFilter('Asia')">Asia</button>
+            <button class="filter-btn" onclick="runFilter('Americas')">Americas</button>
+            <button class="filter-btn" onclick="runFilter('Middle East')">Middle East</button>
+        </div>
+
+        <div class="dest-grid" id="destGrid">
+            
+           
+<!-- === AMERICAS (4 Cards) === -->
+            <div class="card bg-usa" data-region="Americas" onclick="goToCheckout('United States', '4.50', '🇺🇸')">
+                <div class="card-overlay"><h3>United States</h3><span class="card-price">From $4.50</span></div>
+            </div>
+            <div class="card bg-canada" data-region="Americas" onclick="goToCheckout('Canada', '6.00', '🇨🇦')">
+                <div class="card-overlay"><h3>Canada</h3><span class="card-price">From $6.00</span></div>
+            </div>
+            <div class="card bg-mexico" data-region="Americas" onclick="goToCheckout('Mexico', '6.00', '🇲🇽')">
+                <div class="card-overlay"><h3>Mexico</h3><span class="card-price">From $6.00</span></div>
+            </div>
+            <div class="card bg-brazil" data-region="Americas" onclick="goToCheckout('Brazil', '8.00', '🇧🇷')">
+                <div class="card-overlay"><h3>Brazil</h3><span class="card-price">From $8.00</span></div>
+            </div>
+
+            <!-- === EUROPE (4 Cards) === -->
+            <div class="card bg-europe-regional" data-region="Europe" onclick="goToCheckout('Europe', '5.00', '🇪🇺')">
+                <div class="card-overlay"><h3>Europe (Regional)</h3><span class="card-price">From $5.00</span></div>
+            </div>
+            <div class="card bg-uk" data-region="Europe" onclick="goToCheckout('United Kingdom', '5.00', '🇬🇧')">
+                <div class="card-overlay"><h3>United Kingdom</h3><span class="card-price">From $5.00</span></div>
+            </div>
+            <div class="card bg-france" data-region="Europe" onclick="goToCheckout('France', '4.50', '🇫🇷')">
+                <div class="card-overlay"><h3>France</h3><span class="card-price">From $4.50</span></div>
+            </div>
+            <div class="card bg-germany" data-region="Europe" onclick="goToCheckout('Germany', '4.50', '🇩🇪')">
+                <div class="card-overlay"><h3>Germany</h3><span class="card-price">From $4.50</span></div>
+            </div>
+
+            <!-- === ASIA (4 Cards) === -->
+            <div class="card bg-asia-regional" data-region="Asia" onclick="goToCheckout('Asia Regional', '12.00', '🌏')">
+                <div class="card-overlay"><h3>Asia (Regional)</h3><span class="card-price">From $12.00</span></div>
+            </div>
+            <div class="card bg-japan" data-region="Asia" onclick="goToCheckout('Japan', '6.00', '🇯🇵')">
+                <div class="card-overlay"><h3>Japan</h3><span class="card-price">From $6.00</span></div>
+            </div>
+            <div class="card bg-thailand" data-region="Asia" onclick="goToCheckout('Thailand', '6.00', '🇹🇭')">
+                <div class="card-overlay"><h3>Thailand</h3><span class="card-price">From $6.00</span></div>
+            </div>
+            <div class="card bg-china" data-region="Asia" onclick="goToCheckout('China', '7.00', '🇨🇳')">
+                <div class="card-overlay"><h3>China</h3><span class="card-price">From $7.00</span></div>
+            </div>
+
+            <!-- === MIDDLE EAST (4 Cards) === -->
+            <div class="card bg-middle-east-regional" data-region="Middle East" onclick="goToCheckout('Middle East Regional', '15.00', '🌍')">
+                <div class="card-overlay"><h3>Middle East (Regional)</h3><span class="card-price">From $15.00</span></div>
+            </div>
+            <div class="card bg-turkey" data-region="Middle East" onclick="goToCheckout('Turkey', '4.50', '🇹🇷')">
+                <div class="card-overlay"><h3>Turkey</h3><span class="card-price">From $4.50</span></div>
+            </div>
+            <div class="card bg-saudi-arabia" data-region="Middle East" onclick="goToCheckout('Saudi Arabia', '7.00', '🇸🇦')">
+                <div class="card-overlay"><h3>Saudi Arabia</h3><span class="card-price">From $7.00</span></div>
+            </div>
+            <div class="card bg-uae" data-region="Middle East" onclick="goToCheckout('UAE', '7.50', '🇦🇪')">
+                <div class="card-overlay"><h3>UAE</h3><span class="card-price">From $7.50</span></div>
+            </div>
+            
+        
+            
+            <!-- WORLD IN HANDS BANNER -->
+            <div class="search-card-style" id="worldBanner" onclick="scrollToSearch()">
+                <div class="search-text">Can't find your destination?</div>
+                <div class="search-sub">We cover 190+ countries. The whole world is one search away.</div>
+                <div class="glow-btn">Search Now</div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <!-- TEXT LOGO IN FOOTER -->
+                <a href="index.html" class="logo-text" style="color:white !important;">
+                    Noor<span style="color:var(--accent);">Link</span><sup class="logo-tm">TM</sup>
+                </a>
+                <p style="margin-top: 20px; line-height: 1.8;">
+                    Making global travel simple.<br>
+                    📍 MOUNTAIN ROAD PL NE, Suite R<br>
+                    ALBUQUERQUE, NM 87110
+                </p>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <div class="footer-list">
+                    <a href="about.html">About Us</a>
+                    <a href="support.html">Contact Support</a>
+                    <a href="#">Partner Program</a>
+                </div>
+            </div>
+            <div>
+                <h4>Legal</h4>
+                <div class="footer-list">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="refund.html">Refund Policy</a>
+                    <a href="kyc.html">KYC / AML Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 NoorLink.co. All rights reserved.
+        </div>
+    </footer>
+
+    <a href="https://wa.me/17184729390" class="whatsapp-float" target="_blank" title="Chat on WhatsApp"></a>
+
+    <script>
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+        
+        // --- NEW: SMOOTH SCROLL + HIGHLIGHT ---
+        function scrollToSearch() { 
+            const searchBox = document.getElementById('mainSearchBox');
+            const searchInput = document.getElementById('searchInput');
+            
+            // Scroll to the search box
+            searchBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Focus Input
+            searchInput.focus();
+            
+            // Add Flash Effect class
+            searchBox.classList.add('highlight-pulse');
+            
+            // Remove effect after 1 second
+            setTimeout(() => {
+                searchBox.classList.remove('highlight-pulse');
+            }, 1000);
+        }
+
+        function goToCheckout(name, price, flag) {
+            const url = `checkout.html?country=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}&flag=${encodeURIComponent(flag)}`;
+            window.location.href = url;
+        }
+
+        // MASTER LIST (Includes all your countries)
+// MASTER LIST (160+ Countries)
+        const globalData = [
+            // --- AMERICAS ---
+            { name: "Anguilla", flag: "🇦🇮", price: "9.50", region: "Americas" },
+            { name: "Antigua and Barbuda", flag: "🇦🇬", price: "9.50", region: "Americas" },
+            { name: "Argentina", flag: "🇦🇷", price: "7.50", region: "Americas" },
+            { name: "Aruba", flag: "🇦🇼", price: "9.50", region: "Americas" },
+            { name: "Barbados", flag: "🇧🇧", price: "9.50", region: "Americas" },
+            { name: "Belize", flag: "🇧🇿", price: "8.50", region: "Americas" },
+            { name: "Bermuda", flag: "🇧🇲", price: "9.50", region: "Americas" },
+            { name: "Bolivia", flag: "🇧🇴", price: "8.50", region: "Americas" },
+            { name: "Brazil", flag: "🇧🇷", price: "8.00", region: "Americas" },
+            { name: "British Virgin Islands", flag: "🇻🇬", price: "9.50", region: "Americas" },
+            { name: "Canada", flag: "🇨🇦", price: "6.00", region: "Americas" },
+            { name: "Cayman Islands", flag: "🇰🇾", price: "9.50", region: "Americas" },
+            { name: "Chile", flag: "🇨🇱", price: "7.00", region: "Americas" },
+            { name: "Colombia", flag: "🇨🇴", price: "7.00", region: "Americas" },
+            { name: "Costa Rica", flag: "🇨🇷", price: "7.50", region: "Americas" },
+            { name: "Dominica", flag: "🇩🇲", price: "9.50", region: "Americas" },
+            { name: "Dominican Republic", flag: "🇩🇴", price: "7.50", region: "Americas" },
+            { name: "Ecuador", flag: "🇪🇨", price: "8.00", region: "Americas" },
+            { name: "El Salvador", flag: "🇸🇻", price: "8.00", region: "Americas" },
+            { name: "Grenada", flag: "🇬🇩", price: "9.50", region: "Americas" },
+            { name: "Guatemala", flag: "🇬🇹", price: "8.00", region: "Americas" },
+            { name: "Honduras", flag: "🇭🇳", price: "8.00", region: "Americas" },
+            { name: "Jamaica", flag: "🇯🇲", price: "9.50", region: "Americas" },
+            { name: "Mexico", flag: "🇲🇽", price: "6.00", region: "Americas" },
+            { name: "Montserrat", flag: "🇲🇸", price: "9.50", region: "Americas" },
+            { name: "Nicaragua", flag: "🇳🇮", price: "8.50", region: "Americas" },
+            { name: "Panama", flag: "🇵🇦", price: "8.00", region: "Americas" },
+            { name: "Paraguay", flag: "🇵🇾", price: "8.50", region: "Americas" },
+            { name: "Peru", flag: "🇵🇪", price: "7.00", region: "Americas" },
+            { name: "Puerto Rico", flag: "🇵🇷", price: "6.50", region: "Americas" },
+            { name: "Saint Kitts and Nevis", flag: "🇰🇳", price: "9.50", region: "Americas" },
+            { name: "Saint Lucia", flag: "🇱🇨", price: "9.50", region: "Americas" },
+            { name: "Turks and Caicos", flag: "🇹🇨", price: "9.50", region: "Americas" },
+            { name: "United States", flag: "🇺🇸", price: "4.50", region: "Americas" },
+            { name: "Uruguay", flag: "🇺🇾", price: "8.50", region: "Americas" },
+
+            // --- EUROPE ---
+            { name: "Albania", flag: "🇦🇱", price: "5.50", region: "Europe" },
+            { name: "Austria", flag: "🇦🇹", price: "5.00", region: "Europe" },
+            { name: "Belgium", flag: "🇧🇪", price: "5.00", region: "Europe" },
+            { name: "Bosnia and Herzegovina", flag: "🇧🇦", price: "6.00", region: "Europe" },
+            { name: "Bulgaria", flag: "🇧🇬", price: "5.00", region: "Europe" },
+            { name: "Croatia", flag: "🇭🇷", price: "5.00", region: "Europe" },
+            { name: "Cyprus", flag: "🇨🇾", price: "6.00", region: "Europe" },
+            { name: "Czech Republic", flag: "🇨🇿", price: "5.00", region: "Europe" },
+            { name: "Denmark", flag: "🇩🇰", price: "5.00", region: "Europe" },
+            { name: "Estonia", flag: "🇪🇪", price: "5.00", region: "Europe" },
+            { name: "Finland", flag: "🇫🇮", price: "5.00", region: "Europe" },
+            { name: "France", flag: "🇫🇷", price: "4.50", region: "Europe" },
+            { name: "Germany", flag: "🇩🇪", price: "4.50", region: "Europe" },
+            { name: "Greece", flag: "🇬🇷", price: "5.00", region: "Europe" },
+            { name: "Hungary", flag: "🇭🇺", price: "5.00", region: "Europe" },
+            { name: "Iceland", flag: "🇮🇸", price: "6.00", region: "Europe" },
+            { name: "Ireland", flag: "🇮🇪", price: "5.00", region: "Europe" },
+            { name: "Italy", flag: "🇮🇹", price: "4.50", region: "Europe" },
+            { name: "Latvia", flag: "🇱🇻", price: "5.00", region: "Europe" },
+            { name: "Lithuania", flag: "🇱🇹", price: "5.00", region: "Europe" },
+            { name: "Luxembourg", flag: "🇱🇺", price: "5.50", region: "Europe" },
+            { name: "Malta", flag: "🇲🇹", price: "5.50", region: "Europe" },
+            { name: "Montenegro", flag: "🇲🇪", price: "6.00", region: "Europe" },
+            { name: "Netherlands", flag: "🇳🇱", price: "5.00", region: "Europe" },
+            { name: "Norway", flag: "🇳🇴", price: "5.00", region: "Europe" },
+            { name: "Poland", flag: "🇵🇱", price: "5.00", region: "Europe" },
+            { name: "Portugal", flag: "🇵🇹", price: "5.00", region: "Europe" },
+            { name: "Romania", flag: "🇷🇴", price: "5.00", region: "Europe" },
+            { name: "Serbia", flag: "🇷🇸", price: "6.50", region: "Europe" },
+            { name: "Slovakia", flag: "🇷🇸", price: "5.50", region: "Europe" },
+            { name: "Slovenia", flag: "🇸🇰", price: "5.50", region: "Europe" },
+            { name: "Spain", flag: "🇪🇸", price: "4.50", region: "Europe" },
+            { name: "Sweden", flag: "🇸🇪", price: "5.00", region: "Europe" },
+            { name: "Switzerland", flag: "🇨🇭", price: "6.00", region: "Europe" },
+            { name: "Ukraine", flag: "🇺🇦", price: "8.00", region: "Europe" },
+            { name: "United Kingdom", flag: "🇬🇧", price: "5.00", region: "Europe" },
+
+            // --- ASIA & OCEANIA ---
+            { name: "Australia", flag: "🇦🇺", price: "6.00", region: "Asia" },
+            { name: "Bangladesh", flag: "🇧🇩", price: "8.00", region: "Asia" },
+            { name: "Cambodia", flag: "🇰🇭", price: "6.00", region: "Asia" },
+            { name: "China", flag: "🇨🇳", price: "7.00", region: "Asia" },
+            { name: "Hong Kong", flag: "🇭🇰", price: "5.50", region: "Asia" },
+            { name: "India", flag: "🇮🇳", price: "6.00", region: "Asia" },
+            { name: "Indonesia", flag: "🇮🇩", price: "5.50", region: "Asia" },
+            { name: "Japan", flag: "🇯🇵", price: "6.00", region: "Asia" },
+            { name: "Laos", flag: "🇱🇦", price: "8.50", region: "Asia" },
+            { name: "Macau", flag: "🇲🇴", price: "6.00", region: "Asia" },
+            { name: "Malaysia", flag: "🇲🇾", price: "5.50", region: "Asia" },
+            { name: "New Zealand", flag: "🇳🇿", price: "7.00", region: "Asia" },
+            { name: "Pakistan", flag: "🇵🇰", price: "8.50", region: "Asia" },
+            { name: "Philippines", flag: "🇵🇭", price: "6.50", region: "Asia" },
+            { name: "Singapore", flag: "🇸🇬", price: "5.50", region: "Asia" },
+            { name: "South Korea", flag: "🇰🇷", price: "6.50", region: "Asia" },
+            { name: "Sri Lanka", flag: "🇱🇰", price: "7.50", region: "Asia" },
+            { name: "Taiwan", flag: "🇹🇼", price: "6.00", region: "Asia" },
+            { name: "Thailand", flag: "🇹🇭", price: "6.00", region: "Asia" },
+            { name: "Vietnam", flag: "🇻🇳", price: "5.00", region: "Asia" },
+
+            // --- MIDDLE EAST & AFRICA ---
+            { name: "Algeria", flag: "🇩🇿", price: "9.00", region: "Middle East" },
+            { name: "Bahrain", flag: "🇧🇭", price: "7.00", region: "Middle East" },
+            { name: "Egypt", flag: "🇪🇬", price: "6.50", region: "Middle East" },
+            { name: "Ghana", flag: "🇬🇭", price: "9.50", region: "Africa" },
+            { name: "Israel", flag: "🇮🇱", price: "6.00", region: "Middle East" },
+            { name: "Jordan", flag: "🇯🇴", price: "6.50", region: "Middle East" },
+            { name: "Kenya", flag: "🇰🇪", price: "9.50", region: "Africa" },
+            { name: "Kuwait", flag: "🇰🇼", price: "7.50", region: "Middle East" },
+            { name: "Mexico", flag: "🇲🇽", price: "6.00", region: "Americas" },
+            { name: "Morocco", flag: "🇲🇦", price: "8.00", region: "Africa" },
+            { name: "Nigeria", flag: "🇳🇬", price: "10.00", region: "Africa" },
+            { name: "Oman", flag: "🇴🇲", price: "7.00", region: "Middle East" },
+            { name: "Peru", flag: "🇵🇪", price: "7.00", region: "Americas" },
+            { name: "Qatar", flag: "🇶🇦", price: "7.00", region: "Middle East" },
+            { name: "Saudi Arabia", flag: "🇸🇦", price: "7.00", region: "Middle East" },
+            { name: "South Africa", flag: "🇿🇦", price: "8.00", region: "Africa" },
+            { name: "Tanzania", flag: "🇹🇿", price: "10.00", region: "Africa" },
+            { name: "Tunisia", flag: "🇹🇳", price: "9.00", region: "Africa" },
+            { name: "Turkey", flag: "🇹🇷", price: "4.50", region: "Middle East" },
+            { name: "UAE", flag: "🇦🇪", price: "7.50", region: "Middle East" }
+        ];
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const region = urlParams.get('region');
+            const search = urlParams.get('q');
+
+            if (region) { ter(region); } 
+            else { runFilter('all'); }
+
+            if (search) { document.getElementById('searchInput').value = search; filterDestinations(); }
+        }
+  function runFilter(region) {
+    let cards = document.getElementsByClassName('card');
+    
+    // Visual Update for Filter Buttons
+    if(event && event.type === 'click') {
+        let btns = document.getElementsByClassName('filter-btn');
+        for (let b of btns) { b.classList.remove('active'); }
+        event.target.classList.add('active');
+    } else {
+        let btns = document.getElementsByClassName('filter-btn');
+        for (let b of btns) {
+            if((region === 'all' && b.innerText.includes('Trending')) || b.innerText.includes(region)) {
+                b.classList.add('active');
+            } else {
+                b.classList.remove('active');
+            }
+        }
+    }
+
+    // Define which 4 cards are trending (match EXACT h3 text)
+    const trendingCards = [
+        "United States",      // From your first card
+        "Europe (Regional)",  // From your Europe card
+        "Japan",              // From your Japan card  
+        "UAE"                 // From your UAE card
+    ];
+
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].classList.contains('search-card-style')) {
+            cards[i].style.display = "";
+            continue;
+        }
+
+        let cardRegion = cards[i].getAttribute('data-region');
+        let cardTitle = cards[i].querySelector('h3').innerText.trim();
+        
+        if (region === 'all') {
+            // "Trending" mode: Show ONLY the 4 trending cards
+            if (trendingCards.includes(cardTitle)) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        } 
+        else if (cardRegion === region) {
+            // Region filter mode: Show all cards in that region
+            cards[i].style.display = "";
+        } 
+        else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+        function filterDestinations() {
+            const input = document.getElementById('searchInput').value.trim().toLowerCase();
+            const cards = document.getElementsByClassName('card');
+            const grid = document.getElementById('destGrid');
+            let foundInCards = false;
+
+            const existingDynamic = document.getElementById('dynamic-result');
+            if (existingDynamic) existingDynamic.remove();
+
+            for (let i = 0; i < cards.length; i++) {
+                if (cards[i].classList.contains('search-card-style')) continue;
+                
+                let title = cards[i].getElementsByTagName('h3')[0];
+                if (title.innerText.toLowerCase().indexOf(input) > -1) {
+                    cards[i].style.display = "";
+                    foundInCards = true;
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+            if (!foundInCards && input.length > 2) {
+                const match = globalData.find(item => item.name.toLowerCase().includes(input));
+                if (match) {
+                    const newCard = document.createElement('div');
+                    newCard.id = 'dynamic-result';
+                    newCard.className = 'card bg-dynamic';
+                    const checkoutUrl = `checkout.html?country=${encodeURIComponent(match.name)}&price=${encodeURIComponent(match.price)}&flag=${encodeURIComponent(match.flag)}`;
+                    newCard.onclick = function() { window.location.href = checkoutUrl; };
+                    newCard.innerHTML = `<div class="card-overlay"><h3>${match.name}</h3><span class="card-price">From $${match.price}</span><div style="margin-top:10px; color:#FF9500; font-size:0.8rem; font-weight:600;">Click to Buy →</div></div>`;
+                    grid.prepend(newCard);
+                }
+            }
+        }
+    </script>
+    <script>
+// FIXED DATABASE INTEGRATION - REPLACES OLD CLICK HANDLERS
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("🔄 Starting database integration...");
+    
+    // Wait for everything to load
+    setTimeout(initDatabaseIntegration, 500);
+});
+
+function initDatabaseIntegration() {
+    // Check if database loaded
+    if (typeof window.noorlinkDatabase === 'undefined') {
+        console.warn("⚠️ Database not available - page works normally");
+        return;
+    }
+    
+    console.log("✅ Database ready!");
+    
+    // STEP 1: Update card prices
+    updateCardPrices();
+    
+    // STEP 2: Replace all click handlers
+    replaceClickHandlers();
+    
+    console.log("✅ Database integration complete!");
+}
+
+// Update card prices from database
+function updateCardPrices() {
+    const cards = document.querySelectorAll('.card:not(.search-card-style)');
+    
+    cards.forEach(card => {
+        const titleEl = card.querySelector('h3');
+        const priceEl = card.querySelector('.card-price');
+        
+        if (!titleEl || !priceEl) return;
+        
+        const countryName = titleEl.textContent.trim();
+        const countryCode = getCountryCode(countryName);
+        
+        if (countryCode) {
+            const countryData = window.noorlinkDatabase.getCountryPlans(countryCode);
+            if (countryData && countryData.plans) {
+                const newPrice = countryData.plans.basic.price.toFixed(2);
+                priceEl.textContent = `From $${newPrice}`;
+                
+                // Store database info on card for click handler
+                card.dataset.countryCode = countryCode;
+                card.dataset.countryName = countryData.country.name;
+                card.dataset.countryFlag = countryData.country.flag;
+                card.dataset.countryPrice = newPrice;
+                
+                console.log("💰 Updated:", countryName, "->", newPrice);
+            }
+        }
+    });
+}
+</script>
+<!-- DATABASE INTEGRATION SCRIPT - Add this BEFORE closing </body> -->
+<script>
+// ====== COMPLETE DATABASE INTEGRATION ======
+// This script will:
+// 1. Remove old click handlers
+// 2. Load your database
+// 3. Update all card prices with real database prices
+// 4. Redirect to plants page with 3+1 visual layout
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("🔄 Starting database integration...");
+    
+    // PHASE 1: Remove old onclick handlers and store their data
+    removeOldHandlers();
+    
+    // PHASE 2: Load database
+    loadDatabase();
+});
+
+// ====== PHASE 1: REMOVE OLD HANDLERS ======
+function removeOldHandlers() {
+    console.log("🔧 Removing old click handlers...");
+    
+    const cardsWithHandlers = document.querySelectorAll('.card[onclick]');
+    console.log(`Found ${cardsWithHandlers.length} cards with onclick handlers`);
+    
+    cardsWithHandlers.forEach(card => {
+        // Extract country info from onclick attribute
+        const onclickAttr = card.getAttribute('onclick');
+        
+        // Parse goToCheckout('Country', 'Price', 'Flag')
+        const match = onclickAttr.match(/goToCheckout\('([^']+)',\s*'([^']+)',\s*'([^']+)'\)/);
+        
+        if (match) {
+            const [, name, price, flag] = match;
+            
+            // Store original data on the card
+            card.dataset.originalName = name;
+            card.dataset.originalPrice = price;
+            card.dataset.originalFlag = flag;
+            
+            console.log(`📝 Stored: ${name} - $${price} - ${flag}`);
+        }
+        
+        // REMOVE the old onclick handler
+        card.removeAttribute('onclick');
+    });
+    
+    console.log("✅ All old handlers removed");
+}
+
+// ====== PHASE 2: LOAD DATABASE ======
+function loadDatabase() {
+    console.log("📦 Loading database file...");
+    
+    // Check if database is already loaded
+    if (typeof window.noorlinkDatabase !== 'undefined') {
+        console.log("✅ Database already loaded");
+        initializeDatabase();
+        return;
+    }
+    
+    // Create and load the database script
+    const dbScript = document.createElement('script');
+    dbScript.src = 'esim-database.js';
+    
+    dbScript.onload = function() {
+        console.log("✅ Database loaded successfully");
+        initializeDatabase();
+    };
+    
+    dbScript.onerror = function() {
+        console.error("❌ Failed to load database file");
+        console.log("Please check: 1. File exists 2. Correct filename 3. File permissions");
+        
+        // Even without database, restore basic click functionality
+        restoreBasicClicks();
+    };
+    
+    document.head.appendChild(dbScript);
+}
+
+// ====== PHASE 3: INITIALIZE DATABASE INTEGRATION ======
+function initializeDatabase() {
+    console.log("🚀 Initializing database integration...");
+    
+    // Check if database object exists
+    if (typeof window.noorlinkDatabase === 'undefined') {
+        console.warn("⚠️ Database object not found");
+        restoreBasicClicks();
+        return;
+    }
+    
+    console.log(`✅ Database ready! Countries: ${Object.keys(window.noorlinkDatabase.countryDatabase || {}).length}`);
+    
+    // STEP 1: Update all card prices with database prices
+    updateCardPricesFromDatabase();
+    
+    // STEP 2: Add new click handlers that go to plants page
+    addPlantsPageClickHandlers();
+    
+    console.log("✅ Database integration complete!");
+}
+
+// ====== UPDATE CARD PRICES FROM DATABASE ======
+function updateCardPricesFromDatabase() {
+    console.log("💰 Updating card prices from database...");
+    
+    const cards = document.querySelectorAll('.card:not(.search-card-style)');
+    let updatedCount = 0;
+    
+    cards.forEach(card => {
+        const titleEl = card.querySelector('h3');
+        const priceEl = card.querySelector('.card-price');
+        
+        if (!titleEl || !priceEl) return;
+        
+        const cardTitle = titleEl.textContent.trim();
+        const countryCode = getCountryCodeFromTitle(cardTitle);
+        
+        if (countryCode) {
+            const countryData = window.noorlinkDatabase.getCountryPlans(countryCode);
+            
+            if (countryData && countryData.plans) {
+                // Update the price on the card
+                const newPrice = countryData.plans.basic.price.toFixed(2);
+                priceEl.textContent = `From $${newPrice}`;
+                
+                // Store ALL database data on the card for click handler
+                card.dataset.dbCode = countryCode;
+                card.dataset.dbName = countryData.country.name;
+                card.dataset.dbFlag = countryData.country.flag;
+                card.dataset.dbPrice = newPrice;
+                
+                // Store all plan prices for plants page
+                card.dataset.dbBasic = countryData.plans.basic.price.toFixed(2);
+                card.dataset.dbStandard = countryData.plans.standard.price.toFixed(2);
+                card.dataset.dbPremium = countryData.plans.premium.price.toFixed(2);
+                card.dataset.dbFamily = countryData.plans.family.price.toFixed(2);
+                
+                updatedCount++;
+                console.log(`✅ Updated: ${cardTitle} → $${newPrice}`);
+            }
+        }
+    });
+    
+    console.log(`📊 Updated ${updatedCount} out of ${cards.length} cards`);
+}
+
+// ====== ADD NEW CLICK HANDLERS (GO TO PLANTS PAGE) ======
+function addPlantsPageClickHandlers() {
+    console.log("🖱️ Adding plants page click handlers...");
+    
+    const cards = document.querySelectorAll('.card:not(.search-card-style)');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Check if we have database data
+            if (card.dataset.dbCode) {
+                // USE DATABASE: Redirect to plants page with country code
+                goToPlantsPage(card.dataset.dbCode);
+                
+            } else if (card.dataset.originalName) {
+                // USE ORIGINAL DATA: Plants page with basic info
+                goToBasicPlantsPage(
+                    card.dataset.originalName,
+                    card.dataset.originalPrice,
+                    card.dataset.originalFlag
+                );
+                
+            } else {
+                // LAST RESORT: Try to get from card HTML
+                const titleEl = card.querySelector('h3');
+                if (titleEl) {
+                    const countryName = titleEl.textContent.trim();
+                    goToBasicPlantsPage(countryName, "0", "🏳️");
+                }
+            }
+        });
+    });
+    
+    console.log(`✅ Added click handlers to ${cards.length} cards`);
+    
+    // Also update the search banner click
+    const searchBanner = document.querySelector('.search-card-style');
+    if (searchBanner) {
+        searchBanner.addEventListener('click', function() {
+            scrollToSearch();
+        });
+    }
+}
+
+// ====== COUNTRY NAME TO CODE MAPPING ======
+function getCountryCodeFromTitle(cardTitle) {
+    // Map your card titles to database country codes
+    const mapping = {
+        // Americas
+        "United States": "usa",
+        "Canada": "canada",
+        "Mexico": "mexico",
+        "Brazil": "brazil",
+        
+        // Europe
+        "Europe (Regional)": "france", // Will show France template as "Europe Plans"
+        "United Kingdom": "uk",
+        "France": "france",
+        "Germany": "germany",
+        
+        // Asia
+        "Asia (Regional)": "japan", // Will show Japan template as "Asia Plans"
+        "Japan": "japan",
+        "Thailand": "thailand",
+        "China": "china",
+        
+        // Middle East
+        "Middle East (Regional)": "uae", // Will show UAE template as "Middle East Plans"
+        "Turkey": "turkey",
+        "Saudi Arabia": "saudi-arabia",
+        "UAE": "uae"
+    };
+    
+    return mapping[cardTitle] || null;
+}
+
+// ====== REDIRECT TO PLANTS PAGE ======
+function goToPlantsPage(countryCode) {
+    console.log(`🌍 Redirecting to plants page for: ${countryCode}`);
+    
+    // Redirect to YOUR plants page with country code
+    // This will show the 3+1 visual layout
+    window.location.href = `plants.html?country=${encodeURIComponent(countryCode)}`;
+}
+
+function goToBasicPlantsPage(countryName, price, flag) {
+    console.log(`📄 Redirecting to basic plants page for: ${countryName}`);
+    
+    // Fallback if database not available
+    window.location.href = `plants.html?name=${encodeURIComponent(countryName)}&price=${price}&flag=${encodeURIComponent(flag)}`;
+}
+
+// ====== FALLBACK: RESTORE BASIC CLICKS (NO DATABASE) ======
+function restoreBasicClicks() {
+    console.log("🔄 Restoring basic click functionality...");
+    
+    const cards = document.querySelectorAll('.card:not(.search-card-style)');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Use original data if available
+            if (card.dataset.originalName) {
+                window.location.href = `checkout.html?country=${encodeURIComponent(card.dataset.originalName)}&price=${card.dataset.originalPrice}&flag=${encodeURIComponent(card.dataset.originalFlag)}`;
+            }
+        });
+    });
+    
+    console.log(`✅ Restored basic clicks for ${cards.length} cards`);
+}
+
+// ====== KEEP YOUR ORIGINAL FUNCTIONS FOR COMPATIBILITY ======
+// Your original goToCheckout function (keep for reference)
+function goToCheckout(name, price, flag) {
+    // This is kept for compatibility with any other code
+    window.location.href = `checkout.html?country=${encodeURIComponent(name)}&price=${encodeURIComponent(price)}&flag=${encodeURIComponent(flag)}`;
+}
+
+// Your original filter functions (they'll still work)
+function runFilter(region) {
+    // Your existing filter function
+    let cards = document.getElementsByClassName('card');
+    
+    if(event && event.type === 'click') {
+        let btns = document.getElementsByClassName('filter-btn');
+        for (let b of btns) { b.classList.remove('active'); }
+        event.target.classList.add('active');
+    }
+    
+    const trendingCards = [
+        "United States",
+        "Europe (Regional)", 
+        "Japan", 
+        "UAE"
+    ];
+    
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].classList.contains('search-card-style')) {
+            cards[i].style.display = "";
+            continue;
+        }
+        
+        let cardRegion = cards[i].getAttribute('data-region');
+        let cardTitle = cards[i].querySelector('h3').innerText.trim();
+        
+        if (region === 'all') {
+            if (trendingCards.includes(cardTitle)) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        } 
+        else if (cardRegion === region) {
+            cards[i].style.display = "";
+        } 
+        else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+function filterDestinations() {
+    // Your existing search function
+    const input = document.getElementById('searchInput').value.trim().toLowerCase();
+    const cards = document.getElementsByClassName('card');
+    const grid = document.getElementById('destGrid');
+    let foundInCards = false;
+
+    const existingDynamic = document.getElementById('dynamic-result');
+    if (existingDynamic) existingDynamic.remove();
+
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].classList.contains('search-card-style')) continue;
+        
+        let title = cards[i].getElementsByTagName('h3')[0];
+        if (title.innerText.toLowerCase().indexOf(input) > -1) {
+            cards[i].style.display = "";
+            foundInCards = true;
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+// Your other existing functions
+function scrollToSearch() { 
+    const searchBox = document.getElementById('mainSearchBox');
+    const searchInput = document.getElementById('searchInput');
+    
+    searchBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    searchInput.focus();
+    
+    searchBox.classList.add('highlight-pulse');
+    setTimeout(() => {
+        searchBox.classList.remove('highlight-pulse');
+    }, 1000);
+}
+
+function toggleMenu() { 
+    document.getElementById('navLinks').classList.toggle('active'); 
+}
+
+console.log("✅ Integration script loaded successfully");
+</script>
+</body>
+</html> this is the current destinations.html and you add the new and remove the old
